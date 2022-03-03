@@ -22,7 +22,6 @@
 #include <QWidget>
 
 #include <memory>
-#include <qwidget.h>
 
 namespace KDDockWidgets::Views {
 
@@ -35,9 +34,9 @@ public:
     using View::rect;
     using View::width;
 
-    explicit View_qtwidgets(KDDockWidgets::Controller *controller, QWidget *parent = nullptr)
+    explicit View_qtwidgets(KDDockWidgets::Controller *controller, Type type, QWidget *parent = nullptr)
         : Base(parent)
-        , View(controller, this)
+        , View(controller, type, this)
     {
     }
 
@@ -165,6 +164,15 @@ public:
     {
         if (QWidget *window = QWidget::window())
             return window->geometry();
+
+        return {};
+    }
+
+    virtual QSize parentSize() const override
+    {
+        if (auto p = QWidget::parentWidget())
+            return p->size();
+        return {};
     }
 
     void close() override

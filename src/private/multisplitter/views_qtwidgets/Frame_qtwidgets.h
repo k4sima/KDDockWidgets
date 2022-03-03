@@ -39,6 +39,7 @@ public:
     DockWidgetBase *currentDockWidget_impl() const;
     int nonContentsHeight() const;
 
+    Controllers::Frame *frame() const;
 
 private:
     Controllers::Frame *const m_controller;

@@ -19,13 +19,14 @@
 #include "Utils_p.h"
 
 #include "multisplitter/controllers/Frame.h"
+#include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 #include "multisplitter/Item_p.h"
 
 using namespace KDDockWidgets;
 
 
 LayoutWidget::LayoutWidget(QWidgetOrQuick *parent)
-    : Views::View_qtwidgets<QWidget>(nullptr, parent)
+    : Views::View_qtwidgets<QWidget>(nullptr, View::Type::Layout, parent)
 {
 }
 
@@ -124,11 +125,12 @@ void LayoutWidget::dumpLayout() const
 void LayoutWidget::restorePlaceholder(DockWidgetBase *dw, Layouting::Item *item, int tabIndex)
 {
     if (item->isPlaceholder()) {
-        Frame *newFrame = Config::self().frameworkWidgetFactory()->createFrame(this);
-        item->restore(newFrame);
+        auto newFrame = new Controllers::Frame(this);
+        item->restore(newFrame->view());
     }
 
-    auto frame = qobject_cast<Frame *>(item->guestAsQObject());
+    auto frameView = qobject_cast<Views::Frame_qtwidgets *>(item->guestAsQObject());
+    auto frame = frameView->frame();
     Q_ASSERT(frame);
 
     if (tabIndex != -1 && frame->dockWidgetCount() >= tabIndex) {
@@ -137,7 +139,7 @@ void LayoutWidget::restorePlaceholder(DockWidgetBase *dw, Layouting::Item *item,
         frame->addWidget(dw);
     }
 
-    frame->QWidget::setVisible(true);
+    frame->setVisible(true);
 }
 
 void LayoutWidget::unrefOldPlaceholders(const Controllers::Frame::List &framesBeingAdded) const
@@ -255,9 +257,9 @@ bool LayoutWidget::deserialize(const LayoutSaver::MultiSplitter &l)
 {
     QHash<QString, View *> frames;
     for (const LayoutSaver::Frame &frame : qAsConst(l.frames)) {
-        Frame *f = Frame::deserialize(frame);
+        Controllers::Frame *f = Controllers::Frame::deserialize(frame);
         Q_ASSERT(!frame.id.isEmpty());
-        frames.insert(frame.id, f);
+        frames.insert(frame.id, f->view());
     }
 
     m_rootItem->fillFromVariantMap(l.layout, frames);
@@ -298,8 +300,8 @@ LayoutSaver::MultiSplitter LayoutWidget::serialize() const
     l.frames.reserve(items.size());
     for (Layouting::Item *item : items) {
         if (!item->isContainer()) {
-            if (auto frame = qobject_cast<Frame *>(item->guestAsQObject()))
-                l.frames.insert(frame->id(), frame->serialize());
+            if (auto frameView = qobject_cast<Views::Frame_qtwidgets *>(item->guestAsQObject()))
+                l.frames.insert(frameView->id(), frameView->frame()->serialize());
         }
     }
 

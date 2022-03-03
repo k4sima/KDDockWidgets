@@ -77,3 +77,8 @@ QRect Controller::geometry() const
 {
     return m_view->geometry();
 }
+
+QPoint Controller::pos() const
+{
+    return m_view->geometry().topLeft();
+}

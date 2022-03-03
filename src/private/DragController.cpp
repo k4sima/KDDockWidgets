@@ -39,6 +39,7 @@
 #endif
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 namespace KDDockWidgets {
 ///@brief Custom mouse grabber, for platforms that don't support grabbing the mouse
@@ -435,9 +436,9 @@ void StateInternalMDIDragging::onEntry()
                    << q->m_draggable->asWidget();
 
     // Raise the dock widget being dragged
-    if (auto tb = qobject_cast<Controllers::TitleBar *>(q->m_draggable->asWidget())) { // TODO
-        if (Frame *f = tb->frame())
-            f->raise();
+    if (auto tb = qobject_cast<Views::TitleBar_qtwidgets *>(q->m_draggable->asWidget())) { // TODO
+        if (Controllers::Frame *f = tb->titleBar()->frame())
+            f->view()->raise();
     }
 
     Q_EMIT q->isDraggingChanged();
@@ -459,7 +460,7 @@ bool StateInternalMDIDragging::handleMouseMove(QPoint globalPos)
         return false;
     }
 
-    Frame *frame = tb->frame();
+    Controllers::Frame *frame = tb->frame();
     if (!frame) {
         // Doesn't happen.
         qWarning() << Q_FUNC_INFO << "null frame.";
@@ -467,7 +468,7 @@ bool StateInternalMDIDragging::handleMouseMove(QPoint globalPos)
         return false;
     }
 
-    const QSize parentSize = frame->QWidget::parentWidget()->size();
+    const QSize parentSize = frame->view()->parentSize();
     const QPoint oldPos = frame->mapToGlobal(QPoint(0, 0));
     const QPoint delta = globalPos - oldPos;
     const QPoint newLocalPos = frame->pos() + delta - q->m_offset;
@@ -475,8 +476,8 @@ bool StateInternalMDIDragging::handleMouseMove(QPoint globalPos)
     // Let's not allow the MDI window to go outside of its parent
 
     QPoint newLocalPosBounded = { qMax(0, newLocalPos.x()), qMax(0, newLocalPos.y()) };
-    newLocalPosBounded.setX(qMin(newLocalPosBounded.x(), parentSize.width() - frame->QWidget::width()));
-    newLocalPosBounded.setY(qMin(newLocalPosBounded.y(), parentSize.height() - frame->QWidget::height()));
+    newLocalPosBounded.setX(qMin(newLocalPosBounded.x(), parentSize.width() - frame->width()));
+    newLocalPosBounded.setY(qMin(newLocalPosBounded.y(), parentSize.height() - frame->height()));
 
     auto layout = frame->mdiLayoutWidget();
     Q_ASSERT(layout);

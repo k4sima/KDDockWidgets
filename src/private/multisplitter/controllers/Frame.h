@@ -339,15 +339,15 @@ protected:
      */
     QSize biggestDockWidgetMaxSize() const;
 
-    virtual void removeWidget_impl(DockWidgetBase *) = 0;
-    virtual int indexOfDockWidget_impl(const DockWidgetBase *) = 0;
-    virtual int currentIndex_impl() const = 0;
-    virtual void setCurrentTabIndex_impl(int index) = 0;
-    virtual void setCurrentDockWidget_impl(DockWidgetBase *) = 0;
-    virtual void insertDockWidget_impl(DockWidgetBase *, int index) = 0;
-    virtual DockWidgetBase *dockWidgetAt_impl(int index) const = 0;
-    virtual DockWidgetBase *currentDockWidget_impl() const = 0;
-    virtual int nonContentsHeight() const = 0;
+    virtual void removeWidget_impl(DockWidgetBase *);
+    virtual int indexOfDockWidget_impl(const DockWidgetBase *);
+    virtual int currentIndex_impl() const;
+    virtual void setCurrentTabIndex_impl(int index);
+    virtual void setCurrentDockWidget_impl(DockWidgetBase *);
+    virtual void insertDockWidget_impl(DockWidgetBase *, int index);
+    virtual DockWidgetBase *dockWidgetAt_impl(int index) const;
+    virtual DockWidgetBase *currentDockWidget_impl() const;
+    virtual int nonContentsHeight() const;
 
 private:
     bool m_inCtor = true; // Needs to be initialized early, as pointed out by UBSAN

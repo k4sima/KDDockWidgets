@@ -34,6 +34,7 @@
 #include "multisplitter/Item_p.h"
 
 #include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 
 #include <QScopedValueRollback>
 
@@ -69,7 +70,7 @@ bool MultiSplitter::validateInputs(QWidgetOrQuick *widget, Location location,
     const bool isDockWidget = qobject_cast<DockWidgetBase *>(widget);
     const bool isStartHidden = option.startsHidden();
 
-    if (!qobject_cast<Frame *>(widget) && !qobject_cast<MultiSplitter *>(widget) && !isDockWidget) {
+    if (!qobject_cast<Views::Frame_qtwidgets *>(widget) && !qobject_cast<MultiSplitter *>(widget) && !isDockWidget) {
         qWarning() << "Unknown widget type" << widget;
         return false;
     }
@@ -114,11 +115,12 @@ void MultiSplitter::addWidget(QWidget *w, Location location,
                               Controllers::Frame *relativeToWidget,
                               InitialOption option)
 {
-    auto frame = qobject_cast<Controllers::Frame *>(w);
+    auto frameView = qobject_cast<Views::Frame_qtwidgets *>(w);
+    auto frame = frameView ? frameView->frame() : nullptr;
     if (itemForFrame(frame) != nullptr) {
         // Item already exists, remove it.
         // Changing the frame parent will make the item clean itself up. It turns into a placeholder and is removed by unrefOldPlaceholders
-        frame->view()->setParent(nullptr); // so ~Item doesn't delete it
+        frameView->setParent(nullptr); // so ~Item doesn't delete it
         frame->setLayoutItem(nullptr); // so Item is destroyed, as there's no refs to it
     }
 

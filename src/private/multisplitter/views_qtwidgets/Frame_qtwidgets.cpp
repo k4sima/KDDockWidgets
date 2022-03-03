@@ -1,11 +1,28 @@
-#include "Frame_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
-#include "private/multisplitter/controllers/Frame.h"
+/*
+  This file is part of KDDockWidgets.
 
+  SPDX-FileCopyrightText: 2020-2022 Klarälvdalens Datakonsult AB, a KDAB Group company <info@kdab.com>
+  Author: Sérgio Martins <sergio.martins@kdab.com>
+
+  SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only
+
+  Contact KDAB at <info@kdab.com> for commercial licensing options.
+*/
+
+#include "Frame_qtwidgets.h"
+
+#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
+
+#include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/controllers/Stack.h"
+#include "private/multisplitter/controllers/TabBar.h"
+#include "private/multisplitter/controllers/TitleBar.h"
+
+using namespace KDDockWidgets;
 using namespace KDDockWidgets::Views;
 
 Frame_qtwidgets::Frame_qtwidgets(Controllers::Frame *controller, QWidget *parent)
-    : View_qtwidgets<QWidget>(controller, parent)
+    : View_qtwidgets<QWidget>(controller, View::Type::Frame, parent)
     , m_controller(controller)
 {
 }
@@ -16,7 +33,7 @@ void Frame_qtwidgets::setLayoutItem(Layouting::Item *item)
     m_controller->setLayoutItem(item);
 }
 
-void Frame_qtwidgets::renameTab(int index, const QString &title)
+void Frame_qtwidgets::renameTab(int index, const QString &text)
 {
     m_controller->tabWidget()->renameTab(index, text);
 }
@@ -30,7 +47,7 @@ void Frame_qtwidgets::changeTabIcon(int index, const QIcon &icon)
 int Frame_qtwidgets::nonContentsHeight() const
 {
     Controllers::TitleBar *tb = m_controller->titleBar();
-    QWidget *tabBar = this->tabBar();
+    QWidget *tabBar = m_controller->tabBar()->view()->asQWidget();
 
     return (tb->isVisible() ? tb->height() : 0) + (tabBar->isVisible() ? tabBar->height() : 0);
 }
@@ -65,12 +82,17 @@ void Frame_qtwidgets::setCurrentTabIndex_impl(int index)
     m_controller->tabWidget()->setCurrentDockWidget(index);
 }
 
-DockWidgetBase *Frame_qtwidgets::currentDockWidget_impl() const
+KDDockWidgets::DockWidgetBase *Frame_qtwidgets::currentDockWidget_impl() const
 {
     return m_controller->tabWidget()->dockwidgetAt(m_controller->tabWidget()->currentIndex());
 }
 
-DockWidgetBase *Frame_qtwidgets::dockWidgetAt_impl(int index) const
+KDDockWidgets::DockWidgetBase *Frame_qtwidgets::dockWidgetAt_impl(int index) const
 {
     return qobject_cast<DockWidgetBase *>(m_controller->tabWidget()->dockwidgetAt(index));
+}
+
+Controllers::Frame *Frame_qtwidgets::frame() const
+{
+    return m_controller;
 }

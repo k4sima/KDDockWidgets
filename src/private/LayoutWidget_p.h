@@ -22,8 +22,6 @@
 #ifndef KDDOCKWIDGETS_LAYOUTWIDGET_P_H
 #define KDDOCKWIDGETS_LAYOUTWIDGET_P_H
 
-#include "private/multisplitter/View.h"
-#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
 #pragma once
 
 #include "kddockwidgets/docks_export.h"

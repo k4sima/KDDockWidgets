@@ -191,7 +191,7 @@ FloatingWindow::FloatingWindow(Controllers::Frame *frame, QRect suggestedGeometr
         // Adding a widget will trigger onFrameCountChanged, which triggers a setVisible(true).
         // The problem with setVisible(true) will forget about or requested geometry and place the window at 0,0
         // So disable the setVisible(true) call while in the ctor.
-        m_dropArea->addWidget(frame, KDDockWidgets::Location_OnTop, {});
+        m_dropArea->addWidget(frame->view()->asQWidget(), KDDockWidgets::Location_OnTop, {});
     }
 }
 
@@ -280,8 +280,8 @@ QSize FloatingWindow::maxSizeHint() const
         // let's do that first, it's also easy.
         Controllers::Frame *frame = frames[0];
         if (frame->dockWidgetCount() == 1) { // We don't support if there's tabbing
-            const QSize waste = (minimumSize() - frame->minSize()).expandedTo(QSize(0, 0));
-            result = frame->maxSizeHint() + waste;
+            const QSize waste = (minimumSize() - frame->view()->minSize()).expandedTo(QSize(0, 0));
+            result = frame->view()->maxSizeHint() + waste;
         }
     }
 

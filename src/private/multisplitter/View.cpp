@@ -20,10 +20,11 @@ namespace KDDockWidgets {
 static qint64 s_nextId = 1;
 }
 
-View::View(Controller *controller, QObject *thisObj)
+View::View(Controller *controller, Type type, QObject *thisObj)
     : m_controller(controller)
     , m_thisObj(thisObj)
     , m_id(QString::number(KDDockWidgets::s_nextId++))
+    , m_type(type)
 {
 }
 
@@ -34,6 +35,11 @@ View::~View()
 QString View::id() const
 {
     return m_id;
+}
+
+View::Type View::type() const
+{
+    return m_type;
 }
 
 QObject *View::asQObject() const

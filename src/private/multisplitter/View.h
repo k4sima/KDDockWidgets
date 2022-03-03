@@ -36,7 +36,19 @@ class Controller;
 class DOCKS_EXPORT View
 {
 public:
-    explicit View(Controller *controller, QObject *thisObj);
+    enum class Type
+    {
+        Frame = 1,
+        TitleBar = 2,
+        TabBar = 4,
+        Stack = 8,
+        FloatingWindow = 16,
+        Separator = 32,
+        DockWidget = 64,
+        Layout = 128
+    };
+
+    explicit View(Controller *controller, Type, QObject *thisObj);
     virtual ~View();
 
     QObject *asQObject() const;
@@ -48,6 +60,9 @@ public:
 
     ///@brief returns an id for corelation purposes for saving layouts
     QString id() const;
+
+    ///@brief Returns the type of this view
+    Type type() const;
 
     /// @brief Deletes this view.
     /// The default impl will just do a normal C++ "delete", but derived classes are free
@@ -83,6 +98,7 @@ public:
     virtual void setSizePolicy(QSizePolicy) = 0;
     virtual void closeWindow() = 0;
     virtual QRect windowGeometry() const = 0;
+    virtual QSize parentSize() const = 0;
     virtual void close() = 0;
 
     // TODO: Check if these two should be in the controller or on view
@@ -155,6 +171,7 @@ protected:
 private:
     bool m_freed = false;
     const QString m_id;
+    const Type m_type;
 };
 
 }

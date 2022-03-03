@@ -36,6 +36,7 @@ public:
     int height() const;
     int width() const;
     QSize size() const;
+    QPoint pos() const;
     QRect geometry() const;
 
 private:

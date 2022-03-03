@@ -111,6 +111,10 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/Controller.h
 
     private/multisplitter/views_qtwidgets/View_qtwidgets.h
+    private/multisplitter/views/FrameView.cpp
+    private/multisplitter/views/FrameView.h
+
+    private/multisplitter/views_qtwidgets/View_qtwidgets.h
     private/multisplitter/views_qtwidgets/Frame_qtwidgets.cpp
     private/multisplitter/views_qtwidgets/Frame_qtwidgets.h
     private/multisplitter/views_qtwidgets/Separator_qtwidgets.cpp
