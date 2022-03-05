@@ -203,7 +203,7 @@ WindowBeingDraggedWayland::WindowBeingDraggedWayland(Draggable *draggable)
         if (auto fw = tb->floatingWindow()) {
             // case #1: we're dragging the whole floating window by its titlebar
             m_floatingWindow = fw;
-        } else if (Frame *frame = tb->frame()) {
+        } else if (Controllers::Frame *frame = tb->frame()) {
             m_frame = frame;
         } else {
             qWarning() << Q_FUNC_INFO << "Shouldn't happen. TitleBar of what ?";
@@ -237,7 +237,7 @@ QPixmap WindowBeingDraggedWayland::pixmap() const
     if (m_floatingWindow) {
         m_floatingWindow->render(&p);
     } else if (m_frame) {
-        m_frame->render(&p);
+        m_frame->view()->asQWidget()->render(&p);
     } else if (m_dockWidget) {
         m_dockWidget->render(&p);
     }
@@ -274,7 +274,7 @@ QSize WindowBeingDraggedWayland::size() const
     if (m_floatingWindow)
         return WindowBeingDragged::size();
     else if (m_frame)
-        return m_frame->QWidget::size();
+        return m_frame->size();
     else if (m_dockWidget)
         return m_dockWidget->size();
 
@@ -287,7 +287,7 @@ QSize WindowBeingDraggedWayland::minSize() const
     if (m_floatingWindow) {
         return WindowBeingDragged::minSize();
     } else if (m_frame) {
-        return m_frame->minSize();
+        return m_frame->view()->minSize();
     } else if (m_dockWidget) {
         return Layouting::Widget::widgetMinSize(m_dockWidget.data());
     }
@@ -301,7 +301,7 @@ QSize WindowBeingDraggedWayland::maxSize() const
     if (m_floatingWindow) {
         return WindowBeingDragged::maxSize();
     } else if (m_frame) {
-        return m_frame->maxSizeHint();
+        return m_frame->view()->maxSizeHint();
     } else if (m_dockWidget) {
         return Layouting::Widget::widgetMaxSize(m_dockWidget.data());
     }

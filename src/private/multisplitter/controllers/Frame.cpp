@@ -67,7 +67,7 @@ static TabWidgetOptions tabWidgetOptions(FrameOptions options)
 
 Frame::Frame(View *parent, FrameOptions options, int userType)
     : Controller(new Views::Frame_qtwidgets(this, parent->asQWidget()))
-    , FocusScope(qobject_cast<Views::View_qtwidgets<QWidget> *>(view()->asQWidget())) // TODO
+    , FocusScope(static_cast<Views::View_qtwidgets<QWidget> *>(view()->asQWidget())) // TODO
     , m_tabWidget(new Controllers::Stack(this, tabWidgetOptions(options)))
     , m_titleBar(new Controllers::TitleBar(this))
     , m_options(actualOptions(options))
@@ -112,6 +112,37 @@ void Frame::onCloseEvent(QCloseEvent *e)
         if (!e->isAccepted())
             break; // Stop when the first dockwidget prevents closing
     }
+}
+
+void Frame::setLayoutWidget(LayoutWidget *dt)
+{
+    if (dt == m_layoutWidget)
+        return;
+
+    const bool wasInMainWindow = dt && isInMainWindow();
+    const bool wasMDI = isMDI();
+    if (m_layoutWidget)
+        disconnect(m_visibleWidgetCountChangedConnection);
+
+    m_layoutWidget = dt;
+    delete m_resizeHandler;
+    m_resizeHandler = nullptr;
+
+    if (m_layoutWidget) {
+        if (isMDI())
+            m_resizeHandler = new WidgetResizeHandler(/*topLevel=*/false, view()->asQWidget());
+
+        // We keep the connect result so we don't dereference m_layoutWidget at shutdown
+        m_visibleWidgetCountChangedConnection =
+            connect(m_layoutWidget, &LayoutWidget::visibleWidgetCountChanged, this,
+                    &Frame::updateTitleBarVisibility);
+        updateTitleBarVisibility();
+        if (wasInMainWindow != isInMainWindow())
+            Q_EMIT isInMainWindowChanged();
+    }
+
+    if (wasMDI != isMDI())
+        Q_EMIT isMDIChanged();
 }
 
 void Frame::renameTab(int index, const QString &title)

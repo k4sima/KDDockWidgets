@@ -22,7 +22,6 @@ namespace Views {
 
 class DOCKS_EXPORT FrameView : public View
 {
-    Q_OBJECT
 public:
     explicit FrameView(Controllers::Frame *, QObject *thisObj);
 };

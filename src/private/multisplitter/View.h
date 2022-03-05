@@ -45,7 +45,8 @@ public:
         FloatingWindow = 16,
         Separator = 32,
         DockWidget = 64,
-        Layout = 128
+        Layout = 128,
+        LayoutItem = 256
     };
 
     explicit View(Controller *controller, Type, QObject *thisObj);

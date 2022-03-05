@@ -83,7 +83,7 @@ public:
 
 private:
     Q_DISABLE_COPY(DropArea)
-    friend class Frame;
+    friend class Controllers::Frame;
     friend class ::TestDocks;
     friend class DropIndicatorOverlayInterface;
     friend class AnimatedIndicators;

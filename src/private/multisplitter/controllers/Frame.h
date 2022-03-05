@@ -13,7 +13,6 @@
 
 #include "../Controller.h"
 
-#include "FocusScope.h"
 #include "KDDockWidgets.h"
 
 #include "kddockwidgets/FocusScope.h"
@@ -40,11 +39,13 @@ class WidgetResizeHandler;
 
 namespace KDDockWidgets::Controllers {
 
+class TabBar;
 class TitleBar;
 class Stack;
 
 class DOCKS_EXPORT Frame : public Controller, public FocusScope
 {
+    Q_OBJECT
 public:
     typedef QList<Frame *> List;
 

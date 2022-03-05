@@ -18,6 +18,7 @@
  */
 
 #include "MainWindowBase.h"
+#include "KDDockWidgets.h"
 #include "private/DockRegistry_p.h"
 #include "private/MDILayoutWidget_p.h"
 #include "private/DropArea_p.h"
@@ -83,7 +84,7 @@ public:
 
         auto dw = new DockWidgetType(QStringLiteral("%1-persistentCentralDockWidget").arg(uniqueName));
         dw->dptr()->m_isPersistentCentralDockWidget = true;
-        Frame *frame = dropArea()->m_centralFrame;
+        Controllers::Frame *frame = dropArea()->m_centralFrame;
         if (!frame) {
             qWarning() << Q_FUNC_INFO << "Expected central frame";
             return nullptr;
@@ -100,7 +101,7 @@ public:
 
     CursorPositions allowedResizeSides(SideBarLocation loc) const;
 
-    QRect rectForOverlay(Frame *, SideBarLocation) const;
+    QRect rectForOverlay(Controllers::Frame *, SideBarLocation) const;
     SideBarLocation preferredSideBar(DockWidgetBase *) const;
     void updateOverlayGeometry(QSize suggestedSize);
     void clearSideBars();
@@ -263,7 +264,7 @@ CursorPositions MainWindowBase::Private::allowedResizeSides(SideBarLocation loc)
     return CursorPosition_Undefined;
 }
 
-QRect MainWindowBase::Private::rectForOverlay(Frame *frame, SideBarLocation location) const
+QRect MainWindowBase::Private::rectForOverlay(Controllers::Frame *frame, SideBarLocation location) const
 {
     SideBar *sb = q->sideBar(location);
     if (!sb)
@@ -284,7 +285,7 @@ QRect MainWindowBase::Private::rectForOverlay(Frame *frame, SideBarLocation loca
                                                                                : 0;
         const int rightSideBarWidth = (rightSideBar && rightSideBar->isVisible()) ? rightSideBar->width()
                                                                                   : 0;
-        rect.setHeight(qMax(300, frame->minSize().height()));
+        rect.setHeight(qMax(300, frame->view()->minSize().height()));
         rect.setWidth(centralAreaGeo.width() - margin * 2 - leftSideBarWidth - rightSideBarWidth);
         rect.moveLeft(margin + leftSideBarWidth);
         if (location == SideBarLocation::South) {
@@ -302,7 +303,7 @@ QRect MainWindowBase::Private::rectForOverlay(Frame *frame, SideBarLocation loca
                                                                              : 0;
         const int bottomSideBarHeight = (bottomSideBar && bottomSideBar->isVisible()) ? bottomSideBar->height()
                                                                                       : 0;
-        rect.setWidth(qMax(300, frame->minSize().width()));
+        rect.setWidth(qMax(300, frame->view()->minSize().width()));
         rect.setHeight(centralAreaGeo.height() - topSideBarHeight - bottomSideBarHeight - centerWidgetMargins.top() - centerWidgetMargins.bottom());
         rect.moveTop(sb->mapTo(q, QPoint(0, 0)).y() + topSideBarHeight - 1);
         if (location == SideBarLocation::East) {
@@ -443,7 +444,7 @@ void MainWindowBase::Private::updateOverlayGeometry(QSize suggestedSize)
     const QRect defaultGeometry = rectForOverlay(m_overlayedDockWidget->d->frame(), sb->location());
     QRect newGeometry = defaultGeometry;
 
-    Frame *frame = m_overlayedDockWidget->d->frame();
+    Controllers::Frame *frame = m_overlayedDockWidget->d->frame();
 
     if (suggestedSize.isValid() && !suggestedSize.isEmpty()) {
         // Let's try to honour the suggested overlay size
@@ -454,14 +455,14 @@ void MainWindowBase::Private::updateOverlayGeometry(QSize suggestedSize)
             break;
         }
         case SideBarLocation::South: {
-            const int maxHeight = sb->pos().y() - m_layoutWidget->pos().y() - 10; // gap
+            const int maxHeight = sb->pos().y() - m_layoutWidget->View::pos().y() - 10; // gap
             const int bottom = newGeometry.bottom();
             newGeometry.setHeight(qMin(suggestedSize.height(), maxHeight));
             newGeometry.moveBottom(bottom);
             break;
         }
         case SideBarLocation::East: {
-            const int maxWidth = sb->pos().x() - m_layoutWidget->pos().x() - 10; // gap
+            const int maxWidth = sb->pos().x() - m_layoutWidget->View::pos().x() - 10; // gap
             const int right = newGeometry.right();
             newGeometry.setWidth(qMin(suggestedSize.width(), maxWidth));
             newGeometry.moveRight(right);
@@ -478,7 +479,7 @@ void MainWindowBase::Private::updateOverlayGeometry(QSize suggestedSize)
         }
     }
 
-    m_overlayedDockWidget->d->frame()->QWidget::setGeometry(newGeometry);
+    m_overlayedDockWidget->d->frame()->view()->setGeometry(newGeometry);
 }
 
 void MainWindowBase::Private::clearSideBars()
@@ -546,13 +547,14 @@ void MainWindowBase::overlayOnSideBar(DockWidgetBase *dw)
     // We only support one overlay at a time, remove any existing overlay
     clearSideBarOverlay();
 
-    auto frame = Config::self().frameworkWidgetFactory()->createFrame(this, FrameOption_IsOverlayed);
+    auto frame = new Controllers::Frame(nullptr, FrameOption_IsOverlayed);
+    frame->view()->asQWidget()->setParent(this); // TODO
     d->m_overlayedDockWidget = dw;
     frame->addWidget(dw);
     d->updateOverlayGeometry(dw->d->lastPosition()->lastOverlayedGeometry(sb->location()).size());
 
     frame->setAllowedResizeSides(d->allowedResizeSides(sb->location()));
-    frame->QWidget::show();
+    frame->view()->show();
 
     Q_EMIT dw->isOverlayedChanged(true);
 }
@@ -571,7 +573,7 @@ void MainWindowBase::clearSideBarOverlay(bool deleteFrame)
     if (!d->m_overlayedDockWidget)
         return;
 
-    Frame *frame = d->m_overlayedDockWidget->d->frame();
+    Controllers::Frame *frame = d->m_overlayedDockWidget->d->frame();
     if (!frame) { // prophylactic check
         d->m_overlayedDockWidget = nullptr;
         return;
@@ -579,7 +581,7 @@ void MainWindowBase::clearSideBarOverlay(bool deleteFrame)
 
     const SideBarLocation loc = d->m_overlayedDockWidget->sideBarLocation();
     d->m_overlayedDockWidget->d->lastPosition()->setLastOverlayedGeometry(
-        loc, frame->QWidget::geometry());
+        loc, frame->geometry());
 
     frame->unoverlay();
 
@@ -646,7 +648,7 @@ bool MainWindowBase::closeDockWidgets(bool force)
 
     const auto dockWidgets = d->m_layoutWidget->dockWidgets();
     for (DockWidgetBase *dw : dockWidgets) {
-        Frame *frame = dw->d->frame();
+        Controllers::Frame *frame = dw->d->frame();
 
         if (force) {
             dw->forceClose();
@@ -687,7 +689,7 @@ void MainWindowBase::setUniqueName(const QString &uniqueName)
 void MainWindowBase::onResized(QResizeEvent *)
 {
     if (d->m_overlayedDockWidget)
-        d->updateOverlayGeometry(d->m_overlayedDockWidget->d->frame()->QWidget::size());
+        d->updateOverlayGeometry(d->m_overlayedDockWidget->d->frame()->size());
 }
 
 bool MainWindowBase::deserialize(const LayoutSaver::MainWindow &mw)

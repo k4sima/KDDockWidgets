@@ -41,7 +41,7 @@ class MyGuestWidget : public Views::View_qtwidgets<QWidget>
     Q_OBJECT
 public:
     MyGuestWidget()
-        : Views::View_qtwidgets<QWidget>(nullptr)
+        : Views::View_qtwidgets<QWidget>(nullptr, Type::LayoutItem)
     {
     }
 
@@ -203,7 +203,7 @@ class MyHostWidget : public Views::View_qtwidgets<QWidget>
 {
 public:
     MyHostWidget()
-        : Views::View_qtwidgets<QWidget>(nullptr)
+        : Views::View_qtwidgets<QWidget>(nullptr, Type::LayoutItem)
     {
         s_testObject->m_hostWidgets << this;
     }

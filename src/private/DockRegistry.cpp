@@ -24,6 +24,7 @@
 #include "WidgetResizeHandler_p.h"
 #include "WindowBeingDragged_p.h"
 #include "multisplitter/Item_p.h"
+#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 
 #include <QPointer>
 #include <QDebug>
@@ -87,11 +88,11 @@ void DockRegistry::onFocusObjectChanged(QObject *obj)
 {
     auto p = qobject_cast<WidgetType *>(obj);
     while (p) {
-        if (auto frame = qobject_cast<Frame *>(p)) {
+        if (auto frameView = qobject_cast<Views::Frame_qtwidgets *>(p)) {
             // Special case: The focused widget is inside the frame but not inside the dockwidget.
             // For example, it's a line edit in the QTabBar. We still need to send the signal for
             // the current dw in the tab group
-            if (auto dw = frame->currentDockWidget()) {
+            if (auto dw = frameView->frame()->currentDockWidget()) {
                 setFocusedDockWidget(dw);
             }
 
@@ -713,16 +714,16 @@ bool DockRegistry::eventFilter(QObject *watched, QEvent *event)
         }
     } else if (event->type() == QEvent::MouseButtonPress) {
         // When clicking on a MDI Frame we raise the window
-        if (Frame *f = firstParentOfType<Frame>(watched)) {
-            if (f->isMDI())
-                f->raise();
+        if (auto frameView = firstParentOfType<Views::Frame_qtwidgets>(watched)) {
+            if (frameView->frame()->isMDI())
+                frameView->raise();
         }
 
         // The following code is for hididng the overlay
         if (!(Config::self().flags() & Config::Flag_AutoHideSupport))
             return false;
 
-        if (qobject_cast<Frame *>(watched)) {
+        if (qobject_cast<Views::Frame_qtwidgets *>(watched)) {
             // break recursion
             return false;
         }

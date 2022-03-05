@@ -25,6 +25,7 @@
 
 #include "Config.h"
 #include "FrameworkWidgetFactory.h"
+#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 
 #include <QEvent>
 #include <QCloseEvent>
@@ -523,7 +524,7 @@ FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
 
         auto frame = new Controllers::Frame();
         frame->addWidget(q);
-        geo.setSize(geo.size().boundedTo(frame->maxSizeHint()));
+        geo.setSize(geo.size().boundedTo(frame->view()->maxSizeHint()));
         FloatingWindow::ensureRectIsOnScreen(geo);
         auto floatingWindow =
             Config::self().frameworkWidgetFactory()->createFloatingWindow(frame, nullptr, geo);
@@ -773,7 +774,7 @@ void DockWidgetBase::Private::maybeRestoreToPreviousPosition()
 
     Controllers::Frame *frame = this->frame();
 
-    if (frame && frame->QWidget::parentWidget() == DockRegistry::self()->layoutForItem(layoutItem)) {
+    if (frame && frame->view()->asQWidget()->parentWidget() == DockRegistry::self()->layoutForItem(layoutItem)) {
         // There's a frame already. Means the DockWidget was hidden instead of closed.
         // Nothing to do, the dock widget will simply be shown
         return;
@@ -1018,8 +1019,8 @@ Controllers::Frame *DockWidgetBase::Private::frame() const
 {
     QWidgetOrQuick *p = q->parentWidget();
     while (p) {
-        if (auto frame = qobject_cast<Controllers::Frame *>(p))
-            return frame;
+        if (auto frameView = qobject_cast<Views::Frame_qtwidgets *>(p))
+            return frameView->frame();
         p = p->parentWidget();
     }
     return nullptr;

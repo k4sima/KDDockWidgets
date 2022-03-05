@@ -38,7 +38,7 @@ class DOCKS_EXPORT DockRegistry : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(
-        KDDockWidgets::Frame *frameInMDIResize READ frameInMDIResize NOTIFY frameInMDIResizeChanged)
+        Controllers::Frame *frameInMDIResize READ frameInMDIResize NOTIFY frameInMDIResizeChanged)
 public:
     enum class DockByNameFlag
     {

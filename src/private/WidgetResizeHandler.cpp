@@ -19,6 +19,8 @@
 #include "MDILayoutWidget_p.h"
 #include "multisplitter/controllers/TitleBar.h"
 
+#include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
+
 #include <QEvent>
 #include <QMouseEvent>
 #include <QDebug>
@@ -64,8 +66,8 @@ void WidgetResizeHandler::setResizeGap(int gap)
 
 bool WidgetResizeHandler::isMDI() const
 {
-    auto frame = qobject_cast<Frame *>(mTarget);
-    return frame && frame->isMDI();
+    auto frameView = qobject_cast<Views::Frame_qtwidgets *>(mTarget);
+    return frameView && frameView->frame()->isMDI();
 }
 
 bool WidgetResizeHandler::isResizing() const
@@ -119,11 +121,12 @@ bool WidgetResizeHandler::eventFilter(QObject *o, QEvent *e)
         m_resizingInProgress = false;
         if (isMDI()) {
             Q_EMIT DockRegistry::self()->frameInMDIResizeChanged();
-            auto frame = static_cast<Frame *>(mTarget);
+            auto frameView = static_cast<Views::Frame_qtwidgets *>(mTarget);
             // Usually in KDDW all geometry changes are done in the layout items, which propagate to the widgets
             // When resizing a MDI however, we're resizing the widget directly. So update the corresponding layout
             // item when we're finished.
-            frame->mdiLayoutWidget()->setDockWidgetGeometry(frame, frame->QWidget::geometry());
+            auto frame = frameView->frame();
+            frame->mdiLayoutWidget()->setDockWidgetGeometry(frame, frame->geometry());
         }
         updateCursor(CursorPosition_Undefined);
         auto mouseEvent = static_cast<QMouseEvent *>(e);
@@ -142,8 +145,8 @@ bool WidgetResizeHandler::eventFilter(QObject *o, QEvent *e)
             break;
 
         if (isMDI()) {
-            const Frame *frameBeingResized = DockRegistry::self()->frameInMDIResize();
-            const bool otherFrameBeingResized = frameBeingResized && frameBeingResized != mTarget;
+            const Controllers::Frame *frameBeingResized = DockRegistry::self()->frameInMDIResize();
+            const bool otherFrameBeingResized = frameBeingResized && frameBeingResized->view()->asQWidget() != mTarget;
             if (otherFrameBeingResized) {
                 // only one at a time!
                 return false;

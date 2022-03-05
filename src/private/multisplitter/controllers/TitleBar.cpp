@@ -28,6 +28,7 @@
 
 #include <QTimer>
 
+using namespace KDDockWidgets;
 using namespace KDDockWidgets::Controllers;
 
 
