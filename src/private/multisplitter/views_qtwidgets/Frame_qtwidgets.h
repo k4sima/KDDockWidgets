@@ -42,6 +42,8 @@ public:
     Controllers::Frame *frame() const;
 
 private:
+    void closeEvent(QCloseEvent *e) override;
+    bool event(QEvent *) override;
     Controllers::Frame *const m_controller;
 };
 

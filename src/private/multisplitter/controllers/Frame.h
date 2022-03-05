@@ -13,14 +13,13 @@
 
 #include "../Controller.h"
 
-#include "KDDockWidgets.h"
-
+#include "kddockwidgets/KDDockWidgets.h"
 #include "kddockwidgets/FocusScope.h"
 #include "kddockwidgets/DockWidgetBase.h"
 #include "kddockwidgets/LayoutSaver.h"
 
 #include "kddockwidgets/docks_export.h"
-#include "private/multisplitter/controllers/TabBar.h"
+#include "TabBar.h"
 
 #include <QVector>
 #include <QDebug>
@@ -299,7 +298,8 @@ public:
 
     void renameTab(int index, const QString &);
     void changeTabIcon(int index, const QIcon &);
-
+    /// @brief Sets the LayoutWidget which this frame is in
+    void setLayoutWidget(LayoutWidget *);
 Q_SIGNALS:
     void currentDockWidgetChanged(KDDockWidgets::DockWidgetBase *);
     void numDockWidgetsChanged();
@@ -364,10 +364,6 @@ private:
     friend class KDDockWidgets::Controllers::Stack;
 
     void scheduleDeleteLater();
-    bool event(QEvent *) override;
-
-    /// @brief Sets the LayoutWidget which this frame is in
-    void setLayoutWidget(LayoutWidget *);
 
     LayoutWidget *m_layoutWidget = nullptr;
     WidgetResizeHandler *m_resizeHandler = nullptr;

@@ -57,8 +57,6 @@ static bool s_pauseBeforeMove = false; // for debugging
 
 namespace KDDockWidgets {
 
-class FrameWidget;
-
 namespace Tests {
 
 template<typename T>

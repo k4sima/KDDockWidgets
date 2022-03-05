@@ -64,11 +64,22 @@ static QPoint dragPointForWidget(Controllers::Frame *frame, int index)
     }
 }
 
+inline int lengthForSize(QSize sz, Qt::Orientation o)
+{
+    return o == Qt::Vertical ? sz.height() : sz.width();
+}
+
 template<typename T>
 inline int widgetMinLength(const T *w, Qt::Orientation o)
 {
     const QSize sz = Widget::widgetMinSize(w);
-    return o == Qt::Vertical ? sz.height() : sz.width();
+    return lengthForSize(sz, o);
+}
+
+inline int widgetMinLength(Controllers::Frame *frame, Qt::Orientation o)
+{
+    const QSize sz = frame->view()->minSize();
+    return lengthForSize(sz, o);
 }
 
 static DockWidgetBase *createAndNestDockWidget(DropArea *dropArea, Controllers::Frame *relativeTo,
@@ -7158,7 +7169,7 @@ void TestDocks::tst_propagateSizeHonoursMinSize()
         qDebug() << "\ndock1->width()=" << dock1->width() << "\nmin1=" << min1
                  << "\ndock min sizes=" << dock1->minimumWidth() << dock1->minimumSizeHint().width()
                  << "\nframe1->width()=" << dock1->dptr()->frame()->view()->width()
-                 << "\nframe1->min=" << widgetMinLength(dock1->dptr()->frame(), Qt::Horizontal);
+                 << "\nframe1->min=" << lengthForSize(dock1->dptr()->frame()->view()->minSize(), Qt::Horizontal);
         l->dumpLayout();
         QVERIFY(false);
     }

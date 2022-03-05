@@ -29,7 +29,7 @@ public:
 
 private:
     friend class MainWindowBase;
-    friend class Frame;
+    friend class Controllers::Frame;
     Controllers::Frame *const m_centralFrame = nullptr;
 };
 

@@ -149,6 +149,11 @@ public:
         return Base::mapToGlobal(localPt);
     }
 
+    QPoint mapFromGlobal(QPoint globalPt) const override
+    {
+        return Base::mapFromGlobal(globalPt);
+    }
+
     void setSizePolicy(QSizePolicy policy) override
     {
         Base::setSizePolicy(policy);

@@ -96,6 +96,7 @@ public:
     virtual void raiseAndActivate() = 0;
     virtual void raise() = 0;
     virtual QPoint mapToGlobal(QPoint) const = 0;
+    virtual QPoint mapFromGlobal(QPoint) const = 0;
     virtual void setSizePolicy(QSizePolicy) = 0;
     virtual void closeWindow() = 0;
     virtual QRect windowGeometry() const = 0;

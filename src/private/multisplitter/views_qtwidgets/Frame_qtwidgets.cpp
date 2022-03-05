@@ -12,7 +12,7 @@
 #include "Frame_qtwidgets.h"
 
 #include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
-
+#include "private/LayoutWidget_p.h"
 #include "private/multisplitter/controllers/Frame.h"
 #include "private/multisplitter/controllers/Stack.h"
 #include "private/multisplitter/controllers/TabBar.h"
@@ -95,4 +95,22 @@ KDDockWidgets::DockWidgetBase *Frame_qtwidgets::dockWidgetAt_impl(int index) con
 Controllers::Frame *Frame_qtwidgets::frame() const
 {
     return m_controller;
+}
+
+bool Frame_qtwidgets::event(QEvent *e)
+{
+    if (e->type() == QEvent::ParentChange) {
+        if (auto layoutWidget = qobject_cast<LayoutWidget *>(QWidget::parentWidget())) {
+            m_controller->setLayoutWidget(layoutWidget);
+        } else {
+            m_controller->setLayoutWidget(nullptr);
+        }
+    }
+
+    return QWidget::event(e);
+}
+
+void Frame_qtwidgets::closeEvent(QCloseEvent *e)
+{
+    m_controller->onCloseEvent(e);
 }
