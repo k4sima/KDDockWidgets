@@ -66,7 +66,7 @@ static TabWidgetOptions tabWidgetOptions(FrameOptions options)
 }
 
 Frame::Frame(View *parent, FrameOptions options, int userType)
-    : Controller(new Views::Frame_qtwidgets(this, parent->asQWidget()))
+    : Controller(new Views::Frame_qtwidgets(this, parent ? parent->asQWidget() : nullptr))
     , FocusScope(static_cast<Views::View_qtwidgets<QWidget> *>(view()->asQWidget())) // TODO
     , m_tabWidget(new Controllers::Stack(this, tabWidgetOptions(options)))
     , m_titleBar(new Controllers::TitleBar(this))
@@ -80,7 +80,7 @@ Frame::Frame(View *parent, FrameOptions options, int userType)
     connect(m_tabWidget, &Controllers::Stack::currentTabChanged,
             this, &Frame::onCurrentTabChanged);
 
-    setLayoutWidget(qobject_cast<LayoutWidget *>(parent->asQWidget())); // TODO
+    setLayoutWidget(qobject_cast<LayoutWidget *>(parent ? parent->asQWidget() : nullptr)); // TODO
     m_inCtor = false;
 }
 
@@ -850,7 +850,10 @@ QRect Frame::dragRect() const
         rect.moveTopLeft(m_titleBar->view()->mapToGlobal(QPoint(0, 0)));
     }
 
-    return rect;
+    if (rect.isValid())
+        return rect;
+
+    return qobject_cast<Views::Frame_qtwidgets *>(view()->asQWidget())->dragRect();
 }
 
 MainWindowBase *Frame::mainWindow() const

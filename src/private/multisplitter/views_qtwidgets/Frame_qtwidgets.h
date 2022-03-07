@@ -40,6 +40,14 @@ public:
     int nonContentsHeight() const;
 
     Controllers::Frame *frame() const;
+    QRect dragRect() const;
+
+Q_SIGNALS:
+    void layoutInvalidated();
+
+protected:
+    void paintEvent(QPaintEvent *) override;
+    QSize maxSizeHint() const override;
 
 private:
     void closeEvent(QCloseEvent *e) override;

@@ -18,13 +18,50 @@
 #include "private/multisplitter/controllers/TabBar.h"
 #include "private/multisplitter/controllers/TitleBar.h"
 
+#include <QPainter>
+#include <QTabBar>
+#include <QVBoxLayout>
+
 using namespace KDDockWidgets;
 using namespace KDDockWidgets::Views;
+
+///@brief a QVBoxLayout that emits layoutInvalidated so that Item can detect minSize changes
+class VBoxLayout : public QVBoxLayout // clazy:exclude=missing-qobject-macro
+{
+public:
+    explicit VBoxLayout(Frame_qtwidgets *parent)
+        : QVBoxLayout(parent)
+        , m_frameWidget(parent)
+    {
+    }
+    ~VBoxLayout() override;
+
+    void invalidate() override
+    {
+        QVBoxLayout::invalidate();
+        Q_EMIT m_frameWidget->layoutInvalidated();
+    }
+
+    Frame_qtwidgets *const m_frameWidget;
+};
+
+VBoxLayout::~VBoxLayout() = default;
 
 Frame_qtwidgets::Frame_qtwidgets(Controllers::Frame *controller, QWidget *parent)
     : View_qtwidgets<QWidget>(controller, View::Type::Frame, parent)
     , m_controller(controller)
 {
+    auto vlayout = new VBoxLayout(this);
+    vlayout->setContentsMargins(0, 0, 0, 0);
+    vlayout->setSpacing(0);
+    vlayout->addWidget(controller->titleBar()->view()->asQWidget());
+    auto tabWidget = controller->tabWidget();
+    vlayout->addWidget(tabWidget->view()->asQWidget());
+
+    tabWidget->setTabBarAutoHide(!controller->alwaysShowsTabs());
+
+    if (controller->isOverlayed())
+        setAutoFillBackground(true);
 }
 
 void Frame_qtwidgets::setLayoutItem(Layouting::Item *item)
@@ -42,7 +79,6 @@ void Frame_qtwidgets::changeTabIcon(int index, const QIcon &icon)
 {
     m_controller->tabWidget()->changeTabIcon(index, icon);
 }
-
 
 int Frame_qtwidgets::nonContentsHeight() const
 {
@@ -113,4 +149,54 @@ bool Frame_qtwidgets::event(QEvent *e)
 void Frame_qtwidgets::closeEvent(QCloseEvent *e)
 {
     m_controller->onCloseEvent(e);
+}
+
+void Frame_qtwidgets::paintEvent(QPaintEvent *)
+{
+    if (!m_controller->isFloating()) {
+        QPainter p(this);
+        p.setRenderHint(QPainter::Antialiasing);
+
+        const qreal penWidth = 1;
+        const qreal halfPenWidth = penWidth / 2;
+        const QRectF rectf = QWidget::rect();
+
+        const bool isOverlayed = m_controller->isOverlayed();
+        const QColor penColor = isOverlayed ? QColor(0x666666)
+                                            : QColor(184, 184, 184, 184);
+        QPen pen(penColor);
+        pen.setWidthF(penWidth);
+        p.setPen(pen);
+
+        if (isOverlayed) {
+            pen.setJoinStyle(Qt::MiterJoin);
+            p.drawRect(rectf.adjusted(halfPenWidth, penWidth, -halfPenWidth, -halfPenWidth));
+        } else {
+            p.drawRoundedRect(rectf.adjusted(halfPenWidth, halfPenWidth, -halfPenWidth, -halfPenWidth), 2, 2);
+        }
+    }
+}
+
+QSize Frame_qtwidgets::maxSizeHint() const
+{
+    // waste due to QTabWidget margins, tabbar etc.
+    const QSize waste = minSize() - m_controller->dockWidgetsMinSize();
+    return waste + m_controller->biggestDockWidgetMaxSize();
+}
+
+QRect Frame_qtwidgets::dragRect() const
+{
+    QRect rect = m_controller->dragRect();
+    if (rect.isValid())
+        return rect;
+
+    if (Config::self().flags() & Config::Flag_HideTitleBarWhenTabsVisible) {
+        auto tabBar = qobject_cast<QTabBar *>(m_controller->tabBar()->view()->asQWidget());
+        rect.setHeight(tabBar->height());
+        rect.setWidth(QWidget::width() - tabBar->width());
+        rect.moveTopLeft(QPoint(tabBar->width(), tabBar->y()));
+        rect.moveTopLeft(QWidget::mapToGlobal(rect.topLeft()));
+    }
+
+    return rect;
 }

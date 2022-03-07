@@ -304,7 +304,6 @@ Q_SIGNALS:
     void currentDockWidgetChanged(KDDockWidgets::DockWidgetBase *);
     void numDockWidgetsChanged();
     void hasTabsVisibleChanged();
-    void layoutInvalidated();
     void isInMainWindowChanged();
     void isFocusedChanged();
     void focusedWidgetChanged();
@@ -319,7 +318,7 @@ protected Q_SLOTS:
     void onDockWidgetCountChanged();
     void onCurrentTabChanged(int index);
 
-protected:
+public:
     /**
      * @brief Returns the minimum size of the dock widgets.
      * This might be slightly smaller than Frame::minSize() due to the QTabWidget having some margins
