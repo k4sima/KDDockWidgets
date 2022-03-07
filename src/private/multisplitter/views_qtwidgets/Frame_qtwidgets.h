@@ -24,6 +24,7 @@ class DOCKS_EXPORT Frame_qtwidgets : public View_qtwidgets<QWidget>
     Q_OBJECT
 public:
     explicit Frame_qtwidgets(Controllers::Frame *controller, QWidget *parent = nullptr);
+    void init() override;
 
     void setLayoutItem(Layouting::Item *item) override;
 

@@ -227,8 +227,9 @@ Controllers::Frame::List LayoutWidget::frames() const
     result.reserve(items.size());
 
     for (Layouting::Item *item : items) {
-        if (auto f = static_cast<Controllers::Frame *>(item->guestAsQObject()))
-            result.push_back(f);
+        if (auto frameView = static_cast<Views::Frame_qtwidgets *>(item->guestAsQObject())) // TODO: Store Frame in the layout, not the view
+            if (!frameView->freed())
+                result.push_back(frameView->frame());
     }
 
     return result;

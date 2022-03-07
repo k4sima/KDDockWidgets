@@ -81,6 +81,9 @@ Frame::Frame(View *parent, FrameOptions options, int userType)
             this, &Frame::onCurrentTabChanged);
 
     setLayoutWidget(qobject_cast<LayoutWidget *>(parent ? parent->asQWidget() : nullptr)); // TODO
+
+    view()->init();
+
     m_inCtor = false;
 }
 

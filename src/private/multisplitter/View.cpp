@@ -30,6 +30,16 @@ View::View(Controller *controller, Type type, QObject *thisObj)
 
 View::~View()
 {
+    m_inDtor = true;
+
+    if (!freed()) {
+        // TODO
+        // Views should be deleted via View::free()!
+        // However some of our deletes are coming from widgets parent destroying their children
+        // But we want the controllers to drive things instead. For now detect the view destruction
+        // and destroy its controller, which was the old behaviour.
+        delete m_controller;
+    }
 }
 
 QString View::id() const
@@ -71,6 +81,11 @@ void View::free()
 bool View::freed() const
 {
     return m_freed;
+}
+
+bool View::inDtor() const
+{
+    return m_inDtor;
 }
 
 void View::free_impl()

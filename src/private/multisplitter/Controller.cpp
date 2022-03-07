@@ -23,8 +23,14 @@ Controller::Controller(View *view)
 
 Controller::~Controller()
 {
-    if (m_view)
+    m_inDtor = true;
+    if (m_view && !m_view->inDtor())
         m_view->free();
+}
+
+bool Controller::inDtor() const
+{
+    return m_inDtor;
 }
 
 View *Controller::view() const

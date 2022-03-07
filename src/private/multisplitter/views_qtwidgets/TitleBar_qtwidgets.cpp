@@ -167,6 +167,9 @@ void TitleBar_qtwidgets::init()
 
 void TitleBar_qtwidgets::paintEvent(QPaintEvent *)
 {
+    if (freed())
+        return;
+
     QPainter p(this);
 
     QStyleOptionDockWidget titleOpt;

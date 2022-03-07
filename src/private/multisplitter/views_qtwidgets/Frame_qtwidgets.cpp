@@ -51,16 +51,20 @@ Frame_qtwidgets::Frame_qtwidgets(Controllers::Frame *controller, QWidget *parent
     : View_qtwidgets<QWidget>(controller, View::Type::Frame, parent)
     , m_controller(controller)
 {
+}
+
+void Frame_qtwidgets::init()
+{
     auto vlayout = new VBoxLayout(this);
     vlayout->setContentsMargins(0, 0, 0, 0);
     vlayout->setSpacing(0);
-    vlayout->addWidget(controller->titleBar()->view()->asQWidget());
-    auto tabWidget = controller->tabWidget();
+    vlayout->addWidget(m_controller->titleBar()->view()->asQWidget());
+    auto tabWidget = m_controller->tabWidget();
     vlayout->addWidget(tabWidget->view()->asQWidget());
 
-    tabWidget->setTabBarAutoHide(!controller->alwaysShowsTabs());
+    tabWidget->setTabBarAutoHide(!m_controller->alwaysShowsTabs());
 
-    if (controller->isOverlayed())
+    if (m_controller->isOverlayed())
         setAutoFillBackground(true);
 }
 
@@ -135,6 +139,9 @@ Controllers::Frame *Frame_qtwidgets::frame() const
 
 bool Frame_qtwidgets::event(QEvent *e)
 {
+    if (freed())
+        return QWidget::event(e);
+
     if (e->type() == QEvent::ParentChange) {
         if (auto layoutWidget = qobject_cast<LayoutWidget *>(QWidget::parentWidget())) {
             m_controller->setLayoutWidget(layoutWidget);
@@ -148,11 +155,15 @@ bool Frame_qtwidgets::event(QEvent *e)
 
 void Frame_qtwidgets::closeEvent(QCloseEvent *e)
 {
-    m_controller->onCloseEvent(e);
+    if (!freed())
+        m_controller->onCloseEvent(e);
 }
 
 void Frame_qtwidgets::paintEvent(QPaintEvent *)
 {
+    if (freed())
+        return;
+
     if (!m_controller->isFloating()) {
         QPainter p(this);
         p.setRenderHint(QPainter::Antialiasing);
@@ -179,6 +190,9 @@ void Frame_qtwidgets::paintEvent(QPaintEvent *)
 
 QSize Frame_qtwidgets::maxSizeHint() const
 {
+    if (freed())
+        return {};
+
     // waste due to QTabWidget margins, tabbar etc.
     const QSize waste = minSize() - m_controller->dockWidgetsMinSize();
     return waste + m_controller->biggestDockWidgetMaxSize();

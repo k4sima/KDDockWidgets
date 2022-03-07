@@ -25,6 +25,7 @@
 #include "WindowBeingDragged_p.h"
 #include "MDIArea.h"
 #include "multisplitter/Item_p.h"
+#include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 #include "multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
 #include "multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
 #include "multisplitter/views_qtwidgets/Stack_qtwidgets.h"
@@ -602,7 +603,7 @@ void TestDocks::tst_restoreCentralFrame()
     QCOMPARE(layout->count(), 1);
     Item *item = m->dropArea()->centralFrame();
     QVERIFY(item);
-    auto frame = static_cast<Controllers::Frame *>(item->guestAsQObject());
+    auto frame = static_cast<Views::Frame_qtwidgets *>(item->guestAsQObject())->frame();
     QCOMPARE(frame->options(), FrameOption_IsCentralFrame | FrameOption_AlwaysShowsTabs);
     QVERIFY(!frame->titleBar()->isVisible());
 
@@ -613,7 +614,7 @@ void TestDocks::tst_restoreCentralFrame()
     QCOMPARE(layout->count(), 1);
     item = m->dropArea()->centralFrame();
     QVERIFY(item);
-    frame = static_cast<Controllers::Frame *>(item->guestAsQObject());
+    frame = static_cast<Views::Frame_qtwidgets *>(item->guestAsQObject())->frame();
     QCOMPARE(frame->options(), FrameOption_IsCentralFrame | FrameOption_AlwaysShowsTabs);
     QVERIFY(!frame->titleBar()->isVisible());
 }
@@ -825,8 +826,8 @@ void TestDocks::tst_dockInternal()
     auto dock1 = createDockWidget("dock1", new QPushButton("one"));
     auto dropArea = m->dropArea();
 
-    auto centralWidget = static_cast<Controllers::Frame *>(dropArea->items()[0]->guestAsQObject());
-    nestDockWidget(dock1, dropArea, centralWidget, KDDockWidgets::Location_OnRight);
+    auto centralWidget = static_cast<Views::Frame_qtwidgets *>(dropArea->items()[0]->guestAsQObject());
+    nestDockWidget(dock1, dropArea, centralWidget->frame(), KDDockWidgets::Location_OnRight);
 
     QVERIFY(dock1->width() < dropArea->layoutWidth() - centralWidget->width());
 }
@@ -4971,7 +4972,7 @@ void TestDocks::tst_mainWindowAlwaysHasCentralWidget()
     auto dropArea = m->dropArea();
     QVERIFY(dropArea);
 
-    QPointer<Controllers::Frame> centralFrame = static_cast<Controllers::Frame *>(dropArea->centralFrame()->guestAsQObject());
+    QPointer<Controllers::Frame> centralFrame = static_cast<Views::Frame_qtwidgets *>(dropArea->centralFrame()->guestAsQObject())->frame();
     QVERIFY(central);
     QVERIFY(dropArea);
     QCOMPARE(dropArea->count(), 1);

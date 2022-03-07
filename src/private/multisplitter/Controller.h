@@ -39,8 +39,11 @@ public:
     QPoint pos() const;
     QRect geometry() const;
 
+    bool inDtor() const;
+
 private:
     View *m_view = nullptr;
+    bool m_inDtor = false;
 };
 
 }

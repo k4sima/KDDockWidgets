@@ -52,6 +52,7 @@ public:
     explicit View(Controller *controller, Type, QObject *thisObj);
     virtual ~View();
 
+    virtual void init() {};
     QObject *asQObject() const;
     QWidget *asQWidget() const; // TODO: Remove
     QObject *parent() const;
@@ -73,6 +74,10 @@ public:
 
     /// @brief Returns whether free() has already been called
     bool freed() const;
+
+    /// @brief Returns whether the DTOR is currently running. freed() might be true while inDtor false,
+    /// as the implementation of free() is free to delay it (with deleteLater() for example)
+    bool inDtor() const;
 
     /// @brief Called by the layouting engine
     /// Override it in case your widget needs to know where it is in the layout. Usually only needed by Frame.s
@@ -172,6 +177,7 @@ protected:
 
 private:
     bool m_freed = false;
+    bool m_inDtor = false;
     const QString m_id;
     const Type m_type;
 };

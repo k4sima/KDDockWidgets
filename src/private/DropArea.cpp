@@ -81,7 +81,8 @@ Controllers::Frame::List DropArea::frames() const
     Controllers::Frame::List frames;
 
     for (auto view : views) {
-        frames << view->frame();
+        if (!view->freed())
+            frames << view->frame();
     }
 
     return frames;
