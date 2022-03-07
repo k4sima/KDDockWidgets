@@ -499,7 +499,7 @@ void FloatingWindow::onCloseEvent(QCloseEvent *e)
 
     const Controllers::Frame::List frames = this->frames();
     for (Controllers::Frame *frame : frames) {
-        qApp->sendEvent(frame, e);
+        qApp->sendEvent(frame->view()->asQWidget(), e); // TODO
         if (!e->isAccepted())
             break; // Stop when the first frame prevents closing
     }

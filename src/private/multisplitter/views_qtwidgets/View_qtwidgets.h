@@ -44,7 +44,8 @@ public:
 
     void free_impl() override
     {
-        QObject::deleteLater();
+        // QObject::deleteLater();
+        delete this;
     }
 
     QSize sizeHint() const override

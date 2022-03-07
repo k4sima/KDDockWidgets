@@ -38,6 +38,8 @@ public:
 
     void invalidate() override
     {
+        if (m_frameWidget->inDtor())
+            return;
         QVBoxLayout::invalidate();
         Q_EMIT m_frameWidget->layoutInvalidated();
     }
@@ -66,6 +68,13 @@ void Frame_qtwidgets::init()
 
     if (m_controller->isOverlayed())
         setAutoFillBackground(true);
+}
+
+void Frame_qtwidgets::free_impl()
+{
+    // TODO: just use the base class impl, which uses deleteLater()
+    // do it once there's no state here
+    delete this;
 }
 
 void Frame_qtwidgets::setLayoutItem(Layouting::Item *item)

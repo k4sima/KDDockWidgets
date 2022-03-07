@@ -47,6 +47,7 @@ Q_SIGNALS:
     void layoutInvalidated();
 
 protected:
+    void free_impl() override;
     void paintEvent(QPaintEvent *) override;
     QSize maxSizeHint() const override;
 
