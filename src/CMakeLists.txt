@@ -52,8 +52,8 @@ set(DOCKSLIBS_SRCS
     private/DropIndicatorOverlayInterface_p.h
     private/DropArea.cpp
     private/DropArea_p.h
-    private/FloatingWindow.cpp
-    private/FloatingWindow_p.h
+    # private/FloatingWindow.cpp
+    # private/FloatingWindow_p.h
     private/Logging.cpp
     private/Logging_p.h
     # private/TabWidget.cpp
@@ -95,6 +95,8 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/Widget.cpp
     private/multisplitter/Widget.h
 
+    private/multisplitter/controllers/FloatingWindow.cpp
+    private/multisplitter/controllers/FloatingWindow.h
     private/multisplitter/controllers/Frame.cpp
     private/multisplitter/controllers/Frame.h
     private/multisplitter/controllers/Separator.cpp
@@ -110,11 +112,14 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/Controller.cpp
     private/multisplitter/Controller.h
 
+    private/multisplitter/views_qtwidgets/View_qtwidgets.cpp
     private/multisplitter/views_qtwidgets/View_qtwidgets.h
     private/multisplitter/views/FrameView.cpp
     private/multisplitter/views/FrameView.h
 
     private/multisplitter/views_qtwidgets/View_qtwidgets.h
+    private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.cpp
+    private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h
     private/multisplitter/views_qtwidgets/Frame_qtwidgets.cpp
     private/multisplitter/views_qtwidgets/Frame_qtwidgets.h
     private/multisplitter/views_qtwidgets/Separator_qtwidgets.cpp
@@ -157,7 +162,7 @@ set(DOCKS_INSTALLABLE_PRIVATE_INCLUDES
     private/Draggable_p.h
     private/DropArea_p.h
     private/DropIndicatorOverlayInterface_p.h
-    private/FloatingWindow_p.h
+    # private/FloatingWindow_p.h
     # private/Frame_p.h
     private/LayoutSaver_p.h
     private/MultiSplitter_p.h
@@ -174,7 +179,7 @@ set(DOCKS_INSTALLABLE_PRIVATE_INCLUDES
 set(DOCKS_INSTALLABLE_PRIVATE_WIDGET_INCLUDES
     private/widgets/QWidgetAdapter_widgets_p.h
     private/widgets/SideBarWidget_p.h
-    private/widgets/FloatingWindowWidget_p.h
+    # private/widgets/FloatingWindowWidget_p.h
     # private/widgets/FrameWidget_p.h
     # private/widgets/TabBarWidget_p.h
     # private/widgets/TabWidgetWidget_p.h
@@ -237,8 +242,8 @@ else()
       private/multisplitter/Widget_qwidget.h
       # private/widgets/TabBarWidget.cpp
       # private/widgets/TabBarWidget_p.h
-      private/widgets/FloatingWindowWidget.cpp
-      private/widgets/FloatingWindowWidget_p.h
+      # private/widgets/FloatingWindowWidget.cpp
+      # private/widgets/FloatingWindowWidget_p.h
       # private/widgets/FrameWidget.cpp
       # private/widgets/FrameWidget_p.h
       private/widgets/SideBarWidget.cpp

@@ -12,7 +12,7 @@
 #pragma once
 
 #include "View_qtwidgets.h"
-#include "private/FloatingWindow_p.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 
 #include <QToolButton>
 
@@ -54,7 +54,7 @@ protected:
 
 private:
     friend class KDDockWidgets::Controllers::TitleBar;
-    void init();
+    void init() override;
     int buttonAreaWidth() const;
     QRect iconRect() const;
     void updateMargins();

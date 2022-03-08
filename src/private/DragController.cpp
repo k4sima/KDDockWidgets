@@ -13,7 +13,6 @@
 #include "DockRegistry_p.h"
 #include "DockWidgetBase_p.h"
 #include "DropArea_p.h"
-#include "FloatingWindow_p.h"
 #include "Logging_p.h"
 #include "Qt5Qt6Compat_p.h"
 #include "Utils_p.h"
@@ -24,6 +23,7 @@
 
 #include "multisplitter/controllers/TitleBar.h"
 #include "multisplitter/controllers/Frame.h"
+#include "multisplitter/controllers/FloatingWindow.h"
 
 #include "multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
 
@@ -386,7 +386,7 @@ bool StateDragging::handleMouseMove(QPoint globalPos)
     }
 
     if (!q->m_nonClientDrag)
-        fw->windowHandle()->setPosition(globalPos - q->m_offset);
+        fw->view()->asQWidget()->windowHandle()->setPosition(globalPos - q->m_offset);
 
     if (fw->anyNonDockable()) {
         qCDebug(state) << "StateDragging: Ignoring non dockable floating window";
@@ -746,7 +746,8 @@ bool DragController::eventFilter(QObject *o, QEvent *e)
 
     switch (e->type()) {
     case QEvent::NonClientAreaMouseButtonPress: {
-        if (auto fw = qobject_cast<FloatingWindow *>(o)) {
+        if (auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(o)) {
+            auto fw = view->floatingWindow();
             if (KDDockWidgets::usesNativeTitleBar() || fw->isInDragArea(Qt5Qt6Compat::eventGlobalPos(me))) {
                 m_nonClientDrag = true;
                 return activeState()->handleMouseButtonPress(draggableForQObject(o), Qt5Qt6Compat::eventGlobalPos(me), me->pos());
@@ -902,7 +903,7 @@ WidgetType *DragController::qtTopLevelUnderCursor() const
         bool ok = false;
         const QVector<QWindow *> orderedWindows = KDDockWidgets::orderedWindows(ok);
         FloatingWindow *tlwBeingDragged = m_windowBeingDragged->floatingWindow();
-        if (auto tl = qtTopLevelUnderCursor_impl(globalPos, orderedWindows, tlwBeingDragged))
+        if (auto tl = qtTopLevelUnderCursor_impl(globalPos, orderedWindows, tlwBeingDragged->view()->asQWidget()))
             return tl;
 
         if (!ok) {
@@ -916,7 +917,7 @@ WidgetType *DragController::qtTopLevelUnderCursor() const
         // and check the MainWindow last, as the MainWindow will have lower z-order as it's a parent (TODO: How will it work with multiple MainWindows ?)
         // The floating window list is sorted by z-order, as we catch QEvent::Expose and move it to last of the list
 
-        FloatingWindow *tlwBeingDragged = m_windowBeingDragged->floatingWindow();
+        QWidget *tlwBeingDragged = m_windowBeingDragged->floatingWindow()->view()->asQWidget();
         if (auto tl = qtTopLevelUnderCursor_impl(globalPos, DockRegistry::self()->floatingQWindows(), tlwBeingDragged))
             return tl;
 
@@ -953,7 +954,8 @@ DropArea *DragController::dropAreaUnderCursor() const
 
     const QStringList affinities = m_windowBeingDragged->floatingWindow()->affinities();
 
-    if (auto fw = qobject_cast<FloatingWindow *>(topLevel)) {
+    if (auto fwView = qobject_cast<Views::FloatingWindow_qtwidgets *>(topLevel)) {
+        auto fw = fwView->floatingWindow();
         if (DockRegistry::self()->affinitiesMatch(fw->affinities(), affinities))
             return fw->dropArea();
     }

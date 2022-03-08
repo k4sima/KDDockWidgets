@@ -46,10 +46,10 @@ namespace KDDockWidgets {
 
 namespace Controllers {
 class Frame;
+class FloatingWindow;
 }
 
 class MainWindowBase;
-class FloatingWindow;
 class DockWidgetBase;
 
 /**
@@ -77,7 +77,7 @@ public:
 
     MainWindowBase *mainWindow(bool honourNesting = false) const;
 
-    FloatingWindow *floatingWindow() const;
+    Controllers::FloatingWindow *floatingWindow() const;
 
     /**
      * @brief returns the layout's minimum size

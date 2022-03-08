@@ -18,11 +18,11 @@
 #include "private/multisplitter/View.h"
 #include "private/multisplitter/controllers/TitleBar.h"
 #include "private/multisplitter/controllers/Stack.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 #include "private/Logging_p.h"
 #include "private/Utils_p.h"
 #include "private/DockRegistry_p.h"
 #include "private/DockWidgetBase_p.h"
-#include "private/FloatingWindow_p.h"
 #include "private/LayoutSaver_p.h"
 #include "private/LayoutWidget_p.h"
 #include "private/Position_p.h"
@@ -331,10 +331,10 @@ FloatingWindow *Frame::detachTab(DockWidgetBase *dockWidget)
 
     // We're potentially already dead at this point, as frames with 0 tabs auto-destruct. Don't access members from this point.
 
-    auto floatingWindow = Config::self().frameworkWidgetFactory()->createFloatingWindow(newFrame);
+    auto floatingWindow = new FloatingWindow(newFrame, {});
     r.moveTopLeft(globalPoint);
     floatingWindow->setSuggestedGeometry(r, SuggestedGeometryHint_GeometryIsFromDocked);
-    floatingWindow->show();
+    floatingWindow->view()->show();
 
     return floatingWindow;
 }
@@ -561,8 +561,8 @@ FloatingWindow *Frame::floatingWindow() const
         if (qobject_cast<KDDockWidgets::MainWindowBase *>(p))
             return nullptr;
 
-        if (auto fw = qobject_cast<FloatingWindow *>(p))
-            return fw;
+        if (auto fwView = qobject_cast<Views::FloatingWindow_qtwidgets *>(p))
+            return fwView->floatingWindow();
 
         if (p == view()->asQWidget()->window()) {
             // We stop at the window. (top-levels can have parent, but we're not interested)

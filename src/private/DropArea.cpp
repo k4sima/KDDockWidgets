@@ -16,7 +16,6 @@
 #include "DockWidgetBase_p.h"
 #include "Draggable_p.h"
 #include "DropIndicatorOverlayInterface_p.h"
-#include "FloatingWindow_p.h"
 #include "FrameworkWidgetFactory.h"
 #include "Logging_p.h"
 #include "MainWindowBase.h"
@@ -24,8 +23,12 @@
 #include "multisplitter/Item_p.h"
 #include "WindowBeingDragged_p.h"
 #include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
+
 #include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
+#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
+
 #include <algorithm>
 
 using namespace KDDockWidgets;
@@ -243,9 +246,9 @@ static bool isOutterLocation(DropLocation location)
 
 bool DropArea::drop(WindowBeingDragged *droppedWindow, QPoint globalPos)
 {
-    FloatingWindow *floatingWindow = droppedWindow->floatingWindow();
+    Controllers::FloatingWindow *floatingWindow = droppedWindow->floatingWindow();
 
-    if (floatingWindow == QWidget::window()) {
+    if (floatingWindow->view()->asQWidget() == QWidget::window()) {
         qWarning() << "Refusing to drop onto itself"; // Doesn't happen
         return false;
     }
@@ -272,8 +275,8 @@ bool DropArea::drop(WindowBeingDragged *droppedWindow, QPoint globalPos)
 bool DropArea::drop(WindowBeingDragged *draggedWindow, Controllers::Frame *acceptingFrame,
                     DropLocation droploc)
 {
-    FloatingWindow *droppedWindow = draggedWindow ? draggedWindow->floatingWindow()
-                                                  : nullptr;
+    Controllers::FloatingWindow *droppedWindow = draggedWindow ? draggedWindow->floatingWindow()
+                                                               : nullptr;
 
     if (isWayland() && !droppedWindow) {
         // This is the Wayland special case.
@@ -301,13 +304,13 @@ bool DropArea::drop(WindowBeingDragged *draggedWindow, Controllers::Frame *accep
     case DropLocation_Top:
     case DropLocation_Bottom:
     case DropLocation_Right:
-        result = drop(droppedWindow, DropIndicatorOverlayInterface::multisplitterLocationFor(droploc), acceptingFrame);
+        result = drop(droppedWindow->view()->asQWidget(), DropIndicatorOverlayInterface::multisplitterLocationFor(droploc), acceptingFrame);
         break;
     case DropLocation_OutterLeft:
     case DropLocation_OutterTop:
     case DropLocation_OutterRight:
     case DropLocation_OutterBottom:
-        result = drop(droppedWindow, DropIndicatorOverlayInterface::multisplitterLocationFor(droploc), nullptr);
+        result = drop(droppedWindow->view()->asQWidget(), DropIndicatorOverlayInterface::multisplitterLocationFor(droploc), nullptr);
         break;
     case DropLocation_Center:
         qCDebug(hovering) << "Tabbing" << droppedWindow << "into" << acceptingFrame;
@@ -353,7 +356,8 @@ bool DropArea::drop(QWidgetOrQuick *droppedWindow, KDDockWidgets::Location locat
         auto frame = new Controllers::Frame();
         frame->addWidget(dock);
         addWidget(frame->view()->asQWidget(), location, relativeTo, DefaultSizeMode::FairButFloor);
-    } else if (auto floatingWindow = qobject_cast<FloatingWindow *>(droppedWindow)) {
+    } else if (auto floatingWindowView = qobject_cast<Views::FloatingWindow_qtwidgets *>(droppedWindow)) {
+        Controllers::FloatingWindow *floatingWindow = floatingWindowView->floatingWindow();
         if (!validateAffinity(floatingWindow))
             return false;
 

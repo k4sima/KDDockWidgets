@@ -12,14 +12,15 @@
 #include "LayoutSaver_p.h"
 #include "Config.h"
 #include "DockWidgetBase_p.h"
-#include "FloatingWindow_p.h"
 #include "FrameworkWidgetFactory.h"
 #include "MainWindowBase.h"
 #include "Position_p.h"
 #include "Utils_p.h"
 
 #include "multisplitter/controllers/Frame.h"
+#include "multisplitter/controllers/FloatingWindow.h"
 #include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
+#include "multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
 #include "multisplitter/Item_p.h"
 
 using namespace KDDockWidgets;
@@ -68,9 +69,10 @@ MainWindowBase *LayoutWidget::mainWindow(bool honourNesting) const
     return nullptr;
 }
 
-FloatingWindow *LayoutWidget::floatingWindow() const
+Controllers::FloatingWindow *LayoutWidget::floatingWindow() const
 {
-    return qobject_cast<FloatingWindow *>(QWidget::parentWidget());
+    auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(QWidget::parentWidget());
+    return view ? view->floatingWindow() : nullptr;
 }
 
 void LayoutWidget::setRootItem(Layouting::ItemContainer *root)

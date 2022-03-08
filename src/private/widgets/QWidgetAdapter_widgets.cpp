@@ -19,9 +19,12 @@
  */
 
 #include "QWidgetAdapter.h"
-#include "../FloatingWindow_p.h"
 #include "../Utils_p.h"
 #include "Qt5Qt6Compat_p.h"
+
+#include "private/multisplitter/controllers/FloatingWindow.h"
+
+#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
 
 #include <QResizeEvent>
 #include <QMouseEvent>
@@ -40,10 +43,10 @@ QWidgetAdapter::~QWidgetAdapter()
 {
 }
 
-FloatingWindow *QWidgetAdapter::floatingWindow() const
+Controllers::FloatingWindow *QWidgetAdapter::floatingWindow() const
 {
-    if (auto fw = qobject_cast<FloatingWindow *>(window()))
-        return fw;
+    if (auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(window()))
+        return view->floatingWindow();
 
     return nullptr;
 }

@@ -27,7 +27,7 @@ class Item;
 
 class QFocusEvent;
 class QSizePolicy;
-
+class QWindow;
 
 namespace KDDockWidgets {
 
@@ -88,10 +88,12 @@ public:
     virtual QSize minSize() const = 0;
     virtual QSize maxSizeHint() const = 0;
     virtual QRect geometry() const = 0;
+    virtual QRect normalGeometry() const = 0;
     virtual void setGeometry(QRect) = 0;
     virtual bool isVisible() const = 0;
     virtual void setVisible(bool) = 0;
     virtual void move(int x, int y) = 0;
+    virtual void move(QPoint) = 0;
     virtual void setSize(int width, int height) = 0;
     virtual void setWidth(int width) = 0;
     virtual void setHeight(int height) = 0;
@@ -100,13 +102,27 @@ public:
     virtual void update() = 0;
     virtual void raiseAndActivate() = 0;
     virtual void raise() = 0;
+    virtual void activateWindow() = 0;
+    virtual bool isTopLevel() const = 0;
     virtual QPoint mapToGlobal(QPoint) const = 0;
     virtual QPoint mapFromGlobal(QPoint) const = 0;
     virtual void setSizePolicy(QSizePolicy) = 0;
     virtual void closeWindow() = 0;
     virtual QRect windowGeometry() const = 0;
     virtual QSize parentSize() const = 0;
-    virtual void close() = 0;
+    virtual bool close() = 0;
+    virtual void setFlag(Qt::WindowType, bool = true) = 0;
+    virtual Qt::WindowFlags flags() const = 0;
+    virtual void setWindowTitle(const QString &title) = 0;
+    virtual void setWindowIcon(const QIcon &) = 0;
+    virtual void showNormal() = 0;
+    virtual void showMinimized() = 0;
+    virtual void showMaximized() = 0;
+    virtual bool isMinimized() const = 0;
+    virtual bool isMaximized() const = 0;
+    virtual void setMaximumSize(QSize sz) = 0;
+    virtual bool isActiveWindow() const = 0;
+    virtual QWindow *windowHandle() const = 0;
 
     // TODO: Check if these two should be in the controller or on view
     virtual void onLayoutRequest()

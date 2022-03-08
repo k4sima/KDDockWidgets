@@ -28,7 +28,10 @@
  */
 namespace KDDockWidgets {
 
+namespace Controllers {
 class FloatingWindow;
+}
+
 class LayoutWidget;
 class MainWindowMDI;
 class SideBar;
@@ -56,8 +59,8 @@ public:
     void registerMainWindow(MainWindowBase *);
     void unregisterMainWindow(MainWindowBase *);
 
-    void registerFloatingWindow(FloatingWindow *);
-    void unregisterFloatingWindow(FloatingWindow *);
+    void registerFloatingWindow(Controllers::FloatingWindow *);
+    void unregisterFloatingWindow(Controllers::FloatingWindow *);
 
     void registerLayout(LayoutWidget *);
     void unregisterLayout(LayoutWidget *);
@@ -103,7 +106,7 @@ public:
 
     ///@brief returns all FloatingWindow instances. Not necessarily all floating dock widgets,
     /// As there might be DockWidgets which weren't morphed yet.
-    const QVector<FloatingWindow *> floatingWindows(bool includeBeingDeleted = false) const;
+    const QVector<Controllers::FloatingWindow *> floatingWindows(bool includeBeingDeleted = false) const;
 
     ///@brief overload that returns list of QWindow. This is more friendly for supporting both QtWidgets and QtQuick
     const QVector<QWindow *> floatingQWindows() const;
@@ -115,10 +118,10 @@ public:
     QWindow *windowForHandle(WId id) const;
 
     ///@brief returns the FloatingWindow with handle @p windowHandle
-    FloatingWindow *floatingWindowForHandle(QWindow *windowHandle) const;
+    Controllers::FloatingWindow *floatingWindowForHandle(QWindow *windowHandle) const;
 
     ///@brief returns the FloatingWindow with handle @p hwnd
-    FloatingWindow *floatingWindowForHandle(WId hwnd) const;
+    Controllers::FloatingWindow *floatingWindowForHandle(WId hwnd) const;
 
     ///@brief returns the MainWindow with handle @p windowHandle
     MainWindowBase *mainWindowForHandle(QWindow *windowHandle) const;
@@ -210,7 +213,7 @@ public:
     /// geometries.
     /// @param target The window which we want to know if it's probably obscured
     /// @param exclude This window should not be counted as an obscurer. (It's being dragged).
-    bool isProbablyObscured(QWindow *target, FloatingWindow *exclude) const;
+    bool isProbablyObscured(QWindow *target, Controllers::FloatingWindow *exclude) const;
 
     /// @overload
     bool isProbablyObscured(QWindow *target, WindowBeingDragged *exclude) const;
@@ -251,7 +254,7 @@ private:
     DockWidgetBase::List m_dockWidgets;
     MainWindowBase::List m_mainWindows;
     QList<Controllers::Frame *> m_frames;
-    QVector<FloatingWindow *> m_floatingWindows;
+    QVector<Controllers::FloatingWindow *> m_floatingWindows;
     QVector<LayoutWidget *> m_layouts;
     QPointer<DockWidgetBase> m_focusedDockWidget;
 

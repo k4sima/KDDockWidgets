@@ -21,14 +21,16 @@
 
 namespace KDDockWidgets {
 
-class FloatingWindow;
-class FloatingWindowWidget;
-class TabWidgetWidget;
+namespace Views {
+class FloatingWindow_qtwidgets;
+}
+
 }
 
 namespace KDDockWidgets::Controllers {
 
 class Frame;
+class FloatingWindow;
 
 class DOCKS_EXPORT TitleBar : public Controller, public Draggable
 {
@@ -131,8 +133,7 @@ protected:
 
 private:
     friend class ::TestDocks;
-    friend class KDDockWidgets::FloatingWindowWidget;
-    friend class KDDockWidgets::TabWidgetWidget;
+    friend class Views::FloatingWindow_qtwidgets;
 
     void updateFloatButton();
     void updateCloseButton();

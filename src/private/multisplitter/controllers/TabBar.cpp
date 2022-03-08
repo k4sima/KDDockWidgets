@@ -13,9 +13,9 @@
 #include "private/Draggable_p.h"
 #include "private/multisplitter/Controller.h"
 #include "private/multisplitter/controllers/Stack.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 #include "private/multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
 #include "private/DragController_p.h"
-#include "private/FloatingWindow_p.h"
 #include "private/Utils_p.h"
 
 using namespace KDDockWidgets;

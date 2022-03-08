@@ -14,7 +14,6 @@
 #include "View_qtwidgets.h"
 
 #include <QTabBar>
-#include <qtabbar.h>
 
 QT_BEGIN_NAMESPACE
 class QMouseEvent;

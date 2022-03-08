@@ -38,6 +38,8 @@ public:
     QSize size() const;
     QPoint pos() const;
     QRect geometry() const;
+    int x() const;
+    int y() const;
 
     bool inDtor() const;
 

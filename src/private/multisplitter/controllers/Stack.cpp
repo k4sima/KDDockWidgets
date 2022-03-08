@@ -13,7 +13,6 @@
 #include "Config.h"
 #include "private/multisplitter/views_qtwidgets/Stack_qtwidgets.h"
 #include "kddockwidgets/FrameworkWidgetFactory.h"
-#include "private/FloatingWindow_p.h"
 #include "private/Logging_p.h"
 #include "private/Utils_p.h"
 #include "private/WindowBeingDragged_p.h"
@@ -21,6 +20,7 @@
 
 #include "private/multisplitter/controllers/TabBar.h"
 #include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 
 #include <QDebug>
 #include <QTabBar> // TODO Remove
@@ -123,11 +123,11 @@ std::unique_ptr<WindowBeingDragged> Stack::makeWindow()
 {
     // This is called when using Flag_HideTitleBarWhenTabsVisible
     // For detaching individual tabs, TabBar::makeWindow() is called.
-    if (auto floatingWindow = qobject_cast<FloatingWindow *>(asWidget()->window())) {
-        if (floatingWindow->hasSingleFrame()) {
+    if (auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(asWidget()->window())) {
+        if (view->floatingWindow()->hasSingleFrame()) {
             // We're already in a floating window, and it only has 1 dock widget.
             // So there's no detachment to be made, we just move the window.
-            return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(floatingWindow, this));
+            return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(view->floatingWindow(), this));
         }
     }
 
@@ -135,19 +135,19 @@ std::unique_ptr<WindowBeingDragged> Stack::makeWindow()
 
     const QPoint globalPoint = view()->mapToGlobal(QPoint(0, 0));
 
-    auto floatingWindow = Config::self().frameworkWidgetFactory()->createFloatingWindow(m_frame);
+    auto floatingWindow = new FloatingWindow(m_frame, {});
     r.moveTopLeft(globalPoint);
     floatingWindow->setSuggestedGeometry(r, SuggestedGeometryHint_GeometryIsFromDocked);
-    floatingWindow->show();
+    floatingWindow->view()->show();
 
     return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(floatingWindow, this));
 }
 
 bool Stack::isWindow() const
 {
-    if (auto floatingWindow = qobject_cast<FloatingWindow *>(asWidget()->window())) {
+    if (auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(asWidget()->window())) {
         // Case of dragging via the tab widget when the title bar is hidden
-        return floatingWindow->hasSingleFrame();
+        return view->floatingWindow()->hasSingleFrame();
     }
 
     return false;

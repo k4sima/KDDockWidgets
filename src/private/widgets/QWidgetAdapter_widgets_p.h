@@ -75,7 +75,9 @@ inline void setTopLevelGeometry(QRect geometry, const QWidget *widget)
 
 }
 
+namespace Controllers {
 class FloatingWindow;
+}
 
 class DOCKS_EXPORT QWidgetAdapter : public QWidget
 {
@@ -85,7 +87,7 @@ public:
     ~QWidgetAdapter() override;
 
     ///@brief returns the FloatingWindow this widget is in, otherwise nullptr
-    FloatingWindow *floatingWindow() const;
+    Controllers::FloatingWindow *floatingWindow() const;
 
     void setFlag(Qt::WindowType, bool on = true);
     void setSize(QSize);

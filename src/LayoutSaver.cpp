@@ -26,12 +26,12 @@
 #include "private/LayoutSaver_p.h"
 #include "private/DockRegistry_p.h"
 #include "private/DockWidgetBase_p.h"
-#include "private/FloatingWindow_p.h"
 #include "private/LayoutWidget_p.h"
 #include "private/Logging_p.h"
 #include "private/Position_p.h"
 #include "private/Utils_p.h"
 #include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 
 #include <qmath.h>
 #include <QDebug>
@@ -155,9 +155,9 @@ QByteArray LayoutSaver::serializeLayout() const
             layout.mainWindows.push_back(mainWindow->serialize());
     }
 
-    const QVector<KDDockWidgets::FloatingWindow *> floatingWindows = d->m_dockRegistry->floatingWindows();
+    const QVector<Controllers::FloatingWindow *> floatingWindows = d->m_dockRegistry->floatingWindows();
     layout.floatingWindows.reserve(floatingWindows.size());
-    for (KDDockWidgets::FloatingWindow *floatingWindow : floatingWindows) {
+    for (Controllers::FloatingWindow *floatingWindow : floatingWindows) {
         if (d->matchesAffinity(floatingWindow->affinities()))
             layout.floatingWindows.push_back(floatingWindow->serialize());
     }
@@ -268,9 +268,9 @@ bool LayoutSaver::restoreLayout(const QByteArray &data)
         MainWindowBase *parent = fw.parentIndex == -1 ? nullptr
                                                       : DockRegistry::self()->mainwindows().at(fw.parentIndex);
 
-        auto floatingWindow = Config::self().frameworkWidgetFactory()->createFloatingWindow(parent);
+        auto floatingWindow = new Controllers::FloatingWindow({}, parent);
         fw.floatingWindowInstance = floatingWindow;
-        d->deserializeWindowGeometry(fw, floatingWindow);
+        d->deserializeWindowGeometry(fw, floatingWindow->view()->asQWidget());
         if (!floatingWindow->deserialize(fw)) {
             qWarning() << Q_FUNC_INFO << "Failed to deserialize floating window";
             return false;
@@ -348,7 +348,7 @@ void LayoutSaver::Private::deserializeWindowGeometry(const T &saved, QWidgetOrQu
         geometry = saved.normalGeometry;
     }
 
-    ::FloatingWindow::ensureRectIsOnScreen(geometry);
+    Controllers::FloatingWindow::ensureRectIsOnScreen(geometry);
 
     if (topLevel->isWindow()) {
         topLevel->setGeometry(geometry);

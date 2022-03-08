@@ -24,6 +24,7 @@
 #include "private/multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/Stack_qtwidgets.h"
+#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
 #endif
 
 #include <QPixmap>
@@ -44,10 +45,11 @@ static Draggable *bestDraggable(Draggable *draggable)
         if (titleBar->isVisible())
             return draggable;
 
-        auto fw = qobject_cast<FloatingWindow *>(tbView->QWidget::window());
-        if (!fw) // defensive, doesn't happen
+        auto fwView = qobject_cast<Views::FloatingWindow_qtwidgets *>(tbView->QWidget::window());
+        if (!fwView) // defensive, doesn't happen
             return draggable;
 
+        auto fw = fwView->floatingWindow();
         if (fw->titleBar() == titleBar) {
             // Defensive, doesn't happen
             return draggable;
@@ -61,7 +63,7 @@ static Draggable *bestDraggable(Draggable *draggable)
     }
 }
 
-WindowBeingDragged::WindowBeingDragged(FloatingWindow *fw, Draggable *draggable)
+WindowBeingDragged::WindowBeingDragged(Controllers::FloatingWindow *fw, Draggable *draggable)
     : m_floatingWindow(fw)
     , m_draggable(bestDraggable(draggable))
     , m_draggableWidget(m_draggable ? m_draggable->asWidget() : nullptr)
@@ -72,7 +74,7 @@ WindowBeingDragged::WindowBeingDragged(FloatingWindow *fw, Draggable *draggable)
         // Set opacity while dragging, if needed
         const qreal opacity = Config::self().draggedWindowOpacity();
         if (!qIsNaN(opacity) && !qFuzzyCompare(1.0, opacity))
-            fw->setWindowOpacity(opacity);
+            fw->view()->asQWidget()->setWindowOpacity(opacity);
     }
 }
 
@@ -90,7 +92,7 @@ WindowBeingDragged::WindowBeingDragged(Draggable *draggable)
 #ifdef DOCKS_DEVELOPER_MODE
 
 // Just used by tests
-WindowBeingDragged::WindowBeingDragged(FloatingWindow *fw)
+WindowBeingDragged::WindowBeingDragged(Controllers::FloatingWindow *fw)
     : m_floatingWindow(fw)
     , m_draggable(nullptr)
 {
@@ -106,7 +108,7 @@ WindowBeingDragged::~WindowBeingDragged()
         // Restore opacity to fully opaque if needed
         const qreal opacity = Config::self().draggedWindowOpacity();
         if (!qIsNaN(opacity) && !qFuzzyCompare(1.0, opacity))
-            m_floatingWindow->setWindowOpacity(1);
+            m_floatingWindow->view()->asQWidget()->setWindowOpacity(1);
     }
 }
 
@@ -114,7 +116,7 @@ void WindowBeingDragged::init()
 {
     Q_ASSERT(m_floatingWindow);
     grabMouse(true);
-    m_floatingWindow->raise();
+    m_floatingWindow->view()->raise();
 }
 
 void WindowBeingDragged::grabMouse(bool grab)
@@ -167,7 +169,8 @@ bool WindowBeingDragged::contains(LayoutWidget *layoutWidget) const
     if (m_floatingWindow)
         return m_floatingWindow->layoutWidget() == layoutWidget;
 
-    if (auto fw = qobject_cast<FloatingWindow *>(m_draggableWidget->window())) {
+    if (auto fwView = qobject_cast<Views::FloatingWindow_qtwidgets *>(m_draggableWidget->window())) {
+        auto fw = fwView->floatingWindow();
         // We're not dragging via the floating window itself, but via the tab bar. Still might represent floating window though.
         return fw->layoutWidget() == layoutWidget && fw->hasSingleFrame();
     }
@@ -208,10 +211,10 @@ WindowBeingDraggedWayland::WindowBeingDraggedWayland(Draggable *draggable)
         } else {
             qWarning() << Q_FUNC_INFO << "Shouldn't happen. TitleBar of what ?";
         }
-    } else if (auto fw = qobject_cast<FloatingWindow *>(draggable->asWidget())) {
+    } else if (auto fwView = qobject_cast<Views::FloatingWindow_qtwidgets *>(draggable->asWidget())) {
         // case #2: the floating window itself is the draggable, happens on platforms that support
         // native dragging. Not the case for Wayland. But adding this case for completeness.
-        m_floatingWindow = fw;
+        m_floatingWindow = fwView->floatingWindow();
 #ifdef KDDOCKWIDGETS_QTWIDGETS
     } else if (auto tbw = qobject_cast<Views::TabBar_qtwidgets *>(draggable->asWidget())) {
         m_dockWidget = tbw->currentDockWidget();
@@ -235,7 +238,7 @@ QPixmap WindowBeingDraggedWayland::pixmap() const
     p.setOpacity(0.7);
 
     if (m_floatingWindow) {
-        m_floatingWindow->render(&p);
+        m_floatingWindow->view()->asQWidget()->render(&p);
     } else if (m_frame) {
         m_frame->view()->asQWidget()->render(&p);
     } else if (m_dockWidget) {

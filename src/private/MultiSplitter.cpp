@@ -23,7 +23,6 @@
 #include "DockRegistry_p.h"
 #include "DockWidgetBase.h"
 #include "DockWidgetBase_p.h"
-#include "FloatingWindow_p.h"
 #include "FrameworkWidgetFactory.h"
 #include "LayoutSaver.h"
 #include "Logging_p.h"
@@ -34,6 +33,7 @@
 #include "multisplitter/Item_p.h"
 
 #include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 #include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 
 #include <QScopedValueRollback>
@@ -150,7 +150,7 @@ void MultiSplitter::addWidget(QWidget *w, Location location,
         newItem = ms->m_rootItem;
         newItem->setHostWidget(this);
 
-        if (FloatingWindow *fw = ms->floatingWindow()) {
+        if (auto fw = ms->floatingWindow()) {
             newItem->setSize_recursive(fw->size());
         }
 

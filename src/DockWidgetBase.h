@@ -36,9 +36,9 @@ namespace KDDockWidgets {
 namespace Controllers {
 class TitleBar;
 class Frame;
+class FloatingWindow;
 }
 
-class FloatingWindow;
 class DragController;
 class DockRegistry;
 class LayoutSaver;
@@ -534,7 +534,7 @@ private:
     friend class MultiSplitter;
     friend class LayoutWidget;
     friend class MDILayoutWidget;
-    friend class FloatingWindow;
+    friend class Controllers::FloatingWindow;
     friend class Frame;
     friend class DropArea;
     friend class ::TestDocks;

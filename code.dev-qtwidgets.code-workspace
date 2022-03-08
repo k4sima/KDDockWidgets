@@ -9,7 +9,10 @@
     "C_Cpp.default.cStandard": "c17",
     "files.trimTrailingWhitespace": true,
     "editor.formatOnSave": true,
-    "C_Cpp.autocompleteAddParentheses": true
+    "C_Cpp.autocompleteAddParentheses": true,
+    "clangd.arguments": [
+      "-header-insertion=never"
+    ]
   },
   "launch": {
     "version": "0.2.0",

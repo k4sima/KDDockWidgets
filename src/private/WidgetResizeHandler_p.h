@@ -16,7 +16,7 @@
 #include "kddockwidgets/QWidgetAdapter.h"
 #include "kddockwidgets/Qt5Qt6Compat_p.h"
 #include "kddockwidgets/docks_export.h"
-#include "kddockwidgets/private/FloatingWindow_p.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 
 #include <QPoint>
 #include <QPointer>
@@ -29,15 +29,11 @@ QT_END_NAMESPACE
 
 namespace KDDockWidgets {
 
-class FloatingWindow;
-
-
 class DOCKS_EXPORT WidgetResizeHandler : public QObject
 {
     Q_OBJECT
 public:
-    enum Feature
-    {
+    enum Feature {
         Feature_None = 0,
         Feature_NativeShadow = 1,
         Feature_NativeResize = 2,

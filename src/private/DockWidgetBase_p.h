@@ -16,7 +16,8 @@
 #include "SideBar_p.h"
 #include "DockRegistry_p.h"
 #include "Position_p.h"
-#include "FloatingWindow_p.h"
+#include "multisplitter/controllers/FloatingWindow.h"
+#include "multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
 
 #include <QCoreApplication>
 #include <QString>
@@ -46,9 +47,10 @@ public:
      * Note: Being in a FloatingWindow doesn't necessarily mean @ref isFloating() returns true, as
      * the dock widget might be in a floating window with other dock widgets side by side.
      */
-    FloatingWindow *floatingWindow() const
+    Controllers::FloatingWindow *floatingWindow() const
     {
-        return qobject_cast<FloatingWindow *>(q->window());
+        auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(q->window());
+        return view ? view->floatingWindow() : nullptr;
     }
 
     MainWindowBase *mainWindow() const
@@ -127,7 +129,7 @@ public:
      * @brief Creates a FloatingWindow and adds itself into it
      * @return the created FloatingWindow
      */
-    KDDockWidgets::FloatingWindow *morphIntoFloatingWindow();
+    Controllers::FloatingWindow *morphIntoFloatingWindow();
 
     /// @brief calls morphIntoFloatingWindow() if the dock widget is visible and is a top-level
     /// This is called delayed whenever we show a floating dock widget, so we get a FloatingWindow

@@ -12,13 +12,13 @@
 #include "DockWidgetBase.h"
 #include "private/DockWidgetBase_p.h"
 #include "private/DockRegistry_p.h"
-#include "private/FloatingWindow_p.h"
 #include "private/LayoutSaver_p.h"
 #include "private/Logging_p.h"
 #include "private/MDILayoutWidget_p.h"
 #include "private/SideBar_p.h"
 #include "private/multisplitter/controllers/TitleBar.h"
 #include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 #include "private/Utils_p.h"
 #include "private/WindowBeingDragged_p.h"
 #include "private/Position_p.h"
@@ -399,8 +399,8 @@ void DockWidgetBase::raise()
     setAsCurrentTab();
 
     if (auto fw = floatingWindow()) {
-        fw->raise();
-        fw->activateWindow();
+        fw->view()->raise();
+        fw->view()->activateWindow();
     } else if (Controllers::Frame *frame = d->frame()) {
         if (frame->isMDI())
             frame->view()->raise();
@@ -504,7 +504,7 @@ void DockWidgetBase::setFloatingGeometry(QRect geometry)
     }
 }
 
-FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
+Controllers::FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
 {
     if (auto fw = floatingWindow())
         return fw; // Nothing to do
@@ -525,10 +525,9 @@ FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
         auto frame = new Controllers::Frame();
         frame->addWidget(q);
         geo.setSize(geo.size().boundedTo(frame->view()->maxSizeHint()));
-        FloatingWindow::ensureRectIsOnScreen(geo);
-        auto floatingWindow =
-            Config::self().frameworkWidgetFactory()->createFloatingWindow(frame, nullptr, geo);
-        floatingWindow->show();
+        Controllers::FloatingWindow::ensureRectIsOnScreen(geo);
+        auto floatingWindow = new Controllers::FloatingWindow(frame, {});
+        floatingWindow->view()->show();
 
         return floatingWindow;
     } else {

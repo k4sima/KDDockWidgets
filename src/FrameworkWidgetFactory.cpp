@@ -12,19 +12,19 @@
 #include "FrameworkWidgetFactory.h"
 #include "Config.h"
 
-#include "private/FloatingWindow_p.h"
 #include "private/indicators/ClassicIndicators_p.h"
 #include "private/indicators/NullIndicators_p.h"
 #include "private/Utils_p.h"
 
 #include "private/multisplitter/controllers/TabBar.h"
 #include "private/multisplitter/controllers/Stack.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "private/widgets/SideBarWidget_p.h"
-#include "private/widgets/FloatingWindowWidget_p.h"
 #include "private/indicators/SegmentedIndicators_p.h"
 
+#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/Separator_qtwidgets.h"
@@ -68,9 +68,9 @@ View *DefaultWidgetFactory::createTitleBar(Controllers::TitleBar *titleBar, Cont
     return new Views::TitleBar_qtwidgets(titleBar, frame->view()->asQWidget());
 }
 
-View *DefaultWidgetFactory::createTitleBar(Controllers::TitleBar *titleBar, FloatingWindow *fw) const
+View *DefaultWidgetFactory::createTitleBar(Controllers::TitleBar *titleBar, Controllers::FloatingWindow *fw) const
 {
-    return new Views::TitleBar_qtwidgets(titleBar, fw);
+    return new Views::TitleBar_qtwidgets(titleBar, fw ? fw->view()->asQWidget() : nullptr);
 }
 
 View *DefaultWidgetFactory::createTabBar(Controllers::TabBar *tabBar, View *parent) const
@@ -88,15 +88,9 @@ View *DefaultWidgetFactory::createSeparator(Controllers::Separator *controller, 
     return new Views::Separator_qtwidgets(controller, parent ? static_cast<Views::View_qtwidgets<QWidget> *>(parent) : nullptr);
 }
 
-FloatingWindow *DefaultWidgetFactory::createFloatingWindow(MainWindowBase *parent) const
+View *DefaultWidgetFactory::createFloatingWindow(Controllers::FloatingWindow *controller, MainWindowBase *parent, Qt::WindowFlags windowFlags) const
 {
-    return new FloatingWindowWidget(QRect(), parent);
-}
-
-FloatingWindow *DefaultWidgetFactory::createFloatingWindow(Controllers::Frame *frame,
-                                                           MainWindowBase *parent, QRect suggestedGeometry) const
-{
-    return new FloatingWindowWidget(frame, suggestedGeometry, parent);
+    return new Views::FloatingWindow_qtwidgets(controller, parent, windowFlags);
 }
 
 DropIndicatorOverlayInterface *DefaultWidgetFactory::createDropIndicatorOverlay(DropArea *dropArea) const

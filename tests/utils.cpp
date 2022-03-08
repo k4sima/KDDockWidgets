@@ -12,7 +12,6 @@
 #include "utils.h"
 #include "DropArea_p.h"
 #include "Config.h"
-#include "FloatingWindow_p.h"
 #include "FrameworkWidgetFactory.h"
 
 #include <QCloseEvent>

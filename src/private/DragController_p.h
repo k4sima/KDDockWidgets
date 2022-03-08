@@ -92,7 +92,7 @@ public:
     void grabMouseFor(QWidgetOrQuick *);
     void releaseMouse(QWidgetOrQuick *);
 
-    FloatingWindow *floatingWindowBeingDragged() const;
+    Controllers::FloatingWindow *floatingWindowBeingDragged() const;
 
     ///@brief Returns the window being dragged
     WindowBeingDragged *windowBeingDragged() const;

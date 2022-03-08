@@ -20,8 +20,11 @@
 
 namespace KDDockWidgets {
 
-class DockWidgetBase;
+namespace Controllers {
 class FloatingWindow;
+}
+
+class DockWidgetBase;
 class WidgetResizeHandler;
 struct WindowBeingDragged;
 

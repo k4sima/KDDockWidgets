@@ -17,10 +17,10 @@
 
 #include "Position_p.h"
 #include "DockRegistry_p.h"
-#include "FloatingWindow_p.h"
 #include "LayoutSaver_p.h"
 #include "LayoutWidget_p.h"
 #include "multisplitter/Item_p.h"
+#include "multisplitter/controllers/FloatingWindow.h"
 
 #include <algorithm>
 
@@ -135,7 +135,7 @@ void Position::deserialize(const LayoutSaver::Position &lp)
             } else {
                 auto serializedFw = LayoutSaver::Layout::s_currentLayoutBeingRestored->floatingWindowForIndex(index);
                 if (serializedFw.isValid()) {
-                    if (FloatingWindow *fw = serializedFw.floatingWindowInstance) {
+                    if (auto fw = serializedFw.floatingWindowInstance) {
                         layout = fw->layoutWidget();
                     } else {
                         continue;

@@ -40,7 +40,6 @@ namespace KDDockWidgets {
 
 class MainWindowBase;
 class DropIndicatorOverlayInterface;
-class FloatingWindow;
 class TabWidget;
 class DropArea;
 class SideBar;
@@ -56,6 +55,7 @@ class TabBar;
 namespace Controllers {
 class Separator;
 class TabBar;
+class FloatingWindow;
 }
 
 /**
@@ -104,7 +104,7 @@ public:
     ///       Override to provide your own TitleBar sub-class. If overridden then
     ///       you also need to override the overload above.
     ///@param floatingWindow Just forward to TitleBar's constructor.
-    virtual View *createTitleBar(Controllers::TitleBar *, FloatingWindow *floatingWindow) const = 0;
+    virtual View *createTitleBar(Controllers::TitleBar *, Controllers::FloatingWindow *) const = 0;
 
     ///@brief Called internally by the framework to create a TabWidget
     ///       Override to provide your own TabWidget sub-class.
@@ -126,14 +126,9 @@ public:
     ///       Override to provide your own FloatingWindow sub-class. If overridden then
     ///       you also need to override the overloads below.
     ///@param parent Just forward to FloatingWindow's constructor.
-    virtual FloatingWindow *createFloatingWindow(MainWindowBase *parent = nullptr) const = 0;
-
-    ///@brief Called internally by the framework to create a FloatingWindow
-    ///       Override to provide your own FloatingWindow sub-class. If overridden then
-    ///       you also need to override the overloads above.
-    ///@param frame Just forward to FloatingWindow's constructor.
-    ///@param parent Just forward to FloatingWindow's constructor.
-    virtual FloatingWindow *createFloatingWindow(Controllers::Frame *frame, MainWindowBase *parent = nullptr, QRect suggestedGeometry = {}) const = 0;
+    virtual View *createFloatingWindow(Controllers::FloatingWindow *controller,
+                                       MainWindowBase *parent = nullptr,
+                                       Qt::WindowFlags windowFlags = {}) const = 0;
 
     ///@brief Called internally by the framework to create a DropIndicatorOverlayInterface
     ///       Override to provide your own DropIndicatorOverlayInterface sub-class.
@@ -178,14 +173,13 @@ public:
     DefaultWidgetFactory() = default;
     View *createFrame(Controllers::Frame *, View *parent, FrameOptions options = FrameOption_None) const override;
     View *createTitleBar(Controllers::TitleBar *, Controllers::Frame *) const override;
-    View *createTitleBar(Controllers::TitleBar *, FloatingWindow *) const override;
+    View *createTitleBar(Controllers::TitleBar *, Controllers::FloatingWindow *) const override;
     View *createTabWidget(Controllers::Stack *, Controllers::Frame *parent) const override;
     View *createTabBar(Controllers::TabBar *tabBar, View *parent) const override;
     View *createSeparator(Controllers::Separator *, View *parent = nullptr) const override;
-    FloatingWindow *createFloatingWindow(MainWindowBase *parent = nullptr) const override;
-    FloatingWindow *createFloatingWindow(Controllers::Frame *frame,
-                                         MainWindowBase *parent = nullptr,
-                                         QRect suggestedGeometry = {}) const override;
+    View *createFloatingWindow(Controllers::FloatingWindow *,
+                               MainWindowBase *parent = nullptr,
+                               Qt::WindowFlags windowFlags = {}) const override;
     DropIndicatorOverlayInterface *createDropIndicatorOverlay(DropArea *) const override;
     QWidgetOrQuick *createRubberBand(QWidgetOrQuick *parent) const override;
     SideBar *createSideBar(SideBarLocation loc, MainWindowBase *parent) const override;

@@ -84,10 +84,10 @@ public:
 private:
     Q_DISABLE_COPY(DropArea)
     friend class Controllers::Frame;
+    friend class Controllers::FloatingWindow;
     friend class ::TestDocks;
     friend class DropIndicatorOverlayInterface;
     friend class AnimatedIndicators;
-    friend class FloatingWindow;
 
     template<typename T>
     bool validateAffinity(T *, Controllers::Frame *acceptingFrame = nullptr) const;

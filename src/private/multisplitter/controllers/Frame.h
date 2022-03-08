@@ -19,7 +19,6 @@
 #include "kddockwidgets/LayoutSaver.h"
 
 #include "kddockwidgets/docks_export.h"
-#include "TabBar.h"
 
 #include <QVector>
 #include <QDebug>
@@ -30,7 +29,6 @@ class TestDocks;
 namespace KDDockWidgets {
 
 class DockWidgetBase;
-class FloatingWindow;
 class MainWindowBase;
 class MDILayoutWidget;
 class WidgetResizeHandler;
@@ -38,6 +36,7 @@ class WidgetResizeHandler;
 
 namespace KDDockWidgets::Controllers {
 
+class FloatingWindow;
 class TabBar;
 class TitleBar;
 class Stack;

@@ -19,7 +19,7 @@
 #include "private/Utils_p.h"
 #include "private/Logging_p.h"
 
-#include "private/FloatingWindow_p.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 #include "private/multisplitter/controllers/TabBar.h"
 
 #include "kddockwidgets/FrameworkWidgetFactory.h"
@@ -205,7 +205,7 @@ Controllers::Frame *TitleBar::frame() const
     return m_frame;
 }
 
-KDDockWidgets::FloatingWindow *TitleBar::floatingWindow() const
+Controllers::FloatingWindow *TitleBar::floatingWindow() const
 {
     return m_floatingWindow;
 }
@@ -323,10 +323,10 @@ void TitleBar::onCloseClicked()
                     qWarning() << Q_FUNC_INFO << "Frame with no dock widgets";
                 }
             } else {
-                m_floatingWindow->close();
+                m_floatingWindow->view()->close();
             }
         } else {
-            m_floatingWindow->close();
+            m_floatingWindow->view()->close();
         }
     }
 }
@@ -445,9 +445,9 @@ std::unique_ptr<KDDockWidgets::WindowBeingDragged> TitleBar::makeWindow()
     QRect r = m_frame->view()->geometry();
     r.moveTopLeft(m_frame->mapToGlobal(QPoint(0, 0)));
 
-    auto floatingWindow = Config::self().frameworkWidgetFactory()->createFloatingWindow(m_frame);
+    auto floatingWindow = new Controllers::FloatingWindow(m_frame, {});
     floatingWindow->setSuggestedGeometry(r, SuggestedGeometryHint_GeometryIsFromDocked);
-    floatingWindow->show();
+    floatingWindow->view()->show();
 
     auto draggable = KDDockWidgets::usesNativeTitleBar() ? static_cast<Draggable *>(floatingWindow)
                                                          : static_cast<Draggable *>(this);
@@ -499,7 +499,7 @@ bool TitleBar::isFocused() const
     if (m_frame)
         return m_frame->isFocused();
     else if (m_floatingWindow)
-        return m_floatingWindow->isActiveWindow();
+        return m_floatingWindow->view()->isActiveWindow();
 
     return false;
 }

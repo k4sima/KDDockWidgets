@@ -34,11 +34,7 @@ public:
     using View::rect;
     using View::width;
 
-    explicit View_qtwidgets(KDDockWidgets::Controller *controller, Type type, QWidget *parent = nullptr)
-        : Base(parent)
-        , View(controller, type, this)
-    {
-    }
+    explicit View_qtwidgets(KDDockWidgets::Controller *controller, Type type, QWidget *parent = nullptr, Qt::WindowFlags windowFlags = {});
 
     ~View_qtwidgets() override = default;
 
@@ -68,9 +64,19 @@ public:
         return Base::geometry();
     }
 
+    QRect normalGeometry() const override
+    {
+        return Base::normalGeometry();
+    }
+
     void setGeometry(QRect geo) override
     {
         Base::setGeometry(geo);
+    }
+
+    void setMaximumSize(QSize sz) override
+    {
+        Base::setMaximumSize(sz);
     }
 
     bool isVisible() const override
@@ -86,6 +92,11 @@ public:
     void move(int x, int y) override
     {
         Base::move(x, y);
+    }
+
+    void move(QPoint pt) override
+    {
+        Base::move(pt);
     }
 
     void setSize(int width, int height) override
@@ -140,9 +151,19 @@ public:
             Base::window()->activateWindow();
     }
 
+    void activateWindow() override
+    {
+        Base::activateWindow();
+    }
+
     void raise() override
     {
         Base::window()->raise();
+    }
+
+    bool isTopLevel() const override
+    {
+        return QWidget::isTopLevel();
     }
 
     QPoint mapToGlobal(QPoint localPt) const override
@@ -181,9 +202,64 @@ public:
         return {};
     }
 
-    void close() override
+    bool close() override
     {
-        QWidget::close();
+        return QWidget::close();
+    }
+
+    void setFlag(Qt::WindowType flag, bool on = true) override
+    {
+        QWidget::setWindowFlag(flag, on);
+    }
+
+    Qt::WindowFlags flags() const override
+    {
+        return QWidget::windowFlags();
+    }
+
+    void setWindowTitle(const QString &title) override
+    {
+        QWidget::setWindowTitle(title);
+    }
+
+    void setWindowIcon(const QIcon &icon) override
+    {
+        QWidget::setWindowIcon(icon);
+    }
+
+    bool isActiveWindow() const override
+    {
+        return QWidget::isActiveWindow();
+    }
+
+    void showNormal() override
+    {
+        return QWidget::showNormal();
+    }
+
+    void showMinimized() override
+    {
+        return QWidget::showMinimized();
+    }
+
+    void showMaximized() override
+    {
+        return QWidget::showMaximized();
+    }
+
+    bool isMinimized() const override
+    {
+        return QWidget::isMinimized();
+    }
+
+    bool isMaximized() const override
+    {
+        return QWidget::isMaximized();
+    }
+
+    QWindow *windowHandle() const override
+    {
+        return QWidget::windowHandle();
     }
 
 protected:

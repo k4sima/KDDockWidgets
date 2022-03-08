@@ -13,7 +13,7 @@
 #define KD_WINDOWBEINGDRAGGED_P_H
 
 #include "kddockwidgets/docks_export.h"
-#include "FloatingWindow_p.h"
+#include "private/multisplitter/controllers/FloatingWindow.h"
 
 #include <QPointer>
 
@@ -25,26 +25,26 @@ namespace KDDockWidgets {
 
 namespace Controllers {
 class Frame;
+class FloatingWindow;
 }
 
-class FloatingWindow;
 class Draggable;
 class LayoutWidget;
 
 struct DOCKS_EXPORT_FOR_UNIT_TESTS WindowBeingDragged
 {
 public:
-    explicit WindowBeingDragged(FloatingWindow *fw, Draggable *draggable);
+    explicit WindowBeingDragged(Controllers::FloatingWindow *fw, Draggable *draggable);
 
 #ifdef DOCKS_DEVELOPER_MODE
     // For tests.
-    explicit WindowBeingDragged(FloatingWindow *fw);
+    explicit WindowBeingDragged(Controllers::FloatingWindow *fw);
 #endif
 
     virtual ~WindowBeingDragged();
     void init();
 
-    FloatingWindow *floatingWindow() const
+    Controllers::FloatingWindow *floatingWindow() const
     {
         return m_floatingWindow;
     }
@@ -83,7 +83,7 @@ public:
 protected:
     explicit WindowBeingDragged(Draggable *);
     Q_DISABLE_COPY(WindowBeingDragged)
-    QPointer<FloatingWindow> m_floatingWindow;
+    QPointer<Controllers::FloatingWindow> m_floatingWindow;
     Draggable *const m_draggable;
     QPointer<QWidgetOrQuick> m_draggableWidget; // Just to have a QPointer on it
 };

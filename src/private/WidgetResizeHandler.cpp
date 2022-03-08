@@ -10,14 +10,15 @@
 */
 
 #include "WidgetResizeHandler_p.h"
-#include "FloatingWindow_p.h"
 #include "DragController_p.h"
 #include "Config.h"
 #include "Qt5Qt6Compat_p.h"
 #include "Utils_p.h"
 #include "DockRegistry_p.h"
 #include "MDILayoutWidget_p.h"
+
 #include "multisplitter/controllers/TitleBar.h"
+#include "multisplitter/controllers/FloatingWindow.h"
 
 #include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 

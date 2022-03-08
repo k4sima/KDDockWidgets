@@ -88,3 +88,13 @@ QPoint Controller::pos() const
 {
     return m_view->geometry().topLeft();
 }
+
+int Controller::x() const
+{
+    return m_view->x();
+}
+
+int Controller::y() const
+{
+    return m_view->y();
+}
