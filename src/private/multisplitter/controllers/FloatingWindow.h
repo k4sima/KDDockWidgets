@@ -215,6 +215,8 @@ public:
 
     void updateSizeConstraints(); // TODO: Move private
 
+    void onCloseEvent(QCloseEvent *);
+
 Q_SIGNALS:
     void activatedChanged();
     void numFramesChanged();
@@ -226,8 +228,6 @@ protected:
 #if defined(Q_OS_WIN) && defined(KDDOCKWIDGETS_QTWIDGETS)
     bool nativeEvent(const QByteArray &eventType, void *message, Qt5Qt6Compat::qintptr *result) override;
 #endif
-
-    void onCloseEvent(QCloseEvent *);
 
     QPointer<DropArea> m_dropArea;
     Controllers::TitleBar *const m_titleBar;

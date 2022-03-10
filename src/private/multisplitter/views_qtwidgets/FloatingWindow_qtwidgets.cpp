@@ -117,3 +117,8 @@ Controllers::FloatingWindow *FloatingWindow_qtwidgets::floatingWindow() const
 {
     return m_controller;
 }
+
+void FloatingWindow_qtwidgets::closeEvent(QCloseEvent *ev)
+{
+    m_controller->onCloseEvent(ev);
+}
