@@ -526,7 +526,7 @@ Controllers::FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
         frame->addWidget(q);
         geo.setSize(geo.size().boundedTo(frame->view()->maxSizeHint()));
         Controllers::FloatingWindow::ensureRectIsOnScreen(geo);
-        auto floatingWindow = new Controllers::FloatingWindow(frame, {});
+        auto floatingWindow = new Controllers::FloatingWindow(frame, geo);
         floatingWindow->view()->show();
 
         return floatingWindow;
