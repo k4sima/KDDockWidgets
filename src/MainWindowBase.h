@@ -22,11 +22,11 @@
 
 #include "docks_export.h"
 #include "KDDockWidgets.h"
-#include "QWidgetAdapter.h"
 #include "LayoutSaver.h"
 
 #include <QVector>
 #include <QMargins>
+#include <QMainWindow> // TODO
 
 class TestDocks;
 
@@ -52,7 +52,7 @@ class DropAreaWithCentralFrame;
  * Do not use instantiate directly in user code. Use MainWindow instead.
  */
 #ifndef PYTHON_BINDINGS // Pyside bug: https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1327
-class DOCKS_EXPORT MainWindowBase : public QMainWindowOrQuick
+class DOCKS_EXPORT MainWindowBase : public QMainWindow
 #else
 class DOCKS_EXPORT MainWindowBase : public QMainWindow
 #endif
@@ -65,7 +65,7 @@ class DOCKS_EXPORT MainWindowBase : public QMainWindow
 public:
     typedef QVector<MainWindowBase *> List;
     explicit MainWindowBase(const QString &uniqueName, MainWindowOptions options = MainWindowOption_HasCentralFrame,
-                            WidgetType *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
+                            QWidget *parent = nullptr, Qt::WindowFlags flags = Qt::WindowFlags());
 
     ~MainWindowBase() override;
 
@@ -104,8 +104,8 @@ public:
      *
      * Example: kddockwidgets_example --central-widget
      */
-    Q_INVOKABLE void setPersistentCentralWidget(KDDockWidgets::QWidgetOrQuick *widget);
-    QWidgetOrQuick *persistentCentralWidget() const;
+    Q_INVOKABLE void setPersistentCentralWidget(QWidget *widget);
+    QWidget *persistentCentralWidget() const;
 
     /**
      * @brief Returns the unique name that was passed via constructor.

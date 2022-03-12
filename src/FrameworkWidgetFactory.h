@@ -14,7 +14,6 @@
 
 #include "docks_export.h"
 #include "KDDockWidgets.h"
-#include "QWidgetAdapter.h"
 #include "private/multisplitter/View.h" // TODO
 #include "private/multisplitter/controllers/Stack.h"
 #include "private/multisplitter/controllers/TitleBar.h"

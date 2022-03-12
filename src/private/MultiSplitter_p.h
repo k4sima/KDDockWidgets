@@ -24,7 +24,6 @@
 
 #include "LayoutWidget_p.h"
 #include "kddockwidgets/KDDockWidgets.h"
-#include "kddockwidgets/QWidgetAdapter.h"
 #include "kddockwidgets/docks_export.h"
 
 class TestDocks;
@@ -53,7 +52,7 @@ class DOCKS_EXPORT MultiSplitter : public LayoutWidget
 {
     Q_OBJECT
 public:
-    explicit MultiSplitter(QWidgetOrQuick *parent = nullptr);
+    explicit MultiSplitter(QWidget *parent = nullptr);
     ~MultiSplitter() override;
 
     /**
@@ -99,7 +98,7 @@ private:
     Layouting::ItemBoxContainer *rootItem() const;
 
     // For debug/hardening
-    bool validateInputs(QWidgetOrQuick *widget, KDDockWidgets::Location location,
+    bool validateInputs(QWidget *widget, KDDockWidgets::Location location,
                         const Controllers::Frame *relativeToFrame, InitialOption option) const;
 
 

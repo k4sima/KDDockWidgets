@@ -13,7 +13,6 @@
 #define KD_DROPINDICATOROVERLAYINTERFACE_P_H
 
 #include "kddockwidgets/docks_export.h"
-#include "kddockwidgets/QWidgetAdapter.h"
 #include "multisplitter/controllers/Frame.h"
 #include "kddockwidgets/KDDockWidgets.h"
 

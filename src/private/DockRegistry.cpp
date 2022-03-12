@@ -17,7 +17,6 @@
 #include "Logging_p.h"
 #include "MainWindowMDI.h"
 #include "Position_p.h"
-#include "QWidgetAdapter.h"
 #include "Utils_p.h"
 #include "WidgetResizeHandler_p.h"
 #include "WindowBeingDragged_p.h"

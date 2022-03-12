@@ -27,7 +27,6 @@
 #include "kddockwidgets/docks_export.h"
 #include "kddockwidgets/KDDockWidgets.h"
 #include "kddockwidgets/LayoutSaver.h"
-#include "kddockwidgets/QWidgetAdapter.h"
 
 #include "multisplitter/views_qtwidgets/View_qtwidgets.h"
 
@@ -67,7 +66,7 @@ class DOCKS_EXPORT LayoutWidget : public Views::View_qtwidgets<QWidget>
 {
     Q_OBJECT
 public:
-    explicit LayoutWidget(QWidgetOrQuick *parent = nullptr);
+    explicit LayoutWidget(QWidget *parent = nullptr);
     ~LayoutWidget() override;
 
     /// @brief Returns whether this layout is in a MainWindow
@@ -223,7 +222,7 @@ protected:
      * If frameOrMultiSplitter is a Frame, it returns a list of 1 element, with that frame
      * If frameOrMultiSplitter is a MultiSplitter then it returns a list of all frames it contains
      */
-    QList<Controllers::Frame *> framesFrom(QWidgetOrQuick *frameOrMultiSplitter) const;
+    QList<Controllers::Frame *> framesFrom(QWidget *frameOrMultiSplitter) const;
 
 Q_SIGNALS:
     void visibleWidgetCountChanged(int count);

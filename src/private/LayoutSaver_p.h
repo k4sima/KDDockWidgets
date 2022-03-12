@@ -14,7 +14,6 @@
 
 #include "kddockwidgets/KDDockWidgets.h"
 #include "kddockwidgets/LayoutSaver.h"
-#include "kddockwidgets/QWidgetAdapter.h"
 
 #include <QDebug>
 #include <QGuiApplication>
@@ -384,7 +383,7 @@ public:
     void floatUnknownWidgets(const LayoutSaver::Layout &layout);
 
     template<typename T>
-    void deserializeWindowGeometry(const T &saved, QWidgetOrQuick *topLevel);
+    void deserializeWindowGeometry(const T &saved, QWidget *topLevel);
     void deleteEmptyFrames();
     void clearRestoredProperty();
 
