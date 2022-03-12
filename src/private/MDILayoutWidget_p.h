@@ -36,17 +36,17 @@ public:
     ~MDILayoutWidget() override;
 
     /// @brief docks the dock widgets into this MDI area, at the specified position
-    void addDockWidget(DockWidgetBase *dw, QPoint localPt, InitialOption addingOption = {});
+    void addDockWidget(Controllers::DockWidgetBase *dw, QPoint localPt, InitialOption addingOption = {});
 
     /// @brief Moves a dock widget @p dw to point @p pos
-    void moveDockWidget(DockWidgetBase *dw, QPoint pos);
+    void moveDockWidget(Controllers::DockWidgetBase *dw, QPoint pos);
 
     /// @brief Moves a dock widget @p f to point @p pos
     /// Convenience overload.
     void moveDockWidget(Controllers::Frame *f, QPoint pos);
 
     /// @brief Sets the size of dock widget @p dw to @p size
-    void resizeDockWidget(DockWidgetBase *dw, QSize size);
+    void resizeDockWidget(Controllers::DockWidgetBase *dw, QSize size);
 
     /// @brief Sets the size of dock widget @p f to @p size
     /// Convenience overload.

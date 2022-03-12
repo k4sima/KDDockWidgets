@@ -46,7 +46,7 @@ public:
 
     // Draggable:
     std::unique_ptr<WindowBeingDragged> makeWindow() override;
-    DockWidgetBase *singleDockWidget() const override;
+    Controllers::DockWidgetBase *singleDockWidget() const override;
     bool isWindow() const override;
 
     const QVector<DockWidgetBase *> dockWidgets() const;
@@ -151,7 +151,7 @@ public:
     QRect dragRect() const;
 
     ///@brief Returns whether all dock widgets have the specified option set
-    bool allDockWidgetsHave(KDDockWidgets::DockWidgetBase::Option) const;
+    bool allDockWidgetsHave(Controllers::DockWidgetBase::Option) const;
 
     ///@brief Returns whether at least one dock widget has the specified option set
     bool anyDockWidgetsHas(DockWidgetBase::Option) const;

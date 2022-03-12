@@ -12,7 +12,7 @@
 #ifndef KD_DOCKREGISTRY_P_H
 #define KD_DOCKREGISTRY_P_H
 
-#include "kddockwidgets/DockWidgetBase.h"
+#include "DockWidgetBase.h"
 #include "kddockwidgets/MainWindowBase.h"
 
 #include "multisplitter/controllers/Frame.h"
@@ -53,8 +53,8 @@ public:
 
     static DockRegistry *self();
     ~DockRegistry();
-    void registerDockWidget(DockWidgetBase *);
-    void unregisterDockWidget(DockWidgetBase *);
+    void registerDockWidget(Controllers::DockWidgetBase *);
+    void unregisterDockWidget(Controllers::DockWidgetBase *);
 
     void registerMainWindow(MainWindowBase *);
     void unregisterMainWindow(MainWindowBase *);
@@ -68,29 +68,29 @@ public:
     void registerFrame(Controllers::Frame *);
     void unregisterFrame(Controllers::Frame *);
 
-    Q_INVOKABLE KDDockWidgets::DockWidgetBase *focusedDockWidget() const;
+    Q_INVOKABLE KDDockWidgets::Controllers::DockWidgetBase *focusedDockWidget() const;
 
     Q_INVOKABLE bool containsDockWidget(const QString &uniqueName) const;
     Q_INVOKABLE bool containsMainWindow(const QString &uniqueName) const;
 
-    Q_INVOKABLE KDDockWidgets::DockWidgetBase *dockByName(const QString &,
-                                                          KDDockWidgets::DockRegistry::DockByNameFlags = {}) const;
+    Q_INVOKABLE KDDockWidgets::Controllers::DockWidgetBase *dockByName(const QString &,
+                                                                       KDDockWidgets::DockRegistry::DockByNameFlags = {}) const;
     Q_INVOKABLE KDDockWidgets::MainWindowBase *mainWindowByName(const QString &) const;
     Q_INVOKABLE KDDockWidgets::MainWindowMDI *mdiMainWindowByName(const QString &) const;
 
     /// @brief returns the dock widget that hosts @p guest widget. Nullptr if there's none.
-    DockWidgetBase *dockWidgetForGuest(QWidgetOrQuick *guest) const;
+    Controllers::DockWidgetBase *dockWidgetForGuest(QWidgetOrQuick *guest) const;
 
     bool isSane() const;
 
     ///@brief returns all DockWidget instances
-    const DockWidgetBase::List dockwidgets() const;
+    const Controllers::DockWidgetBase::List dockwidgets() const;
 
     ///@brief overload returning only the ones with the specified names
-    const DockWidgetBase::List dockWidgets(const QStringList &names);
+    const Controllers::DockWidgetBase::List dockWidgets(const QStringList &names);
 
     ///@brief returns all closed DockWidget instances
-    const DockWidgetBase::List closedDockwidgets() const;
+    const Controllers::DockWidgetBase::List closedDockwidgets() const;
 
     ///@brief returns all MainWindow instances
     const MainWindowBase::List mainwindows() const;
@@ -152,7 +152,7 @@ public:
     /**
      * @brief clear Overload that only clears the specified dockWidgets and main windows.
      */
-    void clear(const DockWidgetBase::List &dockWidgets,
+    void clear(const Controllers::DockWidgetBase::List &dockWidgets,
                const MainWindowBase::List &mainWindows,
                const QStringList &affinities);
 
@@ -221,10 +221,10 @@ public:
     ///@brief Returns whether the specified dock widget is in a side bar, and which.
     /// SideBarLocation::None is returned if it's not in a sidebar.
     /// This is only relevant when using the auto-hide and side-bar feature.
-    SideBarLocation sideBarLocationForDockWidget(const DockWidgetBase *) const;
+    SideBarLocation sideBarLocationForDockWidget(const Controllers::DockWidgetBase *) const;
 
     ///@brief Overload that returns the SideBar itself
-    Controllers::SideBar *sideBarForDockWidget(const DockWidgetBase *) const;
+    Controllers::SideBar *sideBarForDockWidget(const Controllers::DockWidgetBase *) const;
 
     ///@brief Returns the Frame which is being resized in a MDI layout. nullptr if none
     Controllers::Frame *frameInMDIResize() const;
@@ -245,18 +245,18 @@ protected:
 private:
     friend class FocusScope;
     explicit DockRegistry(QObject *parent = nullptr);
-    bool onDockWidgetPressed(DockWidgetBase *dw, QMouseEvent *);
+    bool onDockWidgetPressed(Controllers::DockWidgetBase *dw, QMouseEvent *);
     void onFocusObjectChanged(QObject *obj);
     void maybeDelete();
-    void setFocusedDockWidget(DockWidgetBase *);
+    void setFocusedDockWidget(Controllers::DockWidgetBase *);
 
     bool m_isProcessingAppQuitEvent = false;
-    DockWidgetBase::List m_dockWidgets;
+    Controllers::DockWidgetBase::List m_dockWidgets;
     MainWindowBase::List m_mainWindows;
     QList<Controllers::Frame *> m_frames;
     QVector<Controllers::FloatingWindow *> m_floatingWindows;
     QVector<LayoutWidget *> m_layouts;
-    QPointer<DockWidgetBase> m_focusedDockWidget;
+    QPointer<Controllers::DockWidgetBase> m_focusedDockWidget;
 
     ///@brief Dock widget id remapping, used by LayoutSaver
     ///

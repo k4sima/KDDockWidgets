@@ -25,7 +25,7 @@
 #include "private/multisplitter/Item_p.h"
 #include "private/LayoutSaver_p.h"
 #include "private/DockRegistry_p.h"
-#include "private/DockWidgetBase_p.h"
+#include "DockWidgetBase_p.h"
 #include "private/LayoutWidget_p.h"
 #include "private/Logging_p.h"
 #include "private/Position_p.h"
@@ -58,6 +58,7 @@
  * FloatingWindow::serialize()/deserialize()
  */
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 QHash<QString, LayoutSaver::DockWidget::Ptr> LayoutSaver::DockWidget::s_dockWidgets;
 LayoutSaver::Layout *LayoutSaver::Layout::s_currentLayoutBeingRestored = nullptr;
@@ -379,7 +380,7 @@ void LayoutSaver::Private::floatWidgetsWhichSkipRestore(const QStringList &mainW
     // be loading a new layout.
 
     for (MainWindowBase *mw : DockRegistry::self()->mainWindows(mainWindowNames)) {
-        const KDDockWidgets::DockWidgetBase::List docks = mw->layoutWidget()->dockWidgets();
+        const Controllers::DockWidgetBase::List docks = mw->layoutWidget()->dockWidgets();
         for (auto dw : docks) {
             if (dw->skipsRestore()) {
                 dw->setFloating(true);
@@ -395,7 +396,7 @@ void LayoutSaver::Private::floatUnknownWidgets(const LayoutSaver::Layout &layout
     // so we can restore the MainWindow layout properly
 
     for (MainWindowBase *mw : DockRegistry::self()->mainWindows(layout.mainWindowNames())) {
-        const KDDockWidgets::DockWidgetBase::List docks = mw->layoutWidget()->dockWidgets();
+        const Controllers::DockWidgetBase::List docks = mw->layoutWidget()->dockWidgets();
         for (DockWidgetBase *dw : docks) {
             if (!layout.containsDockWidget(dw->uniqueName())) {
                 dw->setFloating(true);

@@ -10,7 +10,7 @@
 */
 
 #include "DockWidgetBase.h"
-#include "private/DockWidgetBase_p.h"
+#include "DockWidgetBase_p.h"
 #include "private/DockRegistry_p.h"
 #include "private/LayoutSaver_p.h"
 #include "private/Logging_p.h"
@@ -40,6 +40,7 @@
  */
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 DockWidgetBase::DockWidgetBase(const QString &name, Options options,
                                LayoutSaverOptions layoutSaverOptions)

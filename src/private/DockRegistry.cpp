@@ -40,6 +40,7 @@
 #endif
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 static void initKDDockWidgetResources()
 {

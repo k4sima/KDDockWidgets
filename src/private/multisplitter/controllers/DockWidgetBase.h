@@ -19,10 +19,11 @@
 #ifndef KD_DOCKWIDGET_BASE_H
 #define KD_DOCKWIDGET_BASE_H
 
-#include "docks_export.h"
-#include "KDDockWidgets.h"
-#include "QWidgetAdapter.h"
-#include "LayoutSaver.h"
+#include "kddockwidgets/docks_export.h"
+#include "kddockwidgets/KDDockWidgets.h"
+#include "kddockwidgets/QWidgetAdapter.h"
+#include "kddockwidgets/LayoutSaver.h"
+#include "../Controller.h"
 
 #include <QVector>
 #include <memory>
@@ -33,21 +34,22 @@ class TestDocks;
 
 namespace KDDockWidgets {
 
-namespace Controllers {
-class TitleBar;
-class Frame;
-class FloatingWindow;
-}
+using DockWidgetBase = KDDockWidgets::Controllers::DockWidgetBase;
 
 class DragController;
 class DockRegistry;
 class LayoutSaver;
-class TabWidget;
 class MainWindowBase;
 class StateDragging;
 class FrameQuick;
 class DockWidgetQuick;
 class LayoutWidget;
+
+namespace Controllers {
+
+class TitleBar;
+class Frame;
+class FloatingWindow;
 
 /**
  * @brief The DockWidget base-class. DockWidget and DockWidgetBase are only
@@ -56,11 +58,7 @@ class LayoutWidget;
  *
  * Do not use instantiate directly in user code. Use DockWidget instead.
  */
-#ifndef PYTHON_BINDINGS // Pyside bug: https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1327
 class DOCKS_EXPORT DockWidgetBase : public QWidgetAdapter
-#else
-class DOCKS_EXPORT DockWidgetBase : public QWidget
-#endif
 {
     Q_OBJECT
     Q_PROPERTY(bool isFocused READ isFocused NOTIFY isFocusedChanged)
@@ -68,7 +66,7 @@ class DOCKS_EXPORT DockWidgetBase : public QWidget
     Q_PROPERTY(QString uniqueName READ uniqueName CONSTANT)
     Q_PROPERTY(QString title READ title WRITE setTitle NOTIFY titleChanged)
     Q_PROPERTY(QObject *widget READ widget NOTIFY widgetChanged)
-    Q_PROPERTY(KDDockWidgets::DockWidgetBase::Options options READ options WRITE setOptions NOTIFY
+    Q_PROPERTY(KDDockWidgets::Controllers::DockWidgetBase::Options options READ options WRITE setOptions NOTIFY
                    optionsChanged)
 public:
     typedef QVector<DockWidgetBase *> List;
@@ -114,8 +112,7 @@ public:
      * when visible, or stays without a parent when hidden.
      */
     explicit DockWidgetBase(const QString &uniqueName,
-                            Options options = KDDockWidgets::DockWidgetBase::Options(),
-                            LayoutSaverOptions layoutSaverOptions = KDDockWidgets::DockWidgetBase::LayoutSaverOptions());
+                            Options options = Options(), LayoutSaverOptions layoutSaverOptions = LayoutSaverOptions());
 
     ///@brief destructor
     ~DockWidgetBase() override;
@@ -128,7 +125,7 @@ public:
      * shown.
      * @sa MainWindow::addDockWidget(), DockWidget::addDockWidgetToContainingWindow()
      */
-    Q_INVOKABLE void addDockWidgetAsTab(KDDockWidgets::DockWidgetBase *other,
+    Q_INVOKABLE void addDockWidgetAsTab(KDDockWidgets::Controllers::DockWidgetBase *other,
                                         KDDockWidgets::InitialOption initialOption = {});
 
     /**
@@ -144,9 +141,9 @@ public:
      * @sa MainWindow::addDockWidget(), DockWidget::addDockWidgetAsTab()
      */
     Q_INVOKABLE void
-    addDockWidgetToContainingWindow(KDDockWidgets::DockWidgetBase *other,
+    addDockWidgetToContainingWindow(KDDockWidgets::Controllers::DockWidgetBase *other,
                                     KDDockWidgets::Location location,
-                                    KDDockWidgets::DockWidgetBase *relativeTo = nullptr,
+                                    KDDockWidgets::Controllers::DockWidgetBase *relativeTo = nullptr,
                                     KDDockWidgets::InitialOption initialOption = {});
 
     /**
@@ -234,7 +231,7 @@ public:
 
     /// @brief returns the per-dockwidget options which will affect LayoutSaver
     /// These are the options which were passed to the constructor
-    KDDockWidgets::DockWidgetBase::LayoutSaverOptions layoutSaverOptions() const;
+    KDDockWidgets::Controllers::DockWidgetBase::LayoutSaverOptions layoutSaverOptions() const;
 
     /**
      * @brief Setter for the options.
@@ -459,6 +456,9 @@ public:
     /// This only applies when using MainWindowOption_HasCentralWidget
     bool isPersistentCentralDockWidget() const;
 
+    void onCloseEvent(QCloseEvent *e) override;
+    bool onResize(QSize newSize) override;
+
 Q_SIGNALS:
 #ifdef KDDOCKWIDGETS_QTWIDGETS
     ///@brief signal emitted when the parent changed
@@ -484,7 +484,7 @@ Q_SIGNALS:
 
     ///@brief emitted when the options change
     ///@sa setOptions(), options()
-    void optionsChanged(KDDockWidgets::DockWidgetBase::Options);
+    void optionsChanged(KDDockWidgets::Controllers::DockWidgetBase::Options);
 
     ///@brief emitted when isFocused changes
     ///@sa isFocused
@@ -520,11 +520,6 @@ protected:
     void onShown(bool spontaneous);
     void onHidden(bool spontaneous);
 
-#ifndef PYTHON_BINDINGS // Pyside bug: https://bugreports.qt.io/projects/PYSIDE/issues/PYSIDE-1327
-    void onCloseEvent(QCloseEvent *e) override;
-    bool onResize(QSize newSize) override;
-#endif
-
 #if defined(DOCKS_DEVELOPER_MODE)
 public:
 #else
@@ -539,7 +534,6 @@ private:
     friend class DropArea;
     friend class ::TestDocks;
     friend class StateDragging;
-    friend class KDDockWidgets::TabWidget;
     friend class KDDockWidgets::Controllers::TitleBar;
     friend class KDDockWidgets::DragController;
     friend class KDDockWidgets::DockRegistry;
@@ -560,7 +554,7 @@ private:
 
     Private *dptr() const;
 };
-
+}
 }
 Q_DECLARE_METATYPE(KDDockWidgets::Location)
 

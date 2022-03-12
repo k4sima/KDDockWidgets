@@ -14,7 +14,7 @@
 #include "../Controller.h"
 #include "Frame.h"
 #include "../private/Draggable_p.h"
-#include "kddockwidgets/DockWidgetBase.h"
+#include "DockWidgetBase.h"
 
 #include <QPointer>
 

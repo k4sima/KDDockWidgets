@@ -41,10 +41,12 @@ public:
 
     ///@brief Docks @p dockWidget
     /// The widget will be placed at the specified position
-    void addDockWidget(DockWidgetBase *dockWidget, QPoint localPos, InitialOption addingOption = {});
+    void addDockWidget(Controllers::DockWidgetBase *dockWidget,
+                       QPoint localPos, InitialOption addingOption = {});
 
     ///@brief Convenience overload
-    void addDockWidget(DockWidgetBase *dockWidget, QPointF localPos, InitialOption addingOption = {});
+    void addDockWidget(Controllers::DockWidgetBase *dockWidget,
+                       QPointF localPos, InitialOption addingOption = {});
 };
 
 }

@@ -10,7 +10,7 @@
 */
 
 #include "SideBar.h"
-#include "kddockwidgets/DockWidgetBase.h"
+#include "DockWidgetBase.h"
 #include "kddockwidgets/MainWindowBase.h"
 #include "kddockwidgets/FrameworkWidgetFactory.h"
 

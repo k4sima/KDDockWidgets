@@ -24,6 +24,7 @@
 #include "multisplitter/Item_p.h"
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 
 LayoutWidget::LayoutWidget(QWidgetOrQuick *parent)

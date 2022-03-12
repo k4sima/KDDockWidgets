@@ -31,6 +31,7 @@
 #include <QPainter>
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 static Draggable *bestDraggable(Draggable *draggable)
 {

@@ -32,6 +32,7 @@ namespace KDDockWidgets {
 
 namespace Controllers {
 class Frame;
+class DockWidgetBase;
 }
 
 class Draggable;
@@ -58,10 +59,10 @@ public:
     {
         return m_dropIndicatorOverlay;
     }
-    void addDockWidget(DockWidgetBase *, KDDockWidgets::Location location,
-                       DockWidgetBase *relativeTo, InitialOption = {});
+    void addDockWidget(Controllers::DockWidgetBase *, KDDockWidgets::Location location,
+                       Controllers::DockWidgetBase *relativeTo, InitialOption = {});
 
-    bool containsDockWidget(DockWidgetBase *) const;
+    bool containsDockWidget(Controllers::DockWidgetBase *) const;
 
     /// Returns whether this layout has a single dock widget which is floating
     /// Implies it's in a FloatingWindow and that it has only one dock widget
@@ -72,14 +73,14 @@ public:
     bool hasSingleFrame() const;
 
     QStringList affinities() const;
-    void layoutParentContainerEqually(DockWidgetBase *);
+    void layoutParentContainerEqually(Controllers::DockWidgetBase *);
 
     /// When DockWidget::Option_MDINestable is used, docked MDI dock widgets will be wrapped inside a DropArea, so they accept drops
     /// This DropArea is created implicitly while docking, and this function will return true
     bool isMDIWrapper() const;
 
     /// Returns the helper dock widget for implementing DockWidget::Option_MDINestable.
-    DockWidgetBase *mdiDockWidgetWrapper() const;
+    Controllers::DockWidgetBase *mdiDockWidgetWrapper() const;
 
 private:
     Q_DISABLE_COPY(DropArea)

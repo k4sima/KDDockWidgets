@@ -41,8 +41,8 @@ void Stack_qtwidgets::init()
 
     // In case tabs closable is set by the factory, a tabClosedRequested() is emitted when the user presses [x]
     connect(this, &QTabWidget::tabCloseRequested, this, [this](int index) {
-        if (DockWidgetBase *dw = dockwidgetAt(index)) {
-            if (dw->options() & DockWidgetBase::Option_NotClosable) {
+        if (auto dw = dockwidgetAt(index)) {
+            if (dw->options() & Controllers::DockWidgetBase::Option_NotClosable) {
                 qWarning() << "QTabWidget::tabCloseRequested: Refusing to close dock widget with Option_NotClosable option. name=" << dw->uniqueName();
             } else {
                 dw->close();
@@ -71,14 +71,14 @@ int Stack_qtwidgets::numDockWidgets() const
     return count();
 }
 
-void Stack_qtwidgets::removeDockWidget(DockWidgetBase *dw)
+void Stack_qtwidgets::removeDockWidget(Controllers::DockWidgetBase *dw)
 {
     removeTab(indexOf(dw));
 }
 
-int Stack_qtwidgets::indexOfDockWidget(const DockWidgetBase *dw) const
+int Stack_qtwidgets::indexOfDockWidget(const Controllers::DockWidgetBase *dw) const
 {
-    return indexOf(const_cast<DockWidgetBase *>(dw));
+    return indexOf(const_cast<Controllers::DockWidgetBase *>(dw));
 }
 
 void Stack_qtwidgets::mouseDoubleClickEvent(QMouseEvent *ev)
@@ -115,7 +115,7 @@ void Stack_qtwidgets::setCurrentDockWidget(int index)
     setCurrentIndex(index);
 }
 
-bool Stack_qtwidgets::insertDockWidget(int index, DockWidgetBase *dw,
+bool Stack_qtwidgets::insertDockWidget(int index, Controllers::DockWidgetBase *dw,
                                        const QIcon &icon, const QString &title)
 {
     insertTab(index, dw, icon, title);
@@ -137,9 +137,9 @@ void Stack_qtwidgets::changeTabIcon(int index, const QIcon &icon)
     setTabIcon(index, icon);
 }
 
-DockWidgetBase *Stack_qtwidgets::dockwidgetAt(int index) const
+Controllers::DockWidgetBase *Stack_qtwidgets::dockwidgetAt(int index) const
 {
-    return qobject_cast<DockWidgetBase *>(widget(index));
+    return qobject_cast<Controllers::DockWidgetBase *>(widget(index));
 }
 
 int Stack_qtwidgets::currentIndex() const

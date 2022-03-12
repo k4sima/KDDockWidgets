@@ -28,7 +28,7 @@
 #include "FrameworkWidgetFactory.h"
 #include "private/DropAreaWithCentralFrame_p.h"
 #include "private/LayoutSaver_p.h"
-#include "private/DockWidgetBase_p.h"
+#include "DockWidgetBase_p.h"
 #include "private/multisplitter/Item_p.h"
 
 #include "private/multisplitter/controllers/Frame.h"
@@ -42,6 +42,7 @@
 #endif
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 static LayoutWidget *createLayoutWidget(MainWindowBase *mainWindow, MainWindowOptions options)
 {
@@ -77,7 +78,7 @@ public:
         return (m_options & MainWindowOption_HasCentralWidget) == MainWindowOption_HasCentralWidget;
     }
 
-    DockWidgetBase *createPersistentCentralDockWidget(const QString &uniqueName) const
+    Controllers::DockWidgetBase *createPersistentCentralDockWidget(const QString &uniqueName) const
     {
         if (!supportsPersistentCentralWidget())
             return nullptr;
@@ -102,7 +103,7 @@ public:
     CursorPositions allowedResizeSides(SideBarLocation loc) const;
 
     QRect rectForOverlay(Controllers::Frame *, SideBarLocation) const;
-    SideBarLocation preferredSideBar(DockWidgetBase *) const;
+    SideBarLocation preferredSideBar(Controllers::DockWidgetBase *) const;
     void updateOverlayGeometry(QSize suggestedSize);
     void clearSideBars();
 
@@ -110,9 +111,9 @@ public:
     QStringList affinities;
     const MainWindowOptions m_options;
     MainWindowBase *const q;
-    QPointer<DockWidgetBase> m_overlayedDockWidget;
+    QPointer<Controllers::DockWidgetBase> m_overlayedDockWidget;
     LayoutWidget *const m_layoutWidget;
-    DockWidgetBase *const m_persistentCentralDockWidget;
+    Controllers::DockWidgetBase *const m_persistentCentralDockWidget;
 };
 
 MainWindowBase::MainWindowBase(const QString &uniqueName, KDDockWidgets::MainWindowOptions options,
@@ -132,7 +133,7 @@ MainWindowBase::~MainWindowBase()
     delete d;
 }
 
-void MainWindowBase::addDockWidgetAsTab(DockWidgetBase *widget)
+void MainWindowBase::addDockWidgetAsTab(Controllers::DockWidgetBase *widget)
 {
     Q_ASSERT(widget);
     qCDebug(addwidget) << Q_FUNC_INFO << widget;
@@ -143,7 +144,7 @@ void MainWindowBase::addDockWidgetAsTab(DockWidgetBase *widget)
         return;
     }
 
-    if (widget->options() & DockWidgetBase::Option_NotDockable) {
+    if (widget->options() & Controllers::DockWidgetBase::Option_NotDockable) {
         qWarning() << Q_FUNC_INFO << "Refusing to dock non-dockable widget" << widget;
         return;
     }
@@ -164,10 +165,10 @@ void MainWindowBase::addDockWidgetAsTab(DockWidgetBase *widget)
     }
 }
 
-void MainWindowBase::addDockWidget(DockWidgetBase *dw, Location location,
-                                   DockWidgetBase *relativeTo, InitialOption option)
+void MainWindowBase::addDockWidget(Controllers::DockWidgetBase *dw, Location location,
+                                   Controllers::DockWidgetBase *relativeTo, InitialOption option)
 {
-    if (dw->options() & DockWidgetBase::Option_NotDockable) {
+    if (dw->options() & Controllers::DockWidgetBase::Option_NotDockable) {
         qWarning() << Q_FUNC_INFO << "Refusing to dock non-dockable widget" << dw;
         return;
     }
@@ -238,7 +239,7 @@ void MainWindowBase::layoutEqually()
     dropArea()->layoutEqually();
 }
 
-void MainWindowBase::layoutParentContainerEqually(DockWidgetBase *dockWidget)
+void MainWindowBase::layoutParentContainerEqually(Controllers::DockWidgetBase *dockWidget)
 {
     dropArea()->layoutParentContainerEqually(dockWidget);
 }
@@ -364,7 +365,7 @@ static SideBarLocation sideBarLocationForBorder(Layouting::LayoutBorderLocations
     return SideBarLocation::None;
 }
 
-SideBarLocation MainWindowBase::Private::preferredSideBar(DockWidgetBase *dw) const
+SideBarLocation MainWindowBase::Private::preferredSideBar(Controllers::DockWidgetBase *dw) const
 {
     // TODO: Algorithm can still be made smarter
 
@@ -491,12 +492,12 @@ void MainWindowBase::Private::clearSideBars()
     }
 }
 
-void MainWindowBase::moveToSideBar(DockWidgetBase *dw)
+void MainWindowBase::moveToSideBar(Controllers::DockWidgetBase *dw)
 {
     moveToSideBar(dw, d->preferredSideBar(dw));
 }
 
-void MainWindowBase::moveToSideBar(DockWidgetBase *dw, SideBarLocation location)
+void MainWindowBase::moveToSideBar(Controllers::DockWidgetBase *dw, SideBarLocation location)
 {
     if (dw->isPersistentCentralDockWidget())
         return;

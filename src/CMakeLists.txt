@@ -29,8 +29,6 @@ set(DOCKSLIBS_SRCS
     FocusScope.h
     FrameworkWidgetFactory.cpp
     FrameworkWidgetFactory.h
-    DockWidgetBase.cpp
-    DockWidgetBase.h
     MainWindowBase.cpp
     MainWindowBase.h
     MainWindowMDI.cpp
@@ -93,6 +91,8 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/Widget.cpp
     private/multisplitter/Widget.h
 
+    private/multisplitter/controllers/DockWidgetBase.cpp
+    private/multisplitter/controllers/DockWidgetBase.h
     private/multisplitter/controllers/FloatingWindow.cpp
     private/multisplitter/controllers/FloatingWindow.h
     private/multisplitter/controllers/Frame.cpp
@@ -149,7 +149,7 @@ set(DOCKS_INSTALLABLE_INCLUDES
     docks_export.h
     Config.h
     FrameworkWidgetFactory.h
-    DockWidgetBase.h
+    # DockWidgetBase.h
     KDDockWidgets.h
     Qt5Qt6Compat_p.h
     FocusScope.h
@@ -276,7 +276,7 @@ ecm_generate_headers(camelcase_HEADERS
   HEADER_NAMES
     Config
     DockWidget
-    DockWidgetBase
+    # DockWidgetBase
     FocusScope
     FrameworkWidgetFactory,DefaultWidgetFactory
     LayoutSaver

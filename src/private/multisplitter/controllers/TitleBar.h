@@ -14,7 +14,7 @@
 #include "../Controller.h"
 #include "../private/Draggable_p.h"
 #include "kddockwidgets/docks_export.h"
-#include "kddockwidgets/DockWidgetBase.h"
+#include "DockWidgetBase.h"
 
 #include <QString>
 #include <QIcon>
@@ -44,7 +44,7 @@ public:
     bool isMDI() const override;
     std::unique_ptr<WindowBeingDragged> makeWindow() override;
     bool isWindow() const override;
-    KDDockWidgets::DockWidgetBase *singleDockWidget() const override;
+    Controllers::DockWidgetBase *singleDockWidget() const override;
 
     void setTitle(const QString &title);
     QString title() const;

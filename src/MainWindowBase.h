@@ -35,9 +35,9 @@ namespace KDDockWidgets {
 namespace Controllers {
 class Frame;
 class SideBar;
+class DockWidgetBase;
 }
 
-class DockWidgetBase;
 class DropArea;
 class MDILayoutWidget;
 class MultiSplitter;
@@ -76,7 +76,7 @@ public:
      *
      * @sa DockWidgetBase::addDockWidgetAsTab()
      */
-    Q_INVOKABLE void addDockWidgetAsTab(KDDockWidgets::DockWidgetBase *dockwidget);
+    Q_INVOKABLE void addDockWidgetAsTab(KDDockWidgets::Controllers::DockWidgetBase *dockwidget);
 
     /**
      * @brief Docks a DockWidget into this main window.
@@ -87,9 +87,9 @@ public:
      * as hidden, recording only a placeholder in the tab. So it's restored to tabbed when eventually
      * shown.
      */
-    Q_INVOKABLE void addDockWidget(KDDockWidgets::DockWidgetBase *dockWidget,
+    Q_INVOKABLE void addDockWidget(KDDockWidgets::Controllers::DockWidgetBase *dockWidget,
                                    KDDockWidgets::Location location,
-                                   KDDockWidgets::DockWidgetBase *relativeTo = nullptr,
+                                   KDDockWidgets::Controllers::DockWidgetBase *relativeTo = nullptr,
                                    KDDockWidgets::InitialOption initialOption = {});
 
     /**
@@ -168,7 +168,7 @@ public:
     /// @brief like layoutEqually() but starts with the container that has @p dockWidget.
     /// While layoutEqually() starts from the root of the layout tree this function starts on a
     /// sub-tree.
-    Q_INVOKABLE void layoutParentContainerEqually(KDDockWidgets::DockWidgetBase *dockWidget);
+    Q_INVOKABLE void layoutParentContainerEqually(KDDockWidgets::Controllers::DockWidgetBase *dockWidget);
 
     ///@brief Moves the dock widget into one of the MainWindow's sidebar.
     /// Means the dock widget is removed from the layout, and the sidebar shows a button that if pressed
@@ -176,33 +176,33 @@ public:
     /// functionality.
     ///
     /// The chosen side bar will depend on some heuristics, mostly proximity.
-    Q_INVOKABLE void moveToSideBar(KDDockWidgets::DockWidgetBase *);
+    Q_INVOKABLE void moveToSideBar(KDDockWidgets::Controllers::DockWidgetBase *);
 
     /// @brief overload that allows to specify which sidebar to use, instead of using heuristics.
-    Q_INVOKABLE void moveToSideBar(KDDockWidgets::DockWidgetBase *, KDDockWidgets::SideBarLocation);
+    Q_INVOKABLE void moveToSideBar(KDDockWidgets::Controllers::DockWidgetBase *, KDDockWidgets::SideBarLocation);
 
     /// @brief Removes the dock widget from the sidebar and docks it into the main window again
-    Q_INVOKABLE void restoreFromSideBar(KDDockWidgets::DockWidgetBase *);
+    Q_INVOKABLE void restoreFromSideBar(KDDockWidgets::Controllers::DockWidgetBase *);
 
     ///@brief Shows the dock widget overlayed on top of the main window, placed next to the sidebar
-    Q_INVOKABLE void overlayOnSideBar(KDDockWidgets::DockWidgetBase *);
+    Q_INVOKABLE void overlayOnSideBar(KDDockWidgets::Controllers::DockWidgetBase *);
 
     ///@brief Shows or hides an overlay. It's assumed the dock widget is already in a side-bar.
-    Q_INVOKABLE void toggleOverlayOnSideBar(KDDockWidgets::DockWidgetBase *);
+    Q_INVOKABLE void toggleOverlayOnSideBar(KDDockWidgets::Controllers::DockWidgetBase *);
 
     /// @brief closes any overlayed dock widget. The sidebar still displays them as button.
     Q_INVOKABLE void clearSideBarOverlay(bool deleteFrame = true);
 
     /// @brief Returns the sidebar this dockwidget is in. nullptr if not in any.
     Q_INVOKABLE KDDockWidgets::Controllers::SideBar *
-    sideBarForDockWidget(const KDDockWidgets::DockWidgetBase *) const;
+    sideBarForDockWidget(const KDDockWidgets::Controllers::DockWidgetBase *) const;
 
     /// @brief Returns whether the specified sidebar is visible
     Q_INVOKABLE bool sideBarIsVisible(KDDockWidgets::SideBarLocation) const;
 
     /// @brief returns the dock widget which is currently overlayed. nullptr if none.
     /// This is only relevant when using the auto-hide and side-bar feature.
-    DockWidgetBase *overlayedDockWidget() const;
+    Controllers::DockWidgetBase *overlayedDockWidget() const;
 
     /// @brief Returns whether any side bar is visible
     bool anySideBarIsVisible() const;

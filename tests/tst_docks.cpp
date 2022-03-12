@@ -43,6 +43,7 @@
 #endif
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 using namespace Layouting;
 using namespace KDDockWidgets::Tests;
 

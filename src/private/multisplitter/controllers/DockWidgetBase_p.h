@@ -12,9 +12,9 @@
 #ifndef KD_DOCKWIDGET_BASE_P_H
 #define KD_DOCKWIDGET_BASE_P_H
 
-#include "kddockwidgets/DockWidgetBase.h"
-#include "DockRegistry_p.h"
-#include "Position_p.h"
+#include "DockWidgetBase.h"
+#include "../../DockRegistry_p.h"
+#include "../../Position_p.h"
 #include "multisplitter/controllers/FloatingWindow.h"
 #include "multisplitter/controllers/SideBar.h"
 #include "multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
@@ -31,7 +31,6 @@ namespace KDDockWidgets {
 
 namespace Controllers {
 class SideBar;
-}
 
 class DOCKS_EXPORT_FOR_UNIT_TESTS DockWidgetBase::Private : public QObject /// clazy:exclude=missing-qobject-macro
 {
@@ -174,6 +173,7 @@ public:
     QSize m_lastOverlayedSize = QSize(0, 0);
     int m_userType = 0;
 };
+}
 }
 
 #if defined(QT_WIDGETS_LIB)

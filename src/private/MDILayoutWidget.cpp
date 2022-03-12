@@ -17,6 +17,7 @@
 #include "private/multisplitter/controllers/Frame.h"
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 MDILayoutWidget::MDILayoutWidget(QWidget *parent)
     : LayoutWidget(parent)

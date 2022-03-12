@@ -101,12 +101,12 @@ int Frame_qtwidgets::nonContentsHeight() const
     return (tb->isVisible() ? tb->height() : 0) + (tabBar->isVisible() ? tabBar->height() : 0);
 }
 
-int Frame_qtwidgets::indexOfDockWidget_impl(const DockWidgetBase *dw)
+int Frame_qtwidgets::indexOfDockWidget_impl(const Controllers::DockWidgetBase *dw)
 {
     return m_controller->tabWidget()->indexOfDockWidget(dw);
 }
 
-void Frame_qtwidgets::setCurrentDockWidget_impl(DockWidgetBase *dw)
+void Frame_qtwidgets::setCurrentDockWidget_impl(Controllers::DockWidgetBase *dw)
 {
     m_controller->tabWidget()->setCurrentDockWidget(dw);
 }
@@ -116,12 +116,12 @@ int Frame_qtwidgets::currentIndex_impl() const
     return m_controller->tabWidget()->currentIndex();
 }
 
-void Frame_qtwidgets::insertDockWidget_impl(DockWidgetBase *dw, int index)
+void Frame_qtwidgets::insertDockWidget_impl(Controllers::DockWidgetBase *dw, int index)
 {
     m_controller->tabWidget()->insertDockWidget(dw, index);
 }
 
-void Frame_qtwidgets::removeWidget_impl(DockWidgetBase *dw)
+void Frame_qtwidgets::removeWidget_impl(Controllers::DockWidgetBase *dw)
 {
     m_controller->tabWidget()->removeDockWidget(dw);
 }
@@ -131,14 +131,14 @@ void Frame_qtwidgets::setCurrentTabIndex_impl(int index)
     m_controller->tabWidget()->setCurrentDockWidget(index);
 }
 
-KDDockWidgets::DockWidgetBase *Frame_qtwidgets::currentDockWidget_impl() const
+KDDockWidgets::Controllers::DockWidgetBase *Frame_qtwidgets::currentDockWidget_impl() const
 {
     return m_controller->tabWidget()->dockwidgetAt(m_controller->tabWidget()->currentIndex());
 }
 
-KDDockWidgets::DockWidgetBase *Frame_qtwidgets::dockWidgetAt_impl(int index) const
+KDDockWidgets::Controllers::DockWidgetBase *Frame_qtwidgets::dockWidgetAt_impl(int index) const
 {
-    return qobject_cast<DockWidgetBase *>(m_controller->tabWidget()->dockwidgetAt(index));
+    return qobject_cast<Controllers::DockWidgetBase *>(m_controller->tabWidget()->dockwidgetAt(index));
 }
 
 Controllers::Frame *Frame_qtwidgets::frame() const

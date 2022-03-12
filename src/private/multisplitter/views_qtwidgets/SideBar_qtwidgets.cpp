@@ -10,7 +10,7 @@
 */
 
 #include "SideBar_qtwidgets.h"
-#include "kddockwidgets/DockWidgetBase.h"
+#include "DockWidgetBase.h"
 #include "kddockwidgets/MainWindowBase.h"
 #include "../controllers/SideBar.h"
 
@@ -23,6 +23,7 @@
 
 using namespace KDDockWidgets;
 using namespace KDDockWidgets::Views;
+using namespace KDDockWidgets::Controllers;
 
 SideBar_qtwidgets::SideBar_qtwidgets(Controllers::SideBar *controller, MainWindowBase *parent)
     : View_qtwidgets(controller, Type::SideBar, parent)

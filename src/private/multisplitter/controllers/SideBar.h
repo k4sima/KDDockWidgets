@@ -21,10 +21,11 @@
 
 namespace KDDockWidgets {
 
-class DockWidgetBase;
 class MainWindowBase;
 
 namespace Controllers {
+
+class DockWidgetBase;
 
 class DOCKS_EXPORT SideBar : public Controller
 {

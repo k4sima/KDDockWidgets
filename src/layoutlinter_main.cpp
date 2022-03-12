@@ -24,6 +24,7 @@
 #include <QString>
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 static bool lint(const QString &filename)
 {

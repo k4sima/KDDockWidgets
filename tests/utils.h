@@ -78,7 +78,7 @@ struct DockDescriptor
 {
     Location loc;
     int relativeToIndex;
-    QPointer<DockWidgetBase> createdDock;
+    QPointer<Controllers::DockWidgetBase> createdDock;
     KDDockWidgets::InitialVisibilityOption option;
 };
 
@@ -137,12 +137,13 @@ std::unique_ptr<MainWindowBase> createMainWindow(QSize sz = { 1000, 1000 },
 
 std::unique_ptr<KDDockWidgets::MainWindowBase> createMainWindow(QVector<DockDescriptor> &docks);
 
-KDDockWidgets::DockWidgetBase *createDockWidget(const QString &name, QWidgetOrQuick *w,
-                                                DockWidgetBase::Options options = {}, DockWidgetBase::LayoutSaverOptions layoutSaverOptions = {},
-                                                bool show = true, const QString &affinityName = {});
-KDDockWidgets::DockWidgetBase *createDockWidget(const QString &name, QColor color = Qt::black);
+Controllers::DockWidgetBase *createDockWidget(const QString &name, QWidgetOrQuick *w,
+                                              Controllers::DockWidgetBase::Options options = {},
+                                              Controllers::DockWidgetBase::LayoutSaverOptions layoutSaverOptions = {},
+                                              bool show = true, const QString &affinityName = {});
+Controllers::DockWidgetBase *createDockWidget(const QString &name, QColor color = Qt::black);
 
-void nestDockWidget(DockWidgetBase *dock, DropArea *dropArea, Controllers::Frame *relativeTo,
+void nestDockWidget(Controllers::DockWidgetBase *dock, DropArea *dropArea, Controllers::Frame *relativeTo,
                     KDDockWidgets::Location location);
 
 class MyWidget : public QWidgetOrQuick
@@ -349,7 +350,7 @@ inline Controllers::FloatingWindow *createFloatingWindow()
 inline WidgetType *draggableFor(WidgetType *w)
 {
     WidgetType *draggable = nullptr;
-    if (auto dock = qobject_cast<DockWidgetBase *>(w)) {
+    if (auto dock = qobject_cast<Controllers::DockWidgetBase *>(w)) {
         if (auto frame = dock->d->frame())
             draggable = frame->titleBar()->view()->asQWidget();
     } else if (auto fwView = qobject_cast<Views::FloatingWindow_qtwidgets *>(w)) {

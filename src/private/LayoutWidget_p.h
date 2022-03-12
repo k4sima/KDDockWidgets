@@ -46,10 +46,10 @@ namespace KDDockWidgets {
 namespace Controllers {
 class Frame;
 class FloatingWindow;
+class DockWidgetBase;
 }
 
 class MainWindowBase;
-class DockWidgetBase;
 
 /**
  * @brief The widget (QWidget or QQuickItem) which holds a layout of dock widgets.
@@ -131,7 +131,7 @@ public:
 
 
     /// @brief restores the dockwidget @p dw to its previous position
-    void restorePlaceholder(DockWidgetBase *dw, Layouting::Item *, int tabIndex);
+    void restorePlaceholder(Controllers::DockWidgetBase *dw, Layouting::Item *, int tabIndex);
 
     /**
      * @brief The list of items in this layout.
@@ -180,7 +180,7 @@ public:
     QList<Controllers::Frame *> frames() const;
 
     /// @brief Returns the list of dock widgets contained in this layout
-    QVector<DockWidgetBase *> dockWidgets() const;
+    QVector<Controllers::DockWidgetBase *> dockWidgets() const;
 
     /**
      * @brief Removes an item from this MultiSplitter.

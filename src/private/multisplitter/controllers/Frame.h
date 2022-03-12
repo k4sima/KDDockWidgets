@@ -15,7 +15,7 @@
 
 #include "kddockwidgets/KDDockWidgets.h"
 #include "kddockwidgets/FocusScope.h"
-#include "kddockwidgets/DockWidgetBase.h"
+#include "DockWidgetBase.h"
 #include "kddockwidgets/LayoutSaver.h"
 
 #include "kddockwidgets/docks_export.h"
@@ -27,8 +27,6 @@
 class TestDocks;
 
 namespace KDDockWidgets {
-
-class DockWidgetBase;
 class MainWindowBase;
 class MDILayoutWidget;
 class WidgetResizeHandler;
@@ -36,6 +34,7 @@ class WidgetResizeHandler;
 
 namespace KDDockWidgets::Controllers {
 
+class DockWidgetBase;
 class FloatingWindow;
 class TabBar;
 class TitleBar;
@@ -300,7 +299,7 @@ public:
     /// @brief Sets the LayoutWidget which this frame is in
     void setLayoutWidget(LayoutWidget *);
 Q_SIGNALS:
-    void currentDockWidgetChanged(KDDockWidgets::DockWidgetBase *);
+    void currentDockWidgetChanged(KDDockWidgets::Controllers::DockWidgetBase *);
     void numDockWidgetsChanged();
     void hasTabsVisibleChanged();
     void isInMainWindowChanged();

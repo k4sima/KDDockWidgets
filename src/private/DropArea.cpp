@@ -32,6 +32,7 @@
 #include <algorithm>
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 /**
  * @file

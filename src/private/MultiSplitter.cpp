@@ -39,6 +39,7 @@
 #include <QScopedValueRollback>
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 MultiSplitter::MultiSplitter(QWidgetOrQuick *parent)
     : LayoutWidget(parent)

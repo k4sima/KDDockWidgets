@@ -19,6 +19,7 @@
 #include "private/multisplitter/controllers/Frame.h"
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 DropIndicatorOverlayInterface::DropIndicatorOverlayInterface(DropArea *dropArea)
     : QWidgetAdapter(dropArea)

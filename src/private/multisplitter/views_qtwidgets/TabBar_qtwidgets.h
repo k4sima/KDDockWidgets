@@ -19,12 +19,9 @@ QT_BEGIN_NAMESPACE
 class QMouseEvent;
 QT_END_NAMESPACE
 
-namespace KDDockWidgets {
-class DockWidgetBase;
-}
-
 namespace KDDockWidgets::Controllers {
 class TabBar;
+class DockWidgetBase;
 }
 
 namespace KDDockWidgets::Views {
@@ -38,7 +35,7 @@ public:
     Controllers::TabBar *tabBar() const;
     int tabAt(QPoint localPos) const;
 
-    KDDockWidgets::DockWidgetBase *currentDockWidget() const;
+    Controllers::DockWidgetBase *currentDockWidget() const;
 
     QString text(int index) const;
     QRect rectForTab(int index) const;

@@ -47,6 +47,7 @@
 // clazy:excludeall=range-loop
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 using namespace KDDockWidgets::Debug;
 
 class DebugAppEventFilter : public QAbstractNativeEventFilter

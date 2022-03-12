@@ -36,6 +36,7 @@ class Item;
 namespace KDDockWidgets {
 
 namespace Controllers {
+class DockWidgetBase;
 class Frame;
 }
 
@@ -57,8 +58,6 @@ private:
     Q_DISABLE_COPY(ItemRef)
 };
 
-
-class DockWidgetBase;
 
 /**
  * @internal

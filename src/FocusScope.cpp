@@ -107,7 +107,7 @@ void FocusScope::focus(Qt::FocusReason reason)
         d->m_lastFocusedInScope->setFocus(reason);
     } else {
         if (auto frame = qobject_cast<Controllers::Frame *>(d->m_thisWidget)) {
-            if (DockWidgetBase *dw = frame->currentDockWidget()) {
+            if (auto dw = frame->currentDockWidget()) {
                 if (auto guest = dw->widget()) {
                     if (guest->focusPolicy() != Qt::NoFocus)
                         guest->setFocus(reason);

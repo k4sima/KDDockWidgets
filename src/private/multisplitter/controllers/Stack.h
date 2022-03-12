@@ -109,7 +109,7 @@ public:
 
 Q_SIGNALS:
     void currentTabChanged(int index);
-    void currentDockWidgetChanged(KDDockWidgets::DockWidgetBase *);
+    void currentDockWidgetChanged(KDDockWidgets::Controllers::DockWidgetBase *);
     void countChanged();
 
 public: // TODO

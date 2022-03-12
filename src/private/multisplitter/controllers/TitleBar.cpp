@@ -299,7 +299,7 @@ void TitleBar::onCloseClicked()
 
     if (m_frame) {
         if (closeOnlyCurrentTab) {
-            if (DockWidgetBase *dw = m_frame->currentDockWidget()) {
+            if (auto dw = m_frame->currentDockWidget()) {
                 dw->close();
             } else {
                 // Doesn't happen
@@ -459,7 +459,7 @@ bool TitleBar::isWindow() const
     return m_floatingWindow != nullptr;
 }
 
-KDDockWidgets::DockWidgetBase::List TitleBar::dockWidgets() const
+Controllers::DockWidgetBase::List TitleBar::dockWidgets() const
 {
     if (m_floatingWindow) {
         DockWidgetBase::List result;
@@ -476,7 +476,7 @@ KDDockWidgets::DockWidgetBase::List TitleBar::dockWidgets() const
     return {};
 }
 
-KDDockWidgets::DockWidgetBase *TitleBar::singleDockWidget() const
+Controllers::DockWidgetBase *TitleBar::singleDockWidget() const
 {
     const DockWidgetBase::List dockWidgets = this->dockWidgets();
     return dockWidgets.isEmpty() ? nullptr : dockWidgets.first();

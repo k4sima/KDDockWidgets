@@ -22,7 +22,7 @@
 #include "FrameworkWidgetFactory.h"
 #include "private/DragController_p.h"
 #include "private/LayoutSaver_p.h"
-#include "private/DockWidgetBase_p.h"
+#include "DockWidgetBase_p.h"
 
 #include "private/multisplitter/Item_p.h"
 #include "private/multisplitter/View.h"
@@ -233,7 +233,7 @@ std::unique_ptr<WindowBeingDragged> FloatingWindow::makeWindow()
     return std::unique_ptr<WindowBeingDragged>(new WindowBeingDragged(this, this));
 }
 
-DockWidgetBase *FloatingWindow::singleDockWidget() const
+Controllers::DockWidgetBase *FloatingWindow::singleDockWidget() const
 {
     const Controllers::Frame::List frames = this->frames();
     if (frames.size() == 1) {
@@ -245,7 +245,7 @@ DockWidgetBase *FloatingWindow::singleDockWidget() const
     return nullptr;
 }
 
-const DockWidgetBase::List FloatingWindow::dockWidgets() const
+const Controllers::DockWidgetBase::List FloatingWindow::dockWidgets() const
 {
     return m_dropArea->dockWidgets();
 }
@@ -584,8 +584,8 @@ bool FloatingWindow::anyDockWidgetsHas(DockWidgetBase::LayoutSaverOption option)
     });
 }
 
-void FloatingWindow::addDockWidget(DockWidgetBase *dw, Location location,
-                                   DockWidgetBase *relativeTo, InitialOption option)
+void FloatingWindow::addDockWidget(Controllers::DockWidgetBase *dw, Location location,
+                                   Controllers::DockWidgetBase *relativeTo, InitialOption option)
 {
     m_dropArea->addDockWidget(dw, location, relativeTo, option);
 }
