@@ -23,7 +23,6 @@
 #include "private/MDILayoutWidget_p.h"
 #include "private/DropArea_p.h"
 #include "private/Utils_p.h"
-#include "private/SideBar_p.h"
 #include "private/Logging_p.h"
 #include "private/WidgetResizeHandler_p.h"
 #include "FrameworkWidgetFactory.h"
@@ -33,6 +32,7 @@
 #include "private/multisplitter/Item_p.h"
 
 #include "private/multisplitter/controllers/Frame.h"
+#include "private/multisplitter/controllers/SideBar.h"
 
 // Or we can have a createDockWidget() in the factory
 #ifdef KDDOCKWIDGETS_QTQUICK
@@ -266,7 +266,7 @@ CursorPositions MainWindowBase::Private::allowedResizeSides(SideBarLocation loc)
 
 QRect MainWindowBase::Private::rectForOverlay(Controllers::Frame *frame, SideBarLocation location) const
 {
-    SideBar *sb = q->sideBar(location);
+    Controllers::SideBar *sb = q->sideBar(location);
     if (!sb)
         return {};
 
@@ -279,8 +279,8 @@ QRect MainWindowBase::Private::rectForOverlay(Controllers::Frame *frame, SideBar
     case SideBarLocation::North:
     case SideBarLocation::South: {
 
-        SideBar *leftSideBar = q->sideBar(SideBarLocation::West);
-        SideBar *rightSideBar = q->sideBar(SideBarLocation::East);
+        Controllers::SideBar *leftSideBar = q->sideBar(SideBarLocation::West);
+        Controllers::SideBar *rightSideBar = q->sideBar(SideBarLocation::East);
         const int leftSideBarWidth = (leftSideBar && leftSideBar->isVisible()) ? leftSideBar->width()
                                                                                : 0;
         const int rightSideBarWidth = (rightSideBar && rightSideBar->isVisible()) ? rightSideBar->width()
@@ -297,15 +297,15 @@ QRect MainWindowBase::Private::rectForOverlay(Controllers::Frame *frame, SideBar
     }
     case SideBarLocation::West:
     case SideBarLocation::East: {
-        SideBar *topSideBar = q->sideBar(SideBarLocation::North);
-        SideBar *bottomSideBar = q->sideBar(SideBarLocation::South);
+        Controllers::SideBar *topSideBar = q->sideBar(SideBarLocation::North);
+        Controllers::SideBar *bottomSideBar = q->sideBar(SideBarLocation::South);
         const int topSideBarHeight = (topSideBar && topSideBar->isVisible()) ? topSideBar->height()
                                                                              : 0;
         const int bottomSideBarHeight = (bottomSideBar && bottomSideBar->isVisible()) ? bottomSideBar->height()
                                                                                       : 0;
         rect.setWidth(qMax(300, frame->view()->minSize().width()));
         rect.setHeight(centralAreaGeo.height() - topSideBarHeight - bottomSideBarHeight - centerWidgetMargins.top() - centerWidgetMargins.bottom());
-        rect.moveTop(sb->mapTo(q, QPoint(0, 0)).y() + topSideBarHeight - 1);
+        rect.moveTop(sb->view()->asQWidget()->mapTo(q, QPoint(0, 0)).y() + topSideBarHeight - 1);
         if (location == SideBarLocation::East) {
             rect.moveLeft(centralAreaGeo.width() - rect.width() - sb->width() - centerWidgetMargins.right() - margin);
         } else {
@@ -435,7 +435,7 @@ void MainWindowBase::Private::updateOverlayGeometry(QSize suggestedSize)
     if (!m_overlayedDockWidget)
         return;
 
-    SideBar *sb = q->sideBarForDockWidget(m_overlayedDockWidget);
+    Controllers::SideBar *sb = q->sideBarForDockWidget(m_overlayedDockWidget);
     if (!sb) {
         qWarning() << Q_FUNC_INFO << "Expected a sidebar";
         return;
@@ -486,7 +486,7 @@ void MainWindowBase::Private::clearSideBars()
 {
     for (auto loc : { SideBarLocation::North, SideBarLocation::South,
                       SideBarLocation::East, SideBarLocation::West }) {
-        if (SideBar *sb = q->sideBar(loc))
+        if (Controllers::SideBar *sb = q->sideBar(loc))
             sb->clear();
     }
 }
@@ -501,7 +501,7 @@ void MainWindowBase::moveToSideBar(DockWidgetBase *dw, SideBarLocation location)
     if (dw->isPersistentCentralDockWidget())
         return;
 
-    if (SideBar *sb = sideBar(location)) {
+    if (Controllers::SideBar *sb = sideBar(location)) {
         QScopedValueRollback<bool> rollback(dw->d->m_isMovingToSideBar, true);
         dw->forceClose();
         sb->addDockWidget(dw);
@@ -517,7 +517,7 @@ void MainWindowBase::restoreFromSideBar(DockWidgetBase *dw)
     if (dw == d->m_overlayedDockWidget)
         clearSideBarOverlay();
 
-    SideBar *sb = sideBarForDockWidget(dw);
+    Controllers::SideBar *sb = sideBarForDockWidget(dw);
     if (!sb) {
         // Doesn't happen
         qWarning() << Q_FUNC_INFO << "Dock widget isn't in any sidebar";
@@ -533,7 +533,7 @@ void MainWindowBase::overlayOnSideBar(DockWidgetBase *dw)
     if (!dw || dw->isPersistentCentralDockWidget())
         return;
 
-    const SideBar *sb = sideBarForDockWidget(dw);
+    const Controllers::SideBar *sb = sideBarForDockWidget(dw);
     if (!sb) {
         qWarning() << Q_FUNC_INFO << "You need to add the dock widget to the sidebar before you can overlay it";
         return;
@@ -598,12 +598,12 @@ void MainWindowBase::clearSideBarOverlay(bool deleteFrame)
     }
 }
 
-SideBar *MainWindowBase::sideBarForDockWidget(const DockWidgetBase *dw) const
+Controllers::SideBar *MainWindowBase::sideBarForDockWidget(const DockWidgetBase *dw) const
 {
     for (auto loc : { SideBarLocation::North, SideBarLocation::South,
                       SideBarLocation::East, SideBarLocation::West }) {
 
-        if (SideBar *sb = sideBar(loc)) {
+        if (Controllers::SideBar *sb = sideBar(loc)) {
             if (sb->containsDockWidget(const_cast<DockWidgetBase *>(dw)))
                 return sb;
         }
@@ -619,7 +619,7 @@ DockWidgetBase *MainWindowBase::overlayedDockWidget() const
 
 bool MainWindowBase::sideBarIsVisible(SideBarLocation loc) const
 {
-    if (SideBar *sb = sideBar(loc)) {
+    if (Controllers::SideBar *sb = sideBar(loc)) {
         return !sb->isEmpty(); // isVisible() is always true, but its height is 0 when empty.
     }
 
@@ -712,7 +712,7 @@ bool MainWindowBase::deserialize(const LayoutSaver::MainWindow &mw)
     // Restore the SideBars
     d->clearSideBars();
     for (SideBarLocation loc : { SideBarLocation::North, SideBarLocation::East, SideBarLocation::West, SideBarLocation::South }) {
-        SideBar *sb = sideBar(loc);
+        Controllers::SideBar *sb = sideBar(loc);
         if (!sb)
             continue;
 
@@ -754,7 +754,7 @@ LayoutSaver::MainWindow MainWindowBase::serialize() const
                                    : Qt::WindowNoState;
 
     for (SideBarLocation loc : { SideBarLocation::North, SideBarLocation::East, SideBarLocation::West, SideBarLocation::South }) {
-        if (SideBar *sb = sideBar(loc)) {
+        if (Controllers::SideBar *sb = sideBar(loc)) {
             const QStringList dockwidgets = sb->serialize();
             if (!dockwidgets.isEmpty())
                 m.dockWidgetsPerSideBar.insert(loc, dockwidgets);

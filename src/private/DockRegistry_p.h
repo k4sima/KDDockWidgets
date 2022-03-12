@@ -15,7 +15,7 @@
 #include "kddockwidgets/DockWidgetBase.h"
 #include "kddockwidgets/MainWindowBase.h"
 
-#include "private/multisplitter/controllers/Frame.h"
+#include "multisplitter/controllers/Frame.h"
 
 #include <QVector>
 #include <QObject>
@@ -30,11 +30,11 @@ namespace KDDockWidgets {
 
 namespace Controllers {
 class FloatingWindow;
+class SideBar;
 }
 
 class LayoutWidget;
 class MainWindowMDI;
-class SideBar;
 struct WindowBeingDragged;
 
 class DOCKS_EXPORT DockRegistry : public QObject
@@ -224,7 +224,7 @@ public:
     SideBarLocation sideBarLocationForDockWidget(const DockWidgetBase *) const;
 
     ///@brief Overload that returns the SideBar itself
-    SideBar *sideBarForDockWidget(const DockWidgetBase *) const;
+    Controllers::SideBar *sideBarForDockWidget(const DockWidgetBase *) const;
 
     ///@brief Returns the Frame which is being resized in a MDI layout. nullptr if none
     Controllers::Frame *frameInMDIResize() const;

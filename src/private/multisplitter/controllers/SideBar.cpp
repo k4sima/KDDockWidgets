@@ -9,16 +9,20 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
-#include "SideBar_p.h"
-#include "DockWidgetBase.h"
-#include "MainWindowBase.h"
+#include "SideBar.h"
+#include "kddockwidgets/DockWidgetBase.h"
+#include "kddockwidgets/MainWindowBase.h"
+#include "kddockwidgets/FrameworkWidgetFactory.h"
+
+#include "../views_qtwidgets/SideBar_qtwidgets.h" // TODO removes
 
 #include <QDebug>
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Controllers;
 
 SideBar::SideBar(SideBarLocation location, MainWindowBase *parent)
-    : QWidgetAdapter(parent)
+    : Controller(Config::self().frameworkWidgetFactory()->createSideBar(this, parent))
     , m_mainWindow(parent)
     , m_location(location)
     , m_orientation((location == SideBarLocation::North || location == SideBarLocation::South) ? Qt::Horizontal
@@ -40,7 +44,7 @@ void SideBar::addDockWidget(DockWidgetBase *dw)
     connect(dw, &QObject::destroyed, this, &SideBar::onDockWidgetDestroyed);
 
     m_dockWidgets << dw;
-    addDockWidget_Impl(dw);
+    qobject_cast<Views::SideBar_qtwidgets *>(view()->asQWidget())->addDockWidget_Impl(dw);
     updateSize();
 }
 
@@ -53,7 +57,7 @@ void SideBar::removeDockWidget(DockWidgetBase *dw)
 
     disconnect(dw, &QObject::destroyed, this, &SideBar::onDockWidgetDestroyed);
     m_dockWidgets.removeOne(dw);
-    removeDockWidget_Impl(dw);
+    qobject_cast<Views::SideBar_qtwidgets *>(view()->asQWidget())->removeDockWidget_Impl(dw);
     Q_EMIT dw->removedFromSideBar();
     updateSize();
 }
@@ -77,9 +81,9 @@ void SideBar::updateSize()
 {
     const int thickness = isEmpty() ? 0 : 30;
     if (isVertical()) {
-        setFixedWidth(thickness);
+        view()->setFixedWidth(thickness);
     } else {
-        setFixedHeight(thickness);
+        view()->setFixedHeight(thickness);
     }
 }
 

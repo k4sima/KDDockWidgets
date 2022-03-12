@@ -114,6 +114,16 @@ public:
         setSize(QWidget::width(), height);
     }
 
+    void setFixedWidth(int w) override
+    {
+        QWidget::setFixedWidth(w);
+    }
+
+    void setFixedHeight(int h) override
+    {
+        QWidget::setFixedHeight(h);
+    }
+
     void show() override
     {
         Base::show();

@@ -12,17 +12,21 @@
 #ifndef KD_SIDEBAR_P_H
 #define KD_SIDEBAR_P_H
 
+#pragma once
+
 #include "kddockwidgets/docks_export.h"
 
-#include "KDDockWidgets.h"
-#include "QWidgetAdapter.h"
+#include "kddockwidgets/KDDockWidgets.h"
+#include "../Controller.h"
 
 namespace KDDockWidgets {
 
 class DockWidgetBase;
 class MainWindowBase;
 
-class DOCKS_EXPORT SideBar : public QWidgetAdapter
+namespace Controllers {
+
+class DOCKS_EXPORT SideBar : public Controller
 {
     Q_OBJECT
 public:
@@ -60,10 +64,6 @@ public:
     /// @brief clears the sidebar (removes all dock widgets from it)
     void clear();
 
-protected:
-    virtual void addDockWidget_Impl(DockWidgetBase *dock) = 0;
-    virtual void removeDockWidget_Impl(DockWidgetBase *dock) = 0;
-
     void onButtonClicked(DockWidgetBase *dw);
 
 private:
@@ -75,6 +75,8 @@ private:
     const SideBarLocation m_location;
     const Qt::Orientation m_orientation;
 };
+
+}
 
 }
 

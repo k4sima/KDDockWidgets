@@ -21,7 +21,6 @@
 #include "private/multisplitter/controllers/FloatingWindow.h"
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
-#include "private/widgets/SideBarWidget_p.h"
 #include "private/indicators/SegmentedIndicators_p.h"
 
 #include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
@@ -30,6 +29,7 @@
 #include "private/multisplitter/views_qtwidgets/Separator_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
+#include "private/multisplitter/views_qtwidgets/SideBar_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/Stack_qtwidgets.h"
 
 #include <QRubberBand>
@@ -117,9 +117,9 @@ QWidgetOrQuick *DefaultWidgetFactory::createRubberBand(QWidgetOrQuick *parent) c
     return new QRubberBand(QRubberBand::Rectangle, parent);
 }
 
-SideBar *DefaultWidgetFactory::createSideBar(SideBarLocation loc, MainWindowBase *parent) const
+View *DefaultWidgetFactory::createSideBar(Controllers::SideBar *controller, MainWindowBase *parent) const
 {
-    return new SideBarWidget(loc, parent);
+    return new Views::SideBar_qtwidgets(controller, parent);
 }
 
 QAbstractButton *DefaultWidgetFactory::createTitleBarButton(QWidget *parent, TitleBarButtonType type) const

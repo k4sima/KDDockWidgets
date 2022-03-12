@@ -18,13 +18,13 @@
 #include "MainWindowMDI.h"
 #include "Position_p.h"
 #include "QWidgetAdapter.h"
-#include "SideBar_p.h"
 #include "Utils_p.h"
 #include "WidgetResizeHandler_p.h"
 #include "WindowBeingDragged_p.h"
 #include "multisplitter/Item_p.h"
 
 #include "private/multisplitter/controllers/FloatingWindow.h"
+#include "private/multisplitter/controllers/SideBar.h"
 
 #include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
@@ -226,16 +226,16 @@ bool DockRegistry::isProbablyObscured(QWindow *target, WindowBeingDragged *exclu
 
 SideBarLocation DockRegistry::sideBarLocationForDockWidget(const DockWidgetBase *dw) const
 {
-    if (SideBar *sb = sideBarForDockWidget(dw))
+    if (Controllers::SideBar *sb = sideBarForDockWidget(dw))
         return sb->location();
 
     return SideBarLocation::None;
 }
 
-SideBar *DockRegistry::sideBarForDockWidget(const DockWidgetBase *dw) const
+Controllers::SideBar *DockRegistry::sideBarForDockWidget(const DockWidgetBase *dw) const
 {
     for (auto mw : m_mainWindows) {
-        if (SideBar *sb = mw->sideBarForDockWidget(dw))
+        if (Controllers::SideBar *sb = mw->sideBarForDockWidget(dw))
             return sb;
     }
 

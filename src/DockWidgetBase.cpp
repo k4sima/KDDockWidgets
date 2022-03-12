@@ -15,10 +15,10 @@
 #include "private/LayoutSaver_p.h"
 #include "private/Logging_p.h"
 #include "private/MDILayoutWidget_p.h"
-#include "private/SideBar_p.h"
 #include "private/multisplitter/controllers/TitleBar.h"
 #include "private/multisplitter/controllers/Frame.h"
 #include "private/multisplitter/controllers/FloatingWindow.h"
+#include "private/multisplitter/controllers/SideBar.h"
 #include "private/Utils_p.h"
 #include "private/WindowBeingDragged_p.h"
 #include "private/Position_p.h"
@@ -651,7 +651,7 @@ void DockWidgetBase::Private::updateTitle()
 
 void DockWidgetBase::Private::toggle(bool enabled)
 {
-    if (SideBar *sb = sideBar()) {
+    if (Controllers::SideBar *sb = sideBar()) {
         // The widget is in the sidebar, let's toggle its overlayed state
         sb->toggleOverlay(q);
     } else {
@@ -712,7 +712,7 @@ void DockWidgetBase::Private::close()
         return;
 
     // If it's overlayed and we're closing, we need to close the overlay
-    if (SideBar *sb = DockRegistry::self()->sideBarForDockWidget(q)) {
+    if (Controllers::SideBar *sb = DockRegistry::self()->sideBarForDockWidget(q)) {
         auto mainWindow = sb->mainWindow();
         if (mainWindow->overlayedDockWidget() == q) {
             mainWindow->clearSideBarOverlay(/* deleteFrame=*/false);
@@ -733,7 +733,7 @@ void DockWidgetBase::Private::close()
         q->setParent(nullptr);
         frame->removeWidget(q);
 
-        if (SideBar *sb = DockRegistry::self()->sideBarForDockWidget(q)) {
+        if (Controllers::SideBar *sb = DockRegistry::self()->sideBarForDockWidget(q)) {
             sb->removeDockWidget(q);
         }
     }
@@ -990,7 +990,7 @@ DockWidgetBase::Private::Private(const QString &dockName, DockWidgetBase::Option
 
         // When floating, we remove from the sidebar
         if (checked && q->isOpen()) {
-            if (SideBar *sb = DockRegistry::self()->sideBarForDockWidget(q)) {
+            if (Controllers::SideBar *sb = DockRegistry::self()->sideBarForDockWidget(q)) {
                 sb->mainWindow()->clearSideBarOverlay(/* deleteFrame=*/false);
                 sb->removeDockWidget(q);
             }

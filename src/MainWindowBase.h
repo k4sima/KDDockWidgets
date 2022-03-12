@@ -34,6 +34,7 @@ namespace KDDockWidgets {
 
 namespace Controllers {
 class Frame;
+class SideBar;
 }
 
 class DockWidgetBase;
@@ -42,7 +43,6 @@ class MDILayoutWidget;
 class MultiSplitter;
 class LayoutWidget;
 class DropAreaWithCentralFrame;
-class SideBar;
 
 /**
  * @brief The MainWindow base-class. MainWindow and MainWindowBase are only
@@ -194,7 +194,7 @@ public:
     Q_INVOKABLE void clearSideBarOverlay(bool deleteFrame = true);
 
     /// @brief Returns the sidebar this dockwidget is in. nullptr if not in any.
-    Q_INVOKABLE KDDockWidgets::SideBar *
+    Q_INVOKABLE KDDockWidgets::Controllers::SideBar *
     sideBarForDockWidget(const KDDockWidgets::DockWidgetBase *) const;
 
     /// @brief Returns whether the specified sidebar is visible
@@ -229,7 +229,7 @@ protected:
     void setUniqueName(const QString &uniqueName);
     void onResized(QResizeEvent *); // Because QtQuick doesn't have resizeEvent()
     virtual QMargins centerWidgetMargins() const = 0;
-    virtual SideBar *sideBar(SideBarLocation) const = 0;
+    virtual Controllers::SideBar *sideBar(SideBarLocation) const = 0;
     virtual QRect centralAreaGeometry() const
     {
         return {};

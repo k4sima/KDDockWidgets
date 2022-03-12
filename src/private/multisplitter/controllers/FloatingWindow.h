@@ -17,8 +17,8 @@
 #include "kddockwidgets/LayoutSaver.h"
 #include "kddockwidgets/Qt5Qt6Compat_p.h"
 #include "Frame.h"
-#include "private/Draggable_p.h"
-#include "private/DropArea_p.h"
+#include "../../Draggable_p.h"
+#include "../../DropArea_p.h"
 #include "kddockwidgets/docks_export.h"
 
 namespace KDDockWidgets {

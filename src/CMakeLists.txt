@@ -58,8 +58,6 @@ set(DOCKSLIBS_SRCS
     private/Logging_p.h
     # private/TabWidget.cpp
     # private/TabWidget_p.h
-    private/SideBar.cpp
-    private/SideBar_p.h
     private/DockRegistry.cpp
     private/DockRegistry_p.h
     private/Draggable.cpp
@@ -101,6 +99,8 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/controllers/Frame.h
     private/multisplitter/controllers/Separator.cpp
     private/multisplitter/controllers/Separator.h
+    private/multisplitter/controllers/SideBar.cpp
+    private/multisplitter/controllers/SideBar.h
     private/multisplitter/controllers/Stack.cpp
     private/multisplitter/controllers/Stack.h
     private/multisplitter/controllers/TitleBar.cpp
@@ -130,6 +130,8 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/views_qtwidgets/TabBar_qtwidgets.h
     private/multisplitter/views_qtwidgets/Stack_qtwidgets.cpp
     private/multisplitter/views_qtwidgets/Stack_qtwidgets.h
+    private/multisplitter/views_qtwidgets/SideBar_qtwidgets.cpp
+    private/multisplitter/views_qtwidgets/SideBar_qtwidgets.h
 )
 
 # add_library(kddockwidgets_backend STATIC ${KDDW_BACKEND_SRCS})
@@ -167,7 +169,7 @@ set(DOCKS_INSTALLABLE_PRIVATE_INCLUDES
     private/LayoutSaver_p.h
     private/MultiSplitter_p.h
     private/LayoutWidget_p.h
-    private/SideBar_p.h
+    # private/SideBar_p.h
     private/TitleBar_p.h
     private/WindowBeingDragged_p.h
     private/WidgetResizeHandler_p.h
@@ -178,7 +180,7 @@ set(DOCKS_INSTALLABLE_PRIVATE_INCLUDES
 
 set(DOCKS_INSTALLABLE_PRIVATE_WIDGET_INCLUDES
     private/widgets/QWidgetAdapter_widgets_p.h
-    private/widgets/SideBarWidget_p.h
+    # private/widgets/SideBarWidget_p.h
     # private/widgets/FloatingWindowWidget_p.h
     # private/widgets/FrameWidget_p.h
     # private/widgets/TabBarWidget_p.h
@@ -246,8 +248,8 @@ else()
       # private/widgets/FloatingWindowWidget_p.h
       # private/widgets/FrameWidget.cpp
       # private/widgets/FrameWidget_p.h
-      private/widgets/SideBarWidget.cpp
-      private/widgets/SideBarWidget_p.h
+      # private/widgets/SideBarWidget.cpp
+      # private/widgets/SideBarWidget_p.h
       # private/widgets/TabWidgetWidget.cpp
       # private/widgets/TabWidgetWidget_p.h
       private/widgets/DockWidget.cpp

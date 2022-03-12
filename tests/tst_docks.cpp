@@ -21,7 +21,6 @@
 #include "MDILayoutWidget_p.h"
 #include "MainWindowMDI.h"
 #include "Position_p.h"
-#include "SideBar_p.h"
 #include "WindowBeingDragged_p.h"
 #include "MDIArea.h"
 #include "multisplitter/Item_p.h"
@@ -29,10 +28,12 @@
 #include "multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
 #include "multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
 #include "multisplitter/views_qtwidgets/Stack_qtwidgets.h"
+#include "multisplitter/views_qtwidgets/SideBar_qtwidgets.h"
 #include "private/MultiSplitter_p.h"
 #include "multisplitter/controllers/Separator.h"
 #include "multisplitter/controllers/TabBar.h"
 #include "multisplitter/controllers/Stack.h"
+#include "multisplitter/controllers/SideBar.h"
 
 #include <QAction>
 #include <qtabbar.h>
@@ -5388,7 +5389,7 @@ void TestDocks::tst_closeRemovesFromSideBar()
     QVERIFY(!dw1->isVisible());
     QVERIFY(dw1->isInSideBar());
 
-    SideBar *sb = m1->sideBarForDockWidget(dw1);
+    Controllers::SideBar *sb = m1->sideBarForDockWidget(dw1);
     QVERIFY(sb);
 
     // Overlay it:

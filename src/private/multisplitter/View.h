@@ -46,7 +46,8 @@ public:
         Separator = 32,
         DockWidget = 64,
         Layout = 128,
-        LayoutItem = 256
+        LayoutItem = 256,
+        SideBar = 512
     };
 
     explicit View(Controller *controller, Type, QObject *thisObj);
@@ -123,6 +124,8 @@ public:
     virtual void setMaximumSize(QSize sz) = 0;
     virtual bool isActiveWindow() const = 0;
     virtual QWindow *windowHandle() const = 0;
+    virtual void setFixedWidth(int) = 0;
+    virtual void setFixedHeight(int) = 0;
 
     // TODO: Check if these two should be in the controller or on view
     virtual void onLayoutRequest()

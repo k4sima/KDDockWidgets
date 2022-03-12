@@ -14,7 +14,7 @@
 
 #include "kddockwidgets/docks_export.h"
 #include "kddockwidgets/QWidgetAdapter.h"
-#include "private/multisplitter/controllers/Frame.h"
+#include "multisplitter/controllers/Frame.h"
 #include "kddockwidgets/KDDockWidgets.h"
 
 namespace KDDockWidgets {

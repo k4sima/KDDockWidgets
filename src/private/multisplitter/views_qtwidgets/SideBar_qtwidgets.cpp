@@ -9,9 +9,10 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
-#include "SideBarWidget_p.h"
-#include "DockWidgetBase.h"
-#include "MainWindowBase.h"
+#include "SideBar_qtwidgets.h"
+#include "kddockwidgets/DockWidgetBase.h"
+#include "kddockwidgets/MainWindowBase.h"
+#include "../controllers/SideBar.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -21,18 +22,20 @@
 #include <QStyleOptionToolButton>
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Views;
 
-SideBarWidget::SideBarWidget(SideBarLocation location, MainWindowBase *parent)
-    : SideBar(location, parent)
-    , m_layout(isVertical() ? static_cast<QBoxLayout *>(new QVBoxLayout(this))
-                            : static_cast<QBoxLayout *>(new QHBoxLayout(this))) // ternary operator requires static_cast
+SideBar_qtwidgets::SideBar_qtwidgets(Controllers::SideBar *controller, MainWindowBase *parent)
+    : View_qtwidgets(controller, Type::SideBar, parent)
+    , m_controller(controller)
+    , m_layout(controller->isVertical() ? static_cast<QBoxLayout *>(new QVBoxLayout(this))
+                                        : static_cast<QBoxLayout *>(new QHBoxLayout(this))) // ternary operator requires static_cast
 {
     m_layout->setSpacing(1);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->addStretch();
 }
 
-void SideBarWidget::addDockWidget_Impl(DockWidgetBase *dw)
+void SideBar_qtwidgets::addDockWidget_Impl(DockWidgetBase *dw)
 {
     auto button = createButton(dw, this);
     button->setText(dw->title());
@@ -43,24 +46,29 @@ void SideBarWidget::addDockWidget_Impl(DockWidgetBase *dw)
     connect(dw, &DockWidgetBase::removedFromSideBar, button, &QObject::deleteLater);
     connect(dw, &QObject::destroyed, button, &QObject::deleteLater);
     connect(button, &SideBarButton::clicked, this, [this, dw] {
-        onButtonClicked(dw);
+        m_controller->onButtonClicked(dw);
     });
 
     const int count = m_layout->count();
     m_layout->insertWidget(count - 1, button);
 }
 
-void SideBarWidget::removeDockWidget_Impl(DockWidgetBase *)
+void SideBar_qtwidgets::removeDockWidget_Impl(DockWidgetBase *)
 {
     // Nothing is needed. Button is removed automatically.
 }
 
-SideBarButton *SideBarWidget::createButton(DockWidgetBase *dw, SideBarWidget *parent) const
+bool SideBar_qtwidgets::isVertical() const
+{
+    return m_controller->isVertical();
+}
+
+SideBarButton *SideBar_qtwidgets::createButton(DockWidgetBase *dw, SideBar_qtwidgets *parent) const
 {
     return new SideBarButton(dw, parent);
 }
 
-SideBarButton::SideBarButton(DockWidgetBase *dw, SideBarWidget *parent)
+SideBarButton::SideBarButton(DockWidgetBase *dw, SideBar_qtwidgets *parent)
     : QToolButton(parent)
     , m_sideBar(parent)
     , m_dockWidget(dw)
@@ -89,8 +97,8 @@ void SideBarButton::paintEvent(QPaintEvent *)
         QStyleOptionToolButton opt;
         initStyleOption(&opt);
         const bool isHovered = opt.state & QStyle::State_MouseOver;
-        //const bool isOverlayed = m_dockWidget->isOverlayed(); // We could style different if it's open
-        //const bool isHoveredOrOverlayed = isHovered || isOverlayed;
+        // const bool isOverlayed = m_dockWidget->isOverlayed(); // We could style different if it's open
+        // const bool isHoveredOrOverlayed = isHovered || isOverlayed;
 
         QPainter p(&pixmap);
 

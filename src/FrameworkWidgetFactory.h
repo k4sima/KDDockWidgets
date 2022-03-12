@@ -42,7 +42,6 @@ class MainWindowBase;
 class DropIndicatorOverlayInterface;
 class TabWidget;
 class DropArea;
-class SideBar;
 class TabBar;
 class TabWidgetQuick;
 
@@ -55,6 +54,7 @@ class TabBar;
 namespace Controllers {
 class Separator;
 class TabBar;
+class SideBar;
 class FloatingWindow;
 }
 
@@ -142,7 +142,7 @@ public:
     ///@brief Called internally by the framework to create a SideBar
     ///@param loc The side-bar location without the main window. Just forward into your SideBar sub-class ctor.
     ///@param parent The MainWindow. Just forward into your SideBar sub-class ctor.
-    virtual SideBar *createSideBar(SideBarLocation loc, MainWindowBase *parent) const = 0;
+    virtual View *createSideBar(Controllers::SideBar *, MainWindowBase *parent) const = 0;
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
     ///@brief Called internally by the framework to create a title bar button
@@ -182,7 +182,7 @@ public:
                                Qt::WindowFlags windowFlags = {}) const override;
     DropIndicatorOverlayInterface *createDropIndicatorOverlay(DropArea *) const override;
     QWidgetOrQuick *createRubberBand(QWidgetOrQuick *parent) const override;
-    SideBar *createSideBar(SideBarLocation loc, MainWindowBase *parent) const override;
+    View *createSideBar(Controllers::SideBar *, MainWindowBase *parent) const override;
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
     QAbstractButton *createTitleBarButton(QWidget *parent, TitleBarButtonType) const override;

@@ -12,11 +12,11 @@
 #ifndef KD_DOCKWIDGET_BASE_P_H
 #define KD_DOCKWIDGET_BASE_P_H
 
-#include "DockWidgetBase.h"
-#include "SideBar_p.h"
+#include "kddockwidgets/DockWidgetBase.h"
 #include "DockRegistry_p.h"
 #include "Position_p.h"
 #include "multisplitter/controllers/FloatingWindow.h"
+#include "multisplitter/controllers/SideBar.h"
 #include "multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
 
 #include <QCoreApplication>
@@ -28,6 +28,10 @@ class QAction;
 QT_END_NAMESPACE
 
 namespace KDDockWidgets {
+
+namespace Controllers {
+class SideBar;
+}
 
 class DOCKS_EXPORT_FOR_UNIT_TESTS DockWidgetBase::Private : public QObject /// clazy:exclude=missing-qobject-macro
 {
@@ -73,7 +77,7 @@ public:
         return nullptr;
     }
 
-    SideBar *sideBar() const
+    Controllers::SideBar *sideBar() const
     {
         return DockRegistry::self()->sideBarForDockWidget(q);
     }

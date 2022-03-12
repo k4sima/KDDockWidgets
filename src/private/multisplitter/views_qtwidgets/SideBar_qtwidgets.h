@@ -12,8 +12,9 @@
 #ifndef KD_SIDEBARWIDGET_P_H
 #define KD_SIDEBARWIDGET_P_H
 
+#include "View_qtwidgets.h"
 #include "kddockwidgets/docks_export.h"
-#include "../SideBar_p.h"
+#include "../controllers/SideBar.h"
 
 #include <QToolButton>
 #include <QPointer>
@@ -27,38 +28,51 @@ namespace KDDockWidgets {
 
 class DockWidget;
 class Frame;
-class SideBarWidget;
+
+namespace Controllers {
+class SideBar;
+}
+
+namespace Views {
+class SideBar_qtwidgets;
+}
 
 class SideBarButton : public QToolButton
 {
     Q_OBJECT
 public:
-    explicit SideBarButton(DockWidgetBase *dw, SideBarWidget *parent);
+    explicit SideBarButton(DockWidgetBase *dw, Views::SideBar_qtwidgets *parent);
     bool isVertical() const;
     void paintEvent(QPaintEvent *) override;
     QSize sizeHint() const override;
 
 private:
-    SideBarWidget *const m_sideBar;
+    Views::SideBar_qtwidgets *const m_sideBar;
     const QPointer<DockWidgetBase> m_dockWidget;
 };
 
-class DOCKS_EXPORT SideBarWidget : public SideBar
+namespace Views {
+
+class DOCKS_EXPORT SideBar_qtwidgets : public View_qtwidgets<QWidget>
 {
     Q_OBJECT
 public:
-    explicit SideBarWidget(SideBarLocation, KDDockWidgets::MainWindowBase *parent);
+    explicit SideBar_qtwidgets(KDDockWidgets::Controllers::SideBar *,
+                               KDDockWidgets::MainWindowBase *parent);
 
-protected:
-    void addDockWidget_Impl(DockWidgetBase *dock) override;
-    void removeDockWidget_Impl(DockWidgetBase *dock) override;
+    bool isVertical() const; // TODO: Move to a potential base class
+
+    void addDockWidget_Impl(DockWidgetBase *dock); // TODO: Either override or remove Impl
+    void removeDockWidget_Impl(DockWidgetBase *dock);
 
     // virtual so users can provide their own buttons
-    virtual SideBarButton *createButton(DockWidgetBase *dw, SideBarWidget *parent) const;
+    virtual SideBarButton *createButton(DockWidgetBase *dw, SideBar_qtwidgets *parent) const;
 
 private:
+    Controllers::SideBar *const m_controller;
     QBoxLayout *const m_layout;
 };
+}
 
 }
 

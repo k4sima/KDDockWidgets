@@ -21,8 +21,8 @@
 #include "kddockwidgets/docks_export.h"
 
 #include "Logging_p.h"
-#include "LayoutSaver.h"
-#include "QWidgetAdapter.h"
+#include "kddockwidgets/LayoutSaver.h"
+#include "kddockwidgets/QWidgetAdapter.h"
 
 #include <QHash>
 #include <QPointer>
