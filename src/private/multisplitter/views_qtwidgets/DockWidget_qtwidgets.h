@@ -19,7 +19,7 @@
 #ifndef KD_DOCKWIDGET_H
 #define KD_DOCKWIDGET_H
 
-#include "private/multisplitter/controllers/DockWidgetBase.h"
+#include "../controllers/DockWidgetBase.h"
 
 QT_BEGIN_NAMESPACE
 class QCloseEvent;
@@ -28,6 +28,8 @@ QT_END_NAMESPACE
 // clazy:excludeall=ctor-missing-parent-argument
 
 namespace KDDockWidgets {
+
+namespace Views {
 
 /**
  * @brief Represents a dock widget.
@@ -63,6 +65,8 @@ private:
     class Private;
     Private *const d;
 };
+
+}
 
 }
 

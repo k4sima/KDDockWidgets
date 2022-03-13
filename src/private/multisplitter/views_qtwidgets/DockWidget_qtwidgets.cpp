@@ -9,7 +9,7 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
-#include "DockWidget.h"
+#include "DockWidget_qtwidgets.h"
 
 #include <QCloseEvent>
 #include <QVBoxLayout>
@@ -22,6 +22,7 @@
  */
 
 using namespace KDDockWidgets;
+using namespace KDDockWidgets::Views;
 
 class DockWidget::Private
 {

@@ -42,13 +42,15 @@ inline bool isMinimized(QWindow *window)
 #include <QMainWindow>
 namespace KDDockWidgets {
 class MainWindow;
+namespace Views {
 class DockWidget;
+}
 typedef QWidget QWidgetOrQuick;
 typedef QMainWindow QMainWindowOrQuick;
 typedef Layouting::Widget_qwidget LayoutGuestWidgetBase;
 typedef KDDockWidgets::MainWindow MainWindowType;
 typedef KDDockWidgets::MainWindow MDIMainWindowBase;
-typedef KDDockWidgets::DockWidget DockWidgetType;
+typedef KDDockWidgets::Views::DockWidget DockWidgetType;
 typedef QWidget WidgetType;
 }
 #else

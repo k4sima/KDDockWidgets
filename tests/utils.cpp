@@ -24,7 +24,7 @@
 #include "private/quick/MainWindowQuick_p.h"
 #include <QQuickView>
 #else
-#include "DockWidget.h"
+#include "multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 #include "MainWindow.h"
 #include <QPushButton>
 #endif

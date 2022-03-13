@@ -38,7 +38,8 @@
 #ifdef KDDOCKWIDGETS_QTQUICK
 #include "DockWidgetQuick.h"
 #else
-#include "DockWidget.h"
+// TODO: Use framework factory instead
+#include "../private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 #endif
 
 using namespace KDDockWidgets;
@@ -83,7 +84,7 @@ public:
         if (!supportsPersistentCentralWidget())
             return nullptr;
 
-        auto dw = new DockWidgetType(QStringLiteral("%1-persistentCentralDockWidget").arg(uniqueName));
+        auto dw = new Views::DockWidget(QStringLiteral("%1-persistentCentralDockWidget").arg(uniqueName));
         dw->dptr()->m_isPersistentCentralDockWidget = true;
         Controllers::Frame *frame = dropArea()->m_centralFrame;
         if (!frame) {

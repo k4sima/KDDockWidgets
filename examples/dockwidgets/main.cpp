@@ -323,7 +323,7 @@ int main(int argc, char **argv)
         mainWindow2->resize(1200, 1200);
         mainWindow2->show();
     } else if (usesDockableMainWindows) {
-        auto mainWindowDockWidget = new DockWidget(QStringLiteral("MyMainWindow-2-DW"));
+        auto mainWindowDockWidget = new DockWidgetBase(QStringLiteral("MyMainWindow-2-DW"));
 
         const QString affinity = QStringLiteral("Inner-DockWidgets-2");
         auto dockableMainWindow = new MyMainWindow(QStringLiteral("MyMainWindow-2"), options,

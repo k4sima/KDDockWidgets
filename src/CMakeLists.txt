@@ -120,6 +120,8 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/views_qtwidgets/View_qtwidgets.h
     private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.cpp
     private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h
+    private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.cpp
+    private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h
     private/multisplitter/views_qtwidgets/Frame_qtwidgets.cpp
     private/multisplitter/views_qtwidgets/Frame_qtwidgets.h
     private/multisplitter/views_qtwidgets/Separator_qtwidgets.cpp
@@ -239,7 +241,7 @@ else()
       private/ObjectViewer_p.h
       MainWindow.cpp
       MainWindow.h
-      DockWidget.h
+      # DockWidget.h
       private/multisplitter/Widget_qwidget.cpp
       private/multisplitter/Widget_qwidget.h
       # private/widgets/TabBarWidget.cpp
@@ -252,7 +254,7 @@ else()
       # private/widgets/SideBarWidget_p.h
       # private/widgets/TabWidgetWidget.cpp
       # private/widgets/TabWidgetWidget_p.h
-      private/widgets/DockWidget.cpp
+      # private/widgets/DockWidget.cpp
       private/widgets/QWidgetAdapter_widgets.cpp
       private/widgets/QWidgetAdapter_widgets_p.h
       private/indicators/SegmentedIndicators.cpp
@@ -263,7 +265,7 @@ else()
   set(DOCKS_INSTALLABLE_INCLUDES
       ${DOCKS_INSTALLABLE_INCLUDES}
       MainWindow.h
-      DockWidget.h
+      # DockWidget.h
       MDIArea.h
   )
 endif()
@@ -275,7 +277,7 @@ ecm_generate_headers(camelcase_HEADERS
     CAMELCASE
   HEADER_NAMES
     Config
-    DockWidget
+    # DockWidget
     # DockWidgetBase
     FocusScope
     FrameworkWidgetFactory,DefaultWidgetFactory

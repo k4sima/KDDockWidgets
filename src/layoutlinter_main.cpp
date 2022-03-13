@@ -15,7 +15,7 @@
 #include "private/quick/DockWidgetQuick.h"
 #include "private/quick/MainWindowQuick_p.h"
 #else
-#include "DockWidget.h"
+#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 #include "MainWindow.h"
 #endif
 

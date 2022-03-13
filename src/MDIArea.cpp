@@ -15,7 +15,7 @@
 #include "private/DropAreaWithCentralFrame_p.h"
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
-#include "DockWidget.h"
+#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 #include <QVBoxLayout>
 #else
 #include "DockWidgetQuick.h"
