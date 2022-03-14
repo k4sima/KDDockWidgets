@@ -102,7 +102,7 @@ QString Indicator::iconFileName(bool active) const
                                                          : QStringLiteral(":/img/classic_indicators/opaque/%1.png").arg(name);
 }
 
-static QWidgetAdapter *parentForIndicatorWindow(ClassicIndicators *classicIndicators_)
+static QWidget *parentForIndicatorWindow(ClassicIndicators *classicIndicators_)
 {
     // On Wayland it can't be a top-level, as we have no way of positioning it
 

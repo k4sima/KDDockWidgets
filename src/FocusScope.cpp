@@ -155,7 +155,7 @@ bool FocusScope::Private::isInFocusScope(WidgetType *widget) const
         if (p == m_thisWidget)
             return true;
 
-        p = KDDockWidgets::Private::parentWidget(p);
+        p = p->parentWidget();
     }
 
     return false;

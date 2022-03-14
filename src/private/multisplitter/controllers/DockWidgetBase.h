@@ -21,7 +21,6 @@
 
 #include "kddockwidgets/docks_export.h"
 #include "kddockwidgets/KDDockWidgets.h"
-#include "kddockwidgets/QWidgetAdapter.h"
 #include "kddockwidgets/LayoutSaver.h"
 #include "../Controller.h"
 
@@ -58,7 +57,7 @@ class FloatingWindow;
  *
  * Do not use instantiate directly in user code. Use DockWidget instead.
  */
-class DOCKS_EXPORT DockWidgetBase : public QWidgetAdapter
+class DOCKS_EXPORT DockWidgetBase : public Controller
 {
     Q_OBJECT
     Q_PROPERTY(bool isFocused READ isFocused NOTIFY isFocusedChanged)
@@ -155,12 +154,12 @@ public:
      * call setWidget(A) followed by setWidget(B) then A will have to be deleted by you, while B is
      * owned by the dock widget.
      */
-    virtual void setWidget(QWidgetOrQuick *widget);
+    virtual void setWidget(QWidget *widget);
 
     /**
      * @brief returns the widget which this dock widget hosts
      */
-    QWidgetOrQuick *widget() const;
+    QWidget *widget() const;
 
     /**
      * @brief Returns whether the dock widget is floating.
@@ -178,6 +177,9 @@ public:
      * Returns true if the request was accomplished
      */
     bool setFloating(bool floats);
+
+    /// @brief returns the FloatingWindow this widget is in, otherwise nullptr
+    FloatingWindow *floatingWindow() const;
 
     /**
      * @brief Returns the QAction that allows to hide/show the dock widget
@@ -456,8 +458,8 @@ public:
     /// This only applies when using MainWindowOption_HasCentralWidget
     bool isPersistentCentralDockWidget() const;
 
-    void onCloseEvent(QCloseEvent *e) override;
-    bool onResize(QSize newSize) override;
+    void onCloseEvent(QCloseEvent *e);
+    void onResize(QSize newSize);
 
 Q_SIGNALS:
 #ifdef KDDOCKWIDGETS_QTWIDGETS
@@ -480,7 +482,7 @@ Q_SIGNALS:
     void titleChanged(const QString &title);
 
     ///@brief emitted when the hosted widget changed
-    void widgetChanged(KDDockWidgets::QWidgetOrQuick *);
+    void widgetChanged(QWidget *);
 
     ///@brief emitted when the options change
     ///@sa setOptions(), options()
@@ -515,7 +517,7 @@ Q_SIGNALS:
     /// @brief Emitted when this dock widget is about to be deleted due to Option_DeleteOnClose
     void aboutToDeleteOnClose();
 
-protected:
+public: // TODO make private
     void onParentChanged();
     void onShown(bool spontaneous);
     void onHidden(bool spontaneous);

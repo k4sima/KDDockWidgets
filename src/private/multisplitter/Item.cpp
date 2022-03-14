@@ -11,7 +11,6 @@
 
 #include "Item_p.h"
 #include "MultiSplitterConfig.h"
-#include "Widget.h"
 #include "View.h"
 #include "controllers/Separator.h"
 #include "ItemFreeContainer_p.h"

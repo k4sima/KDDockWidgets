@@ -52,17 +52,17 @@ public:
      */
     Controllers::FloatingWindow *floatingWindow() const
     {
-        auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(q->window());
+        auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(q->view()->asQWidget()->window());
         return view ? view->floatingWindow() : nullptr;
     }
 
     MainWindowBase *mainWindow() const
     {
-        if (q->isWindow())
+        if (q->view()->isWindow())
             return nullptr;
 
         // Note: Don't simply use window(), as the MainWindow might be embedded into something else
-        QWidgetOrQuick *p = q->parentWidget();
+        QWidgetOrQuick *p = q->view()->asQWidget()->parentWidget();
         while (p) {
             if (auto window = qobject_cast<MainWindowBase *>(p))
                 return window;

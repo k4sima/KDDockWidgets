@@ -1,8 +1,8 @@
 /*
   This file is part of KDDockWidgets.
 
-  SPDX-FileCopyrightText: 2020-2022 Klarälvdalens Datakonsult AB, a KDAB Group company <info@kdab.com>
-  Author: Sérgio Martins <sergio.martins@kdab.com>
+  SPDX-FileCopyrightText: 2020-2022 Klarälvdalens Datakonsult AB, a KDAB Group
+  company <info@kdab.com> Author: Sérgio Martins <sergio.martins@kdab.com>
 
   SPDX-License-Identifier: GPL-2.0-only OR GPL-3.0-only
 
@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include "../View.h"
-#include "../Controller.h"
 #include "../../Utils_p.h"
+#include "../Controller.h"
+#include "../View.h"
 
 #include <QDebug>
 #include <QEvent>
@@ -31,10 +31,15 @@ class DOCKS_EXPORT View_qtwidgets : public Base, public View
 public:
     using View::close;
     using View::height;
+    using View::minimumHeight;
+    using View::minimumSizeHint;
+    using View::minimumWidth;
     using View::rect;
     using View::width;
 
-    explicit View_qtwidgets(KDDockWidgets::Controller *controller, Type type, QWidget *parent = nullptr, Qt::WindowFlags windowFlags = {});
+    explicit View_qtwidgets(KDDockWidgets::Controller *controller, Type type,
+                            QWidget *parent = nullptr,
+                            Qt::WindowFlags windowFlags = {});
 
     ~View_qtwidgets() override = default;
 
@@ -54,9 +59,19 @@ public:
         return widgetMinSize(this);
     }
 
+    QSize minimumSizeHint() const override
+    {
+        return QWidget::minimumSizeHint();
+    }
+
     QSize maxSizeHint() const override
     {
         return widgetMaxSize(this);
+    }
+
+    QSize maximumSize() const override
+    {
+        return QWidget::maximumSize();
     }
 
     QRect geometry() const override
@@ -149,7 +164,8 @@ public:
         if (auto qwidget = qobject_cast<QWidget *>(parent->asQObject())) {
             Base::setParent(qwidget);
         } else {
-            qWarning() << Q_FUNC_INFO << "parent is not a widget, you have a bug" << parent->asQObject();
+            qWarning() << Q_FUNC_INFO << "parent is not a widget, you have a bug"
+                       << parent->asQObject();
             Q_ASSERT(false);
         }
     }
@@ -191,6 +207,11 @@ public:
         Base::setSizePolicy(policy);
     }
 
+    QSizePolicy sizePolicy() const override
+    {
+        return QWidget::sizePolicy();
+    }
+
     void closeWindow() override
     {
         if (QWidget *window = QWidget::window())
@@ -220,6 +241,16 @@ public:
     void setFlag(Qt::WindowType flag, bool on = true) override
     {
         QWidget::setWindowFlag(flag, on);
+    }
+
+    void setAttribute(Qt::WidgetAttribute attr, bool enable = true) override
+    {
+        QWidget::setAttribute(attr, enable);
+    }
+
+    bool testAttribute(Qt::WidgetAttribute attr) const override
+    {
+        return QWidget::testAttribute(attr);
     }
 
     Qt::WindowFlags flags() const override
@@ -291,4 +322,39 @@ private:
     Q_DISABLE_COPY(View_qtwidgets)
 };
 
+inline qreal logicalDpiFactor(const QWidget *w)
+{
+#ifdef Q_OS_MACOS
+    // It's always 72 on mac
+    Q_UNUSED(w);
+    return 1;
+#else
+    return w->logicalDpiX() / 96.0;
+#endif
 }
+
+inline QWindow *windowForWidget(const QWidget *w)
+{
+    return w ? w->window()->windowHandle() : nullptr;
+}
+
+inline QWidget *widgetForWindow(QWindow *window)
+{
+    if (!window)
+        return nullptr;
+
+    return window->property("kddockwidgets_qwidget").value<QWidget *>();
+}
+
+/// @brief sets the geometry on the QWindow containing the specified item
+inline void setTopLevelGeometry(QRect geometry, const QWidget *widget)
+{
+    if (!widget)
+        return;
+
+    if (QWidget *topLevel = widget->window())
+        topLevel->setGeometry(geometry);
+}
+
+
+} // namespace KDDockWidgets::Views

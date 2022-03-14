@@ -1,4 +1,4 @@
-#
+
 # This file is part of KDDockWidgets.
 #
 # SPDX-FileCopyrightText: 2019-2022 Klarälvdalens Datakonsult AB, a KDAB Group company <info@kdab.com>
@@ -88,8 +88,8 @@ set(DOCKSLIBS_SRCS
     private/multisplitter/MultiSplitterConfig.h
     # private/multisplitter/Separator.cpp
     # private/multisplitter/Separator_p.h
-    private/multisplitter/Widget.cpp
-    private/multisplitter/Widget.h
+    # private/multisplitter/Widget.cpp
+    # private/multisplitter/Widget.h
 
     private/multisplitter/controllers/DockWidgetBase.cpp
     private/multisplitter/controllers/DockWidgetBase.h
@@ -155,7 +155,7 @@ set(DOCKS_INSTALLABLE_INCLUDES
     KDDockWidgets.h
     Qt5Qt6Compat_p.h
     FocusScope.h
-    QWidgetAdapter.h
+    # QWidgetAdapter.h
     LayoutSaver.h
     MainWindowMDI.h
     MainWindowBase.h
@@ -181,7 +181,7 @@ set(DOCKS_INSTALLABLE_PRIVATE_INCLUDES
 )
 
 set(DOCKS_INSTALLABLE_PRIVATE_WIDGET_INCLUDES
-    private/widgets/QWidgetAdapter_widgets_p.h
+    # private/widgets/QWidgetAdapter_widgets_p.h
     # private/widgets/SideBarWidget_p.h
     # private/widgets/FloatingWindowWidget_p.h
     # private/widgets/FrameWidget_p.h
@@ -190,7 +190,7 @@ set(DOCKS_INSTALLABLE_PRIVATE_WIDGET_INCLUDES
 )
 
 set(DOCKS_INSTALLABLE_PRIVATE_QUICK_INCLUDES
-    private/quick/QWidgetAdapter_quick_p.h
+    # private/quick/QWidgetAdapter_quick_p.h
 )
 
 if(${PROJECT_NAME}_QTQUICK)
@@ -199,8 +199,8 @@ if(${PROJECT_NAME}_QTQUICK)
       DockWidgetQuick.h
       private/quick/DockWidgetInstantiator.cpp
       private/quick/DockWidgetInstantiator_p.h
-      private/quick/QWidgetAdapter_quick.cpp
-      private/quick/QWidgetAdapter_quick_p.h
+      # private/quick/QWidgetAdapter_quick.cpp
+      # private/quick/QWidgetAdapter_quick_p.h
       private/quick/FloatingWindowQuick.cpp
       private/quick/FloatingWindowQuick_p.h
       # private/quick/TabWidgetQuick.cpp
@@ -242,8 +242,8 @@ else()
       MainWindow.cpp
       MainWindow.h
       # DockWidget.h
-      private/multisplitter/Widget_qwidget.cpp
-      private/multisplitter/Widget_qwidget.h
+      # private/multisplitter/Widget_qwidget.cpp
+      # private/multisplitter/Widget_qwidget.h
       # private/widgets/TabBarWidget.cpp
       # private/widgets/TabBarWidget_p.h
       # private/widgets/FloatingWindowWidget.cpp
@@ -255,8 +255,8 @@ else()
       # private/widgets/TabWidgetWidget.cpp
       # private/widgets/TabWidgetWidget_p.h
       # private/widgets/DockWidget.cpp
-      private/widgets/QWidgetAdapter_widgets.cpp
-      private/widgets/QWidgetAdapter_widgets_p.h
+      # private/widgets/QWidgetAdapter_widgets.cpp
+      # private/widgets/QWidgetAdapter_widgets_p.h
       private/indicators/SegmentedIndicators.cpp
       private/indicators/SegmentedIndicators_p.h
       # private/indicators/AnimatedIndicators.cpp
@@ -396,7 +396,7 @@ install(FILES ${camelcase_HEADERS} DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kd
 install(FILES ${DOCKS_INSTALLABLE_INCLUDES} DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets)
 install(FILES ${DOCKS_INSTALLABLE_PRIVATE_INCLUDES} DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private)
 install(FILES private/multisplitter/Item_p.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/multisplitter)
-install(FILES private/multisplitter/Widget.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/multisplitter)
+# install(FILES private/multisplitter/Widget.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/multisplitter)
 install(FILES private/indicators/ClassicIndicators_p.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/indicators)
 install(FILES private/indicators/SegmentedIndicators_p.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/indicators)
 
@@ -406,7 +406,7 @@ if(KDDockWidgets_QTQUICK)
   install(FILES private/multisplitter/Widget_quick.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/multisplitter)
 else()
   install(FILES ${DOCKS_INSTALLABLE_PRIVATE_WIDGET_INCLUDES} DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/widgets)
-  install(FILES private/multisplitter/Widget_qwidget.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/multisplitter)
+  # install(FILES private/multisplitter/Widget_qwidget.h DESTINATION ${DOCKS_INCLUDES_INSTALL_PATH}/kddockwidgets/private/multisplitter)
 endif()
 
 # Generate library version files

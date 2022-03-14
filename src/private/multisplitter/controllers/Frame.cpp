@@ -133,7 +133,7 @@ void Frame::setLayoutWidget(LayoutWidget *dt)
 
     if (m_layoutWidget) {
         if (isMDI())
-            m_resizeHandler = new WidgetResizeHandler(/*topLevel=*/false, view()->asQWidget());
+            m_resizeHandler = new WidgetResizeHandler(/*topLevel=*/false, view());
 
         // We keep the connect result so we don't dereference m_layoutWidget at shutdown
         m_visibleWidgetCountChangedConnection =
@@ -289,7 +289,7 @@ void Frame::insertWidget(DockWidgetBase *dockWidget, int index, InitialOption ad
     insertDockWidget(dockWidget, index);
 
     if (addingOption.startsHidden()) {
-        dockWidget->close(); // Ensure closed
+        dockWidget->view()->close(); // Ensure closed
     } else {
         if (hasSingleDockWidget()) {
             Q_EMIT currentDockWidgetChanged(dockWidget);
@@ -816,7 +816,7 @@ QSize Frame::dockWidgetsMinSize() const
 {
     QSize size = Layouting::Item::hardcodedMinimumSize;
     for (DockWidgetBase *dw : dockWidgets())
-        size = size.expandedTo(Layouting::Widget::widgetMinSize(dw));
+        size = size.expandedTo(dw->view()->minSize());
 
     return size;
 }
@@ -825,7 +825,7 @@ QSize Frame::biggestDockWidgetMaxSize() const
 {
     QSize size = Layouting::Item::hardcodedMaximumSize;
     for (DockWidgetBase *dw : dockWidgets()) {
-        const QSize dwMax = View::widgetMaxSize(dw);
+        const QSize dwMax = dw->view()->maxSizeHint();
         if (size == Layouting::Item::hardcodedMaximumSize) {
             size = dwMax;
             continue;
@@ -833,7 +833,7 @@ QSize Frame::biggestDockWidgetMaxSize() const
 
         const bool hasMaxSize = dwMax != Layouting::Item::hardcodedMaximumSize;
         if (hasMaxSize)
-            size = dw->maximumSize().expandedTo(size);
+            size = dw->view()->maximumSize().expandedTo(size);
     }
 
     // Interpret 0 max-size as not having one too.
@@ -902,7 +902,7 @@ void Frame::setAllowedResizeSides(CursorPositions sides)
 {
     if (sides) {
         delete m_resizeHandler;
-        m_resizeHandler = new WidgetResizeHandler(/*topLevel=*/false, view()->asQWidget());
+        m_resizeHandler = new WidgetResizeHandler(/*topLevel=*/false, view());
         m_resizeHandler->setAllowedResizeSides(sides);
     } else {
         delete m_resizeHandler;

@@ -106,7 +106,7 @@ void DockRegistry::onFocusObjectChanged(QObject *obj)
             DockRegistry::self()->setFocusedDockWidget(dw);
             return;
         }
-        p = KDDockWidgets::Private::parentWidget(p);
+        p = p->parentWidget();
     }
 
     setFocusedDockWidget(nullptr);
@@ -695,7 +695,7 @@ void DockRegistry::clear(const DockWidgetBase::List &dockWidgets,
 void DockRegistry::ensureAllFloatingWidgetsAreMorphed()
 {
     for (DockWidgetBase *dw : qAsConst(m_dockWidgets)) {
-        if (dw->window() == dw && dw->isVisible())
+        if (dw->view()->asQWidget()->window() == dw->view()->asQWidget() && dw->isVisible())
             dw->d->morphIntoFloatingWindow();
     }
 }

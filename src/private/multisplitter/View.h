@@ -47,7 +47,8 @@ public:
         DockWidget = 64,
         Layout = 128,
         LayoutItem = 256,
-        SideBar = 512
+        SideBar = 512,
+        DropIndicatorOverlayInterface = 1024
     };
 
     explicit View(Controller *controller, Type, QObject *thisObj);
@@ -87,7 +88,19 @@ public:
     virtual void setParent(View *) = 0;
     virtual QSize sizeHint() const;
     virtual QSize minSize() const = 0;
+    virtual int minimumWidth() const
+    {
+        return minSize().width();
+    }
+
+    virtual int minimumHeight() const
+    {
+        return minSize().height();
+    }
+
     virtual QSize maxSizeHint() const = 0;
+    virtual QSize minimumSizeHint() const = 0;
+    virtual QSize maximumSize() const = 0;
     virtual QRect geometry() const = 0;
     virtual QRect normalGeometry() const = 0;
     virtual void setGeometry(QRect) = 0;
@@ -105,14 +118,21 @@ public:
     virtual void raise() = 0;
     virtual void activateWindow() = 0;
     virtual bool isTopLevel() const = 0;
+    virtual bool isWindow() const
+    {
+        return isTopLevel();
+    };
     virtual QPoint mapToGlobal(QPoint) const = 0;
     virtual QPoint mapFromGlobal(QPoint) const = 0;
     virtual void setSizePolicy(QSizePolicy) = 0;
+    virtual QSizePolicy sizePolicy() const = 0;
     virtual void closeWindow() = 0;
     virtual QRect windowGeometry() const = 0;
     virtual QSize parentSize() const = 0;
     virtual bool close() = 0;
     virtual void setFlag(Qt::WindowType, bool = true) = 0;
+    virtual void setAttribute(Qt::WidgetAttribute, bool enable = true) = 0;
+    virtual bool testAttribute(Qt::WidgetAttribute) const = 0;
     virtual Qt::WindowFlags flags() const = 0;
     virtual void setWindowTitle(const QString &title) = 0;
     virtual void setWindowIcon(const QIcon &) = 0;

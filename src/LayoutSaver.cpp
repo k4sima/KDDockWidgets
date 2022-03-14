@@ -354,7 +354,7 @@ void LayoutSaver::Private::deserializeWindowGeometry(const T &saved, QWidgetOrQu
     if (topLevel->isWindow()) {
         topLevel->setGeometry(geometry);
     } else {
-        KDDockWidgets::Private::setTopLevelGeometry(geometry, topLevel);
+        Views::setTopLevelGeometry(geometry, topLevel);
     }
 
     topLevel->setVisible(saved.isVisible);

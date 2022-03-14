@@ -40,6 +40,8 @@ public:
     QRect geometry() const;
     int x() const;
     int y() const;
+    bool close();
+    QWidget *window() const; // TODO
 
     bool inDtor() const;
 

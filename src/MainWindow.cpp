@@ -73,7 +73,7 @@ public:
 
     void updateMargins()
     {
-        const qreal factor = logicalDpiFactor(q);
+        const qreal factor = Views::logicalDpiFactor(q);
         m_layout->setContentsMargins(m_centerWidgetMargins * factor);
     }
 

@@ -45,7 +45,7 @@ void Stack_qtwidgets::init()
             if (dw->options() & Controllers::DockWidgetBase::Option_NotClosable) {
                 qWarning() << "QTabWidget::tabCloseRequested: Refusing to close dock widget with Option_NotClosable option. name=" << dw->uniqueName();
             } else {
-                dw->close();
+                dw->view()->close();
             }
         } else {
             qWarning() << "QTabWidget::tabCloseRequested Couldn't find dock widget for index" << index << "; count=" << count();
@@ -73,12 +73,12 @@ int Stack_qtwidgets::numDockWidgets() const
 
 void Stack_qtwidgets::removeDockWidget(Controllers::DockWidgetBase *dw)
 {
-    removeTab(indexOf(dw));
+    removeTab(indexOf(dw->view()->asQWidget()));
 }
 
 int Stack_qtwidgets::indexOfDockWidget(const Controllers::DockWidgetBase *dw) const
 {
-    return indexOf(const_cast<Controllers::DockWidgetBase *>(dw));
+    return indexOf(dw->view()->asQWidget());
 }
 
 void Stack_qtwidgets::mouseDoubleClickEvent(QMouseEvent *ev)
@@ -118,7 +118,7 @@ void Stack_qtwidgets::setCurrentDockWidget(int index)
 bool Stack_qtwidgets::insertDockWidget(int index, Controllers::DockWidgetBase *dw,
                                        const QIcon &icon, const QString &title)
 {
-    insertTab(index, dw, icon, title);
+    insertTab(index, dw->view()->asQWidget(), icon, title);
     return true;
 }
 

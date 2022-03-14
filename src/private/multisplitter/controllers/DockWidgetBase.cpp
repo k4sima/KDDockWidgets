@@ -26,6 +26,7 @@
 #include "Config.h"
 #include "FrameworkWidgetFactory.h"
 #include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
+#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 
 #include <QEvent>
 #include <QCloseEvent>
@@ -44,7 +45,7 @@ using namespace KDDockWidgets::Controllers;
 
 DockWidgetBase::DockWidgetBase(const QString &name, Options options,
                                LayoutSaverOptions layoutSaverOptions)
-    : QWidgetAdapter(nullptr, Qt::Tool)
+    : Controller(new Views::DockWidget_qtwidgets(this, Qt::Tool))
     , d(new Private(name, options, layoutSaverOptions, this))
 {
     d->init();
@@ -53,7 +54,7 @@ DockWidgetBase::DockWidgetBase(const QString &name, Options options,
     if (name.isEmpty())
         qWarning() << Q_FUNC_INFO << "Name can't be null";
 
-    setAttribute(Qt::WA_PendingMoveEvent, false);
+    view()->setAttribute(Qt::WA_PendingMoveEvent, false);
 }
 
 DockWidgetBase::~DockWidgetBase()
@@ -100,7 +101,7 @@ void DockWidgetBase::addDockWidgetAsTab(DockWidgetBase *other, InitialOption opt
             return;
         }
     } else {
-        if (isWindow()) {
+        if (view()->isWindow()) {
             // Doesn't have a frame yet
             d->morphIntoFloatingWindow();
             frame = d->frame();
@@ -120,7 +121,7 @@ void DockWidgetBase::addDockWidgetToContainingWindow(DockWidgetBase *other,
                                                      DockWidgetBase *relativeTo,
                                                      InitialOption initialOption)
 {
-    if (auto mainWindow = qobject_cast<MainWindowBase *>(window())) {
+    if (auto mainWindow = qobject_cast<MainWindowBase *>(view()->asQWidget()->window())) {
         // It's inside a main window. Simply use the main window API.
         mainWindow->addDockWidget(other, location, relativeTo, initialOption);
         return;
@@ -137,7 +138,7 @@ void DockWidgetBase::addDockWidgetToContainingWindow(DockWidgetBase *other,
         return;
     }
 
-    if (isWindow())
+    if (view()->isWindow())
         d->morphIntoFloatingWindow();
 
     if (auto fw = floatingWindow()) {
@@ -159,7 +160,7 @@ void DockWidgetBase::setWidget(QWidgetOrQuick *w)
 
     d->widget = w;
     if (w)
-        setSizePolicy(w->sizePolicy());
+        view()->setSizePolicy(w->sizePolicy());
 
     Q_EMIT widgetChanged(w);
 }
@@ -171,7 +172,7 @@ QWidgetOrQuick *DockWidgetBase::widget() const
 
 bool DockWidgetBase::isFloating() const
 {
-    if (isWindow())
+    if (view()->isTopLevel())
         return true;
 
     auto fw = floatingWindow();
@@ -268,7 +269,7 @@ QRect DockWidgetBase::frameGeometry() const
         return f->view()->geometry();
 
     // Means the dock widget isn't visible. Just fallback to its own geometry
-    return QWidgetAdapter::geometry();
+    return geometry();
 }
 
 DockWidgetBase::Options DockWidgetBase::options() const
@@ -383,12 +384,12 @@ QStringList DockWidgetBase::affinities() const
 
 void DockWidgetBase::show()
 {
-    if (isWindow() && (d->m_lastPosition->wasFloating() || !d->m_lastPosition->isValid())) {
+    if (view()->isTopLevel() && (d->m_lastPosition->wasFloating() || !d->m_lastPosition->isValid())) {
         // Create the FloatingWindow already, instead of waiting for the show event.
         // This reduces flickering on some platforms
         d->morphIntoFloatingWindow();
     } else {
-        QWidgetOrQuick::show();
+        view()->show();
     }
 }
 
@@ -499,10 +500,18 @@ bool DockWidgetBase::skipsRestore() const
 void DockWidgetBase::setFloatingGeometry(QRect geometry)
 {
     if (isOpen() && isFloating()) {
-        window()->setGeometry(geometry);
+        view()->asQWidget()->window()->setGeometry(geometry);
     } else {
         d->m_lastPosition->setLastFloatingGeometry(geometry);
     }
+}
+
+Controllers::FloatingWindow *DockWidgetBase::floatingWindow() const
+{
+    if (auto view = qobject_cast<Views::FloatingWindow_qtwidgets *>(this->view()->asQWidget()->window()))
+        return view->floatingWindow();
+
+    return nullptr;
 }
 
 Controllers::FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
@@ -510,12 +519,12 @@ Controllers::FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
     if (auto fw = floatingWindow())
         return fw; // Nothing to do
 
-    if (q->isWindow()) {
+    if (q->view()->isWindow()) {
         QRect geo = m_lastPosition->lastFloatingGeometry();
         if (geo.isNull()) {
             geo = q->geometry();
 
-            if (!q->testAttribute(Qt::WA_PendingMoveEvent)) { // If user already moved it, we don't
+            if (!q->view()->testAttribute(Qt::WA_PendingMoveEvent)) { // If user already moved it, we don't
                 // interfere
                 const QPoint center = defaultCenterPosForFloating();
                 if (!center.isNull())
@@ -538,7 +547,7 @@ Controllers::FloatingWindow *DockWidgetBase::Private::morphIntoFloatingWindow()
 
 void DockWidgetBase::Private::maybeMorphIntoFloatingWindow()
 {
-    if (q->isWindow() && q->isVisible())
+    if (q->view()->isWindow() && q->isVisible())
         morphIntoFloatingWindow();
 }
 
@@ -636,7 +645,7 @@ bool DockWidgetBase::Private::eventFilter(QObject *watched, QEvent *event)
 {
     const bool isWindowActivate = event->type() == QEvent::WindowActivate;
     const bool isWindowDeactivate = event->type() == QEvent::WindowDeactivate;
-    if ((isWindowActivate || isWindowDeactivate) && watched == q->window())
+    if ((isWindowActivate || isWindowDeactivate) && watched == q->view()->asQWidget()->window())
         Q_EMIT q->windowActiveAboutToChange(isWindowActivate);
 
     return QObject::eventFilter(watched, event);
@@ -645,7 +654,7 @@ bool DockWidgetBase::Private::eventFilter(QObject *watched, QEvent *event)
 void DockWidgetBase::Private::updateTitle()
 {
     if (q->isFloating())
-        q->window()->setWindowTitle(title);
+        q->view()->asQWidget()->window()->setWindowTitle(title);
 
     toggleAction->setText(title);
 }
@@ -660,7 +669,7 @@ void DockWidgetBase::Private::toggle(bool enabled)
         if (enabled) {
             show();
         } else {
-            q->close();
+            q->view()->close();
         }
     }
 }
@@ -724,7 +733,7 @@ void DockWidgetBase::Private::close()
         && q->isVisible()) { // only user-closing is interesting to save the geometry
         // We check for isVisible so we don't save geometry if you call close() on an already closed
         // dock widget
-        m_lastPosition->setLastFloatingGeometry(q->window()->geometry());
+        m_lastPosition->setLastFloatingGeometry(q->view()->windowGeometry());
     }
 
     saveTabIndex();
@@ -782,7 +791,7 @@ void DockWidgetBase::Private::maybeRestoreToPreviousPosition()
 
     // Now we deal with the case where the DockWidget was close()ed. In this case it doesn't have a parent.
 
-    if (q->parentWidget()) {
+    if (q->view()->asQWidget()->parentWidget()) {
         // The QEvent::Show is due to it being made floating. Nothing to restore.
         return;
     }
@@ -850,7 +859,7 @@ void DockWidgetBase::onHidden(bool spontaneous)
     }
 }
 
-bool DockWidgetBase::onResize(QSize newSize)
+void DockWidgetBase::onResize(QSize)
 {
     if (isOverlayed()) {
         if (auto frame = d->frame()) {
@@ -859,8 +868,6 @@ bool DockWidgetBase::onResize(QSize newSize)
             qWarning() << Q_FUNC_INFO << "Overlayed dock widget without frame shouldn't happen";
         }
     }
-
-    return QWidgetAdapter::onResize(newSize);
 }
 
 void DockWidgetBase::onCloseEvent(QCloseEvent *e)
@@ -1017,7 +1024,7 @@ Position::Ptr &DockWidgetBase::Private::lastPosition()
 
 Controllers::Frame *DockWidgetBase::Private::frame() const
 {
-    QWidgetOrQuick *p = q->parentWidget();
+    QWidgetOrQuick *p = q->view()->asQWidget()->parentWidget();
     while (p) {
         if (auto frameView = qobject_cast<Views::Frame_qtwidgets *>(p))
             return frameView->frame();
@@ -1030,6 +1037,6 @@ void DockWidgetBase::Private::saveLastFloatingGeometry()
 {
     if (q->isFloating() && q->isVisible()) {
         // It's getting docked, save last floating position
-        lastPosition()->setLastFloatingGeometry(q->window()->geometry());
+        lastPosition()->setLastFloatingGeometry(q->view()->windowGeometry());
     }
 }

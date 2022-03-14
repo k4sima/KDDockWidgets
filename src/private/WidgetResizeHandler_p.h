@@ -96,7 +96,7 @@ public:
      *        if false, they are docked (like for example resizing docked MDI widgets, or the sidebar overlay)
      * @param target The target widget that will be resized. Also acts as parent QObject.
      */
-    explicit WidgetResizeHandler(bool isTopLevelResizer, QWidgetOrQuick *target);
+    explicit WidgetResizeHandler(bool isTopLevelResizer, View *target);
     ~WidgetResizeHandler() override;
 
     /**
@@ -139,13 +139,13 @@ protected:
     bool eventFilter(QObject *o, QEvent *e) override;
 
 private:
-    void setTarget(QWidgetOrQuick *w);
+    void setTarget(View *w);
     bool mouseMoveEvent(QMouseEvent *e);
     void updateCursor(CursorPosition m);
     void setMouseCursor(Qt::CursorShape cursor);
     void restoreMouseCursor();
     CursorPosition cursorPosition(QPoint) const;
-    QWidgetOrQuick *mTarget = nullptr;
+    View *mTarget = nullptr;
     CursorPosition mCursorPos = CursorPosition_Undefined;
     QPoint mNewPosition;
     bool m_resizingInProgress = false;

@@ -834,12 +834,12 @@ static WidgetType *qtTopLevelUnderCursor_impl(QPoint globalPos, const QVector<QW
 {
     for (auto i = windows.size() - 1; i >= 0; --i) {
         QWindow *window = windows.at(i);
-        auto tl = KDDockWidgets::Private::widgetForWindow(window);
+        auto tl = Views::widgetForWindow(window);
 
-        if (!tl->isVisible() || tl == windowBeingDragged || KDDockWidgets::Private::isMinimized(tl))
+        if (!tl->isVisible() || tl == windowBeingDragged || tl->isMinimized())
             continue;
 
-        if (windowBeingDragged && KDDockWidgets::Private::windowForWidget(windowBeingDragged) == KDDockWidgets::Private::windowForWidget(tl))
+        if (windowBeingDragged && Views::windowForWidget(windowBeingDragged) == Views::windowForWidget(tl))
             continue;
 
         if (window->geometry().contains(globalPos)) {
@@ -940,7 +940,7 @@ static DropArea *deepestDropAreaInTopLevel(WidgetType *topLevel, QPoint globalPo
             if (DockRegistry::self()->affinitiesMatch(dt->affinities(), affinities))
                 return dt;
         }
-        w = KDDockWidgets::Private::parentWidget(w);
+        w = w->parentWidget();
     }
 
     return nullptr;

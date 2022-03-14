@@ -166,7 +166,7 @@ void DropArea::addDockWidget(DockWidgetBase *dw, Location location,
     }
 
     if (option.startsHidden()) {
-        addWidget(dw, location, relativeToFrame, option);
+        addWidget(dw->view()->asQWidget(), location, relativeToFrame, option);
     } else {
         addWidget(frame->view()->asQWidget(), location, relativeToFrame, option);
     }

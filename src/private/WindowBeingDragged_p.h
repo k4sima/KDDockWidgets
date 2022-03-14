@@ -85,7 +85,7 @@ protected:
     Q_DISABLE_COPY(WindowBeingDragged)
     QPointer<Controllers::FloatingWindow> m_floatingWindow;
     Draggable *const m_draggable;
-    QPointer<QWidgetOrQuick> m_draggableWidget; // Just to have a QPointer on it
+    QPointer<QWidget> m_draggableWidget; // Just to have a QPointer on it
 };
 
 struct WindowBeingDraggedWayland : public WindowBeingDragged

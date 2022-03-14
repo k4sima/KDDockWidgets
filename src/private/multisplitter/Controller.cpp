@@ -13,6 +13,7 @@
 #include "View.h"
 
 #include <QDebug>
+#include <QWidget>
 
 using namespace KDDockWidgets;
 
@@ -97,4 +98,14 @@ int Controller::x() const
 int Controller::y() const
 {
     return m_view->y();
+}
+
+bool Controller::close()
+{
+    return view() && view()->close();
+}
+
+QWidget *Controller::window() const
+{
+    return view()->asQWidget()->window();
 }

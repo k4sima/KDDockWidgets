@@ -16,11 +16,13 @@
 #include "multisplitter/controllers/Frame.h"
 #include "kddockwidgets/KDDockWidgets.h"
 
+#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
+
 namespace KDDockWidgets {
 
 class DropArea;
 
-class DOCKS_EXPORT DropIndicatorOverlayInterface : public QWidgetAdapter
+class DOCKS_EXPORT DropIndicatorOverlayInterface : public Views::View_qtwidgets<QWidget>
 {
     Q_OBJECT
     Q_PROPERTY(QRect hoveredFrameRect READ hoveredFrameRect NOTIFY hoveredFrameRectChanged)

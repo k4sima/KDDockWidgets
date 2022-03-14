@@ -300,7 +300,7 @@ void TitleBar::onCloseClicked()
     if (m_frame) {
         if (closeOnlyCurrentTab) {
             if (auto dw = m_frame->currentDockWidget()) {
-                dw->close();
+                dw->view()->close();
             } else {
                 // Doesn't happen
                 qWarning() << Q_FUNC_INFO << "Frame with no dock widgets";
@@ -317,7 +317,7 @@ void TitleBar::onCloseClicked()
         if (closeOnlyCurrentTab) {
             if (Frame *f = m_floatingWindow->singleFrame()) {
                 if (DockWidgetBase *dw = f->currentDockWidget()) {
-                    dw->close();
+                    dw->view()->close();
                 } else {
                     // Doesn't happen
                     qWarning() << Q_FUNC_INFO << "Frame with no dock widgets";

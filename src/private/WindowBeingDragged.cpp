@@ -243,7 +243,7 @@ QPixmap WindowBeingDraggedWayland::pixmap() const
     } else if (m_frame) {
         m_frame->view()->asQWidget()->render(&p);
     } else if (m_dockWidget) {
-        m_dockWidget->render(&p);
+        m_dockWidget->view()->asQWidget()->render(&p);
     }
 
     return pixmap;
@@ -293,7 +293,7 @@ QSize WindowBeingDraggedWayland::minSize() const
     } else if (m_frame) {
         return m_frame->view()->minSize();
     } else if (m_dockWidget) {
-        return Layouting::Widget::widgetMinSize(m_dockWidget.data());
+        return m_dockWidget->view()->minSize();
     }
 
     qWarning() << Q_FUNC_INFO << "Unknown minSize, shouldn't happen";
@@ -307,7 +307,7 @@ QSize WindowBeingDraggedWayland::maxSize() const
     } else if (m_frame) {
         return m_frame->view()->maxSizeHint();
     } else if (m_dockWidget) {
-        return Layouting::Widget::widgetMaxSize(m_dockWidget.data());
+        return m_dockWidget->view()->maximumSize();
     }
 
     qWarning() << Q_FUNC_INFO << "Unknown maxSize, shouldn't happen";

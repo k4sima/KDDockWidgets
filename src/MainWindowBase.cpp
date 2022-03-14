@@ -84,7 +84,7 @@ public:
         if (!supportsPersistentCentralWidget())
             return nullptr;
 
-        auto dw = new Views::DockWidget(QStringLiteral("%1-persistentCentralDockWidget").arg(uniqueName));
+        auto dw = new Controllers::DockWidgetBase(QStringLiteral("%1-persistentCentralDockWidget").arg(uniqueName));
         dw->dptr()->m_isPersistentCentralDockWidget = true;
         Controllers::Frame *frame = dropArea()->m_centralFrame;
         if (!frame) {
@@ -119,7 +119,7 @@ public:
 
 MainWindowBase::MainWindowBase(const QString &uniqueName, KDDockWidgets::MainWindowOptions options,
                                WidgetType *parent, Qt::WindowFlags flags)
-    : QMainWindowOrQuick(parent, flags)
+    : QMainWindow(parent, flags)
     , d(new Private(this, uniqueName, options))
 {
     setUniqueName(uniqueName);
@@ -655,7 +655,7 @@ bool MainWindowBase::closeDockWidgets(bool force)
         if (force) {
             dw->forceClose();
         } else {
-            const bool closed = dw->close();
+            const bool closed = dw->view()->close();
             allClosed = allClosed && closed;
         }
 
