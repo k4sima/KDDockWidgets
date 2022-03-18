@@ -19,14 +19,11 @@
     "configurations": [
       {
         "name": "gdb-kddockwidgets_example",
-        "type": "cppdbg",
+        "type": "lldb",
         "request": "launch",
         "program": "${workspaceFolder}/build-dev/bin/kddockwidgets_example",
         "args": [],
-        "cwd": "${workspaceFolder}",
-        "MIMode": "gdb",
-        "stopAtEntry": false,
-        "externalConsole": false
+        "cwd": "${workspaceFolder}"
       },
       {
         "name": "gdb-kddockwidgets_minimal_example",
@@ -63,10 +60,12 @@
       },
       {
         "name": "gdb-tst_docks",
-        "type": "cppdbg",
+        "type": "lldb",
         "request": "launch",
         "program": "${workspaceFolder}/build-dev/bin/tst_docks",
-        "args": [],
+        "args": [
+          "tst_simple1"
+        ],
         "cwd": "${workspaceFolder}",
         "MIMode": "gdb",
         "stopAtEntry": false,

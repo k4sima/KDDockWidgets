@@ -56,7 +56,13 @@ public:
 
     QSize minSize() const override
     {
-        return widgetMinSize(this);
+        const int minW = QWidget::minimumWidth() > 0 ? QWidget::minimumWidth()
+                                                     : QWidget::minimumSizeHint().width();
+
+        const int minH = QWidget::minimumHeight() > 0 ? QWidget::minimumHeight()
+                                                      : QWidget::minimumSizeHint().height();
+
+        return QSize(minW, minH).expandedTo(View::hardcodedMinimumSize());
     }
 
     QSize minimumSizeHint() const override
