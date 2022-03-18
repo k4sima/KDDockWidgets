@@ -73,7 +73,7 @@ MyMainWindow::MyMainWindow(const QString &uniqueName, KDDockWidgets::MainWindowO
         w->setGeometry(100, 100, 400, 400);
         auto dock = new KDDockWidgets::Controllers::DockWidgetBase(QStringLiteral("new dock %1").arg(count));
         dock->setWidget(w);
-        dock->resize(600, 600);
+        dock->view()->resize(QSize(600, 600));
         dock->show();
     });
 
@@ -198,7 +198,7 @@ KDDockWidgets::DockWidgetBase *MyMainWindow::newDockWidget()
         dock->setTitle(QStringLiteral("DockWidget #%1").arg(count));
     }
 
-    dock->resize(600, 600);
+    dock->view()->resize(QSize(600, 600));
     m_toggleMenu->addAction(dock->toggleAction());
     dock->toggleAction()->setShortcut(QStringLiteral("ctrl+%1").arg(count));
 

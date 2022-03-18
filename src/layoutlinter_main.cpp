@@ -29,11 +29,11 @@ using namespace KDDockWidgets::Controllers;
 static bool lint(const QString &filename)
 {
     DockWidgetFactoryFunc dwFunc = [](const QString &dwName) {
-        return static_cast<DockWidgetBase *>(new DockWidgetType(dwName));
+        return new DockWidgetBase(dwName);
     };
 
     MainWindowFactoryFunc mwFunc = [](const QString &dwName) {
-        return static_cast<MainWindowBase *>(new MainWindowType(dwName));
+        return static_cast<MainWindowBase *>(new MainWindow(dwName));
     };
 
     KDDockWidgets::Config::self().setDockWidgetFactoryFunc(dwFunc);

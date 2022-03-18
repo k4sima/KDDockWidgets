@@ -49,7 +49,7 @@ KDDockWidgets::Tests::createMainWindow(QSize sz, KDDockWidgets::MainWindowOption
     const QString mainWindowName = name.isEmpty() ? QStringLiteral("MyMainWindow%1").arg(count)
                                                   : name;
 
-    WidgetType *parent = nullptr;
+    QWidget *parent = nullptr;
 #ifdef KDDOCKWIDGETS_QTQUICK
     auto view = new QQuickView(Config::self().qmlEngine(), nullptr);
     view->resize(sz);
@@ -61,7 +61,7 @@ KDDockWidgets::Tests::createMainWindow(QSize sz, KDDockWidgets::MainWindowOption
     QTest::qWait(100); // the root object gets sized delayed
 #endif
 
-    auto ptr = std::unique_ptr<MainWindowType>(new MainWindowType(mainWindowName, options, parent));
+    auto ptr = std::unique_ptr<MainWindow>(new MainWindow(mainWindowName, options, parent));
     if (show)
         ptr->show();
     ptr->resize(sz);
@@ -75,15 +75,15 @@ DockWidgetBase *KDDockWidgets::Tests::createDockWidget(const QString &name, QWid
                                                        const QString &affinityName)
 {
     w->setFocusPolicy(Qt::StrongFocus);
-    auto dock = new DockWidgetType(name, options, layoutSaverOptions);
+    auto dock = new DockWidgetBase(name, options, layoutSaverOptions);
     dock->setAffinityName(affinityName);
     dock->setWidget(w);
     dock->setObjectName(name);
-    dock->setGeometry(QRect(0, 0, 400, 400));
+    dock->view()->setGeometry(QRect(0, 0, 400, 400));
     if (show) {
         dock->show();
         dock->dptr()->morphIntoFloatingWindow();
-        dock->activateWindow();
+        dock->view()->activateWindow();
         Q_ASSERT(dock->window());
         if (QTest::qWaitForWindowActive(dock->window()->windowHandle(), 1000)) {
             return dock;
@@ -115,7 +115,7 @@ std::unique_ptr<MainWindowBase> KDDockWidgets::Tests::createMainWindow(QVector<D
     static int count = 0;
     count++;
 
-    WidgetType *parent = nullptr;
+    QWidget *parent = nullptr;
 #ifdef KDDOCKWIDGETS_QTQUICK
     auto view = new QQuickView(Config::self().qmlEngine(), nullptr);
     const QSize initialSize(1000, 1000);
@@ -127,7 +127,7 @@ std::unique_ptr<MainWindowBase> KDDockWidgets::Tests::createMainWindow(QVector<D
     QTest::qWait(100); // the root object gets sized delayed
 #endif
 
-    auto m = std::unique_ptr<MainWindowType>(new MainWindowType(QStringLiteral("MyMainWindow%1").arg(count), MainWindowOption_None, parent));
+    auto m = std::unique_ptr<MainWindow>(new MainWindow(QStringLiteral("MyMainWindow%1").arg(count), MainWindowOption_None, parent));
     auto layout = m->layoutWidget();
     m->show();
     m->resize(QSize(700, 700));

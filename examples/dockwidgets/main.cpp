@@ -338,7 +338,7 @@ int main(int argc, char **argv)
         dockableMainWindow->show();
         mainWindowDockWidget->setWidget(dockableMainWindow);
         mainWindowDockWidget->show();
-        mainWindowDockWidget->resize(800, 800);
+        mainWindowDockWidget->view()->resize(QSize(800, 800));
     }
 
     const QStringList args = parser.positionalArguments();
