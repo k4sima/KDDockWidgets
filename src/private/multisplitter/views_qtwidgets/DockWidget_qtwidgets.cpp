@@ -48,14 +48,23 @@ DockWidget_qtwidgets::DockWidget_qtwidgets(Controllers::DockWidgetBase *controll
     : View_qtwidgets<QWidget>(controller, Type::DockWidget, nullptr, windowFlags)
     , d(new Private(this, controller))
 {
-    connect(controller, &DockWidgetBase::widgetChanged, this, [this](QWidget *w) {
-        d->layout->addWidget(w);
-    });
 }
 
 DockWidget_qtwidgets::~DockWidget_qtwidgets()
 {
     delete d;
+}
+
+void DockWidget_qtwidgets::init()
+{
+    connect(d->m_controller, &DockWidgetBase::widgetChanged, this, [this](QWidget *w) {
+        d->layout->addWidget(w);
+    });
+}
+
+Controllers::DockWidgetBase *DockWidget_qtwidgets::dockWidget() const
+{
+    return d->m_controller;
 }
 
 bool DockWidget_qtwidgets::event(QEvent *e)

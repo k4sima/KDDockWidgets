@@ -26,6 +26,7 @@
 #include "private/multisplitter/controllers/SideBar.h"
 
 #include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
+#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 #include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
 
 #include <QPointer>
@@ -102,8 +103,8 @@ void DockRegistry::onFocusObjectChanged(QObject *obj)
             return;
         }
 
-        if (auto dw = qobject_cast<DockWidgetBase *>(p)) {
-            DockRegistry::self()->setFocusedDockWidget(dw);
+        if (auto dwView = qobject_cast<Views::DockWidget_qtwidgets *>(p)) {
+            DockRegistry::self()->setFocusedDockWidget(dwView->dockWidget());
             return;
         }
         p = p->parentWidget();
@@ -733,8 +734,8 @@ bool DockRegistry::eventFilter(QObject *watched, QEvent *event)
 
         auto p = watched;
         while (p) {
-            if (auto dw = qobject_cast<DockWidgetBase *>(p))
-                return onDockWidgetPressed(dw, static_cast<QMouseEvent *>(event));
+            if (auto dwView = qobject_cast<Views::DockWidget_qtwidgets *>(p))
+                return onDockWidgetPressed(dwView->dockWidget(), static_cast<QMouseEvent *>(event));
 
             if (auto layoutWidget = qobject_cast<LayoutWidget *>(p)) {
                 if (auto mw = layoutWidget->mainWindow()) {

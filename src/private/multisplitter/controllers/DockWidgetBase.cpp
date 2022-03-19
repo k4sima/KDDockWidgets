@@ -49,6 +49,7 @@ DockWidgetBase::DockWidgetBase(const QString &name, Options options,
     , d(new Private(name, options, layoutSaverOptions, this))
 {
     d->init();
+    view()->init();
     DockRegistry::self()->registerDockWidget(this);
 
     if (name.isEmpty())

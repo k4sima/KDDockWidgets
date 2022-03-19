@@ -22,6 +22,7 @@
 #include "Utils_p.h"
 #include "multisplitter/Item_p.h"
 #include "WindowBeingDragged_p.h"
+#include "multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 #include "private/multisplitter/controllers/Frame.h"
 #include "private/multisplitter/controllers/FloatingWindow.h"
 
@@ -350,7 +351,8 @@ bool DropArea::drop(QWidgetOrQuick *droppedWindow, KDDockWidgets::Location locat
 {
     qCDebug(docking) << "DropArea::addFrame";
 
-    if (auto dock = qobject_cast<DockWidgetBase *>(droppedWindow)) {
+    if (auto dockView = qobject_cast<Views::DockWidget_qtwidgets *>(droppedWindow)) {
+        auto dock = dockView->dockWidget();
         if (!validateAffinity(dock))
             return false;
 
@@ -408,8 +410,10 @@ bool DropArea::isMDIWrapper() const
 
 DockWidgetBase *DropArea::mdiDockWidgetWrapper() const
 {
-    if (m_isMDIWrapper)
-        return qobject_cast<DockWidgetBase *>(QWidget::parent());
+    if (m_isMDIWrapper) {
+        auto dwView = qobject_cast<Views::DockWidget_qtwidgets *>(QWidget::parent());
+        return dwView ? dwView->dockWidget() : nullptr;
+    }
 
     return nullptr;
 }

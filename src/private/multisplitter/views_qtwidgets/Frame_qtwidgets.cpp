@@ -12,6 +12,8 @@
 #include "Frame_qtwidgets.h"
 
 #include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
+#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+
 #include "private/LayoutWidget_p.h"
 #include "private/multisplitter/controllers/Frame.h"
 #include "private/multisplitter/controllers/Stack.h"
@@ -138,7 +140,7 @@ KDDockWidgets::Controllers::DockWidgetBase *Frame_qtwidgets::currentDockWidget_i
 
 KDDockWidgets::Controllers::DockWidgetBase *Frame_qtwidgets::dockWidgetAt_impl(int index) const
 {
-    return qobject_cast<Controllers::DockWidgetBase *>(m_controller->tabWidget()->dockwidgetAt(index));
+    return m_controller->tabWidget()->dockwidgetAt(index);
 }
 
 Controllers::Frame *Frame_qtwidgets::frame() const

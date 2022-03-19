@@ -64,7 +64,7 @@
         "request": "launch",
         "program": "${workspaceFolder}/build-dev/bin/tst_docks",
         "args": [
-          "tst_simple1"
+          "tst_simple2"
         ],
         "cwd": "${workspaceFolder}",
         "MIMode": "gdb",

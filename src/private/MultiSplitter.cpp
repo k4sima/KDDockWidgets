@@ -34,6 +34,7 @@
 #include "private/multisplitter/controllers/Frame.h"
 #include "private/multisplitter/controllers/FloatingWindow.h"
 #include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
+#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 
 #include <QScopedValueRollback>
 
@@ -67,7 +68,7 @@ bool MultiSplitter::validateInputs(QWidgetOrQuick *widget, Location location,
         return false;
     }
 
-    const bool isDockWidget = qobject_cast<DockWidgetBase *>(widget);
+    const bool isDockWidget = qobject_cast<Views::DockWidget_qtwidgets *>(widget);
     const bool isStartHidden = option.startsHidden();
 
     if (!qobject_cast<Views::Frame_qtwidgets *>(widget) && !qobject_cast<MultiSplitter *>(widget) && !isDockWidget) {
@@ -136,7 +137,8 @@ void MultiSplitter::addWidget(QWidget *w, Location location,
 
     Controllers::Frame::List frames = framesFrom(w);
     unrefOldPlaceholders(frames);
-    auto dw = qobject_cast<DockWidgetBase *>(w);
+    auto dwView = qobject_cast<Views::DockWidget_qtwidgets *>(w);
+    auto dw = dwView ? dwView->dockWidget() : nullptr;
 
     if (frame) {
         newItem = new Layouting::Item(this);

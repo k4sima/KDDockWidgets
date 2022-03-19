@@ -13,6 +13,7 @@
 #include "private/multisplitter/Controller.h"
 #include "private/multisplitter/controllers/Stack.h"
 #include "private/multisplitter/controllers/TitleBar.h"
+#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 #include "private/DockRegistry_p.h"
 #include "kddockwidgets/FrameworkWidgetFactory.h"
 
@@ -139,7 +140,8 @@ void Stack_qtwidgets::changeTabIcon(int index, const QIcon &icon)
 
 Controllers::DockWidgetBase *Stack_qtwidgets::dockwidgetAt(int index) const
 {
-    return qobject_cast<Controllers::DockWidgetBase *>(widget(index));
+    auto view = qobject_cast<DockWidget_qtwidgets *>(widget(index));
+    return view ? view->dockWidget() : nullptr;
 }
 
 int Stack_qtwidgets::currentIndex() const

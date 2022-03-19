@@ -58,7 +58,10 @@ public:
     ///@brief destructor
     ~DockWidget_qtwidgets() override;
 
+    Controllers::DockWidgetBase *dockWidget() const;
+
 protected:
+    void init() override;
     bool event(QEvent *) override;
     void closeEvent(QCloseEvent *) override;
     void resizeEvent(QResizeEvent *) override;
