@@ -554,7 +554,7 @@ void DockWidgetBase::Private::maybeMorphIntoFloatingWindow()
 
 MDILayoutWidget *DockWidgetBase::Private::mdiLayout() const
 {
-    auto p = const_cast<QObject *>(q->parent());
+    auto p = const_cast<QObject *>(q->view()->parent());
     while (p) {
         if (qobject_cast<const QWindow *>(p)) {
             // Ignore QObject hierarchies spanning though multiple windows
@@ -604,7 +604,7 @@ DockWidgetBase *DockWidgetBase::Private::mdiDockWidgetWrapper() const
         return q;
     }
 
-    auto p = const_cast<QObject *>(q->parent());
+    auto p = const_cast<QObject *>(q->view()->parent());
     while (p) {
         if (qobject_cast<const QWindow *>(p)) {
             // Ignore QObject hierarchies spanning though multiple windows

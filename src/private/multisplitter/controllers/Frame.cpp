@@ -111,7 +111,7 @@ void Frame::onCloseEvent(QCloseEvent *e)
     e->accept(); // Accepted by default (will close unless ignored)
     const DockWidgetBase::List docks = dockWidgets();
     for (DockWidgetBase *dock : docks) {
-        qApp->sendEvent(dock, e);
+        qApp->sendEvent(dock->view()->asQWidget(), e);
         if (!e->isAccepted())
             break; // Stop when the first dockwidget prevents closing
     }
