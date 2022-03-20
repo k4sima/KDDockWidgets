@@ -56,18 +56,18 @@ public:
 
     QSize minSize() const override
     {
-        const int minW = QWidget::minimumWidth() > 0 ? QWidget::minimumWidth()
-                                                     : QWidget::minimumSizeHint().width();
+        const int minW = Base::minimumWidth() > 0 ? Base::minimumWidth()
+                                                  : Base::minimumSizeHint().width();
 
-        const int minH = QWidget::minimumHeight() > 0 ? QWidget::minimumHeight()
-                                                      : QWidget::minimumSizeHint().height();
+        const int minH = Base::minimumHeight() > 0 ? Base::minimumHeight()
+                                                   : Base::minimumSizeHint().height();
 
         return QSize(minW, minH).expandedTo(View::hardcodedMinimumSize());
     }
 
     QSize minimumSizeHint() const override
     {
-        return QWidget::minimumSizeHint();
+        return Base::minimumSizeHint();
     }
 
     QSize maxSizeHint() const override
@@ -77,7 +77,7 @@ public:
 
     QSize maximumSize() const override
     {
-        return QWidget::maximumSize();
+        return Base::maximumSize();
     }
 
     QRect geometry() const override

@@ -589,6 +589,7 @@ void MainWindowBase::clearSideBarOverlay(bool deleteFrame)
 
     if (deleteFrame) {
         d->m_overlayedDockWidget->setParent(nullptr);
+        d->m_overlayedDockWidget->view()->setParent(nullptr);
         Q_EMIT d->m_overlayedDockWidget->isOverlayedChanged(false);
         d->m_overlayedDockWidget = nullptr;
         delete frame;

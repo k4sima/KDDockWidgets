@@ -118,7 +118,7 @@ public:
     virtual void raise() = 0;
     virtual void activateWindow() = 0;
     virtual bool isTopLevel() const = 0;
-    virtual bool isWindow() const
+    bool isWindow() const
     {
         return isTopLevel();
     };
