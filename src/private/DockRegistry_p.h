@@ -12,7 +12,7 @@
 #ifndef KD_DOCKREGISTRY_P_H
 #define KD_DOCKREGISTRY_P_H
 
-#include "DockWidgetBase.h"
+#include "DockWidget.h"
 #include "kddockwidgets/MainWindowBase.h"
 
 #include "multisplitter/controllers/Frame.h"

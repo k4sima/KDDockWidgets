@@ -11,7 +11,7 @@
 
 #include "MDILayoutWidget_p.h"
 #include "multisplitter/ItemFreeContainer_p.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget_p.h"
 #include "Config.h"
 #include "FrameworkWidgetFactory.h"
 #include "private/multisplitter/controllers/Frame.h"

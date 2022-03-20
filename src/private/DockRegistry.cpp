@@ -11,8 +11,8 @@
 
 #include "DockRegistry_p.h"
 #include "Config.h"
-#include "DockWidgetBase.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget.h"
+#include "DockWidget_p.h"
 #include "LayoutWidget_p.h"
 #include "Logging_p.h"
 #include "MainWindowMDI.h"

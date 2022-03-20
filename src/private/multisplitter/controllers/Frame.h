@@ -15,7 +15,7 @@
 
 #include "kddockwidgets/KDDockWidgets.h"
 #include "kddockwidgets/FocusScope.h"
-#include "DockWidgetBase.h"
+#include "DockWidget.h"
 #include "kddockwidgets/LayoutSaver.h"
 
 #include "kddockwidgets/docks_export.h"

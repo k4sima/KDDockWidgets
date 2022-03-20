@@ -12,7 +12,7 @@
 #ifndef KD_DOCKWIDGET_BASE_P_H
 #define KD_DOCKWIDGET_BASE_P_H
 
-#include "DockWidgetBase.h"
+#include "DockWidget.h"
 #include "../../DockRegistry_p.h"
 #include "../../Position_p.h"
 #include "multisplitter/controllers/FloatingWindow.h"

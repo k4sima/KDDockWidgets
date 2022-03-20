@@ -10,7 +10,7 @@
 */
 
 #include "MDIArea.h"
-#include "DockWidgetBase.h"
+#include "DockWidget.h"
 #include "private/MDILayoutWidget_p.h"
 #include "private/DropAreaWithCentralFrame_p.h"
 

@@ -17,7 +17,7 @@
  */
 
 #include "FocusScope.h"
-#include "DockWidgetBase.h"
+#include "DockWidget.h"
 
 #include "private/DockRegistry_p.h"
 #include "private/multisplitter/controllers/Frame.h"

@@ -14,7 +14,7 @@
 #include "../Controller.h"
 #include "../private/Draggable_p.h"
 #include "kddockwidgets/docks_export.h"
-#include "DockWidgetBase.h"
+#include "DockWidget.h"
 
 #include <QString>
 #include <QIcon>

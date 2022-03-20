@@ -16,8 +16,8 @@
 
 #include "Config.h"
 #include "DockRegistry_p.h"
-#include "DockWidgetBase.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget.h"
+#include "DockWidget_p.h"
 #include "DropArea_p.h"
 #include "DropIndicatorOverlayInterface_p.h"
 #include "KDDockWidgets.h"

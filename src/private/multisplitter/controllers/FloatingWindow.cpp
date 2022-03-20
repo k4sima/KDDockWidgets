@@ -22,7 +22,7 @@
 #include "FrameworkWidgetFactory.h"
 #include "private/DragController_p.h"
 #include "private/LayoutSaver_p.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget_p.h"
 
 #include "private/multisplitter/Item_p.h"
 #include "private/multisplitter/View.h"

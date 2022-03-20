@@ -11,7 +11,7 @@
 
 #include "DragController_p.h"
 #include "DockRegistry_p.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget_p.h"
 #include "DropArea_p.h"
 #include "Logging_p.h"
 #include "Qt5Qt6Compat_p.h"

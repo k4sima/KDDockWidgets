@@ -16,7 +16,7 @@
 #include "private/Logging_p.h"
 #include "private/Utils_p.h"
 #include "private/WindowBeingDragged_p.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget_p.h"
 
 #include "private/multisplitter/controllers/TabBar.h"
 #include "private/multisplitter/controllers/Frame.h"

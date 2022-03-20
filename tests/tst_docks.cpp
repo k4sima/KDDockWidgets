@@ -14,8 +14,8 @@
 
 #include "tst_docks.h"
 #include "Config.h"
-#include "DockWidgetBase.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget.h"
+#include "DockWidget_p.h"
 #include "DropAreaWithCentralFrame_p.h"
 #include "LayoutSaver_p.h"
 #include "MDILayoutWidget_p.h"

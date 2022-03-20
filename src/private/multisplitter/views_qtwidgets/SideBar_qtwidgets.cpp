@@ -10,7 +10,7 @@
 */
 
 #include "SideBar_qtwidgets.h"
-#include "DockWidgetBase.h"
+#include "DockWidget.h"
 #include "kddockwidgets/MainWindowBase.h"
 #include "../controllers/SideBar.h"
 

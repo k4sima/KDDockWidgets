@@ -11,7 +11,7 @@
 
 #include "LayoutSaver_p.h"
 #include "Config.h"
-#include "DockWidgetBase_p.h"
+#include "DockWidget_p.h"
 #include "FrameworkWidgetFactory.h"
 #include "MainWindowBase.h"
 #include "Position_p.h"
