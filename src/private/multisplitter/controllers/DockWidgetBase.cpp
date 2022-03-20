@@ -742,6 +742,7 @@ void DockWidgetBase::Private::close()
     // Do some cleaning. Widget is hidden, but we must hide the tab containing it.
     if (Controllers::Frame *frame = this->frame()) {
         q->setParent(nullptr);
+        q->view()->setParent(nullptr);
         frame->removeWidget(q);
 
         if (Controllers::SideBar *sb = DockRegistry::self()->sideBarForDockWidget(q)) {
