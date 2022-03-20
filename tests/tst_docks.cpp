@@ -1318,9 +1318,9 @@ void TestDocks::tst_closeReparentsToNull()
     EnsureTopLevelsDeleted e;
     auto dock1 = createDockWidget("1", new QPushButton("1"));
     auto fw1 = dock1->window();
-    QVERIFY(dock1->parent() != nullptr);
+    QVERIFY(dock1->view()->parent() != nullptr);
     dock1->close();
-    QVERIFY(dock1->parent() == nullptr);
+    QVERIFY(dock1->view()->parent() == nullptr);
     delete fw1;
     delete dock1;
 }
