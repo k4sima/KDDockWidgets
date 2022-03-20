@@ -25,6 +25,7 @@
 #include "multisplitter/controllers/Stack.h"
 #include "multisplitter/controllers/FloatingWindow.h"
 #include "Utils_p.h"
+#include "multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "private/multisplitter/views_qtwidgets/Stack_qtwidgets.h"
@@ -350,8 +351,8 @@ inline Controllers::FloatingWindow *createFloatingWindow()
 inline WidgetType *draggableFor(WidgetType *w)
 {
     WidgetType *draggable = nullptr;
-    if (auto dock = qobject_cast<Controllers::DockWidgetBase *>(w)) {
-        if (auto frame = dock->d->frame())
+    if (auto dockView = qobject_cast<Views::DockWidget_qtwidgets *>(w)) {
+        if (auto frame = dockView->dockWidget()->d->frame())
             draggable = frame->titleBar()->view()->asQWidget();
     } else if (auto fwView = qobject_cast<Views::FloatingWindow_qtwidgets *>(w)) {
         auto fw = fwView->floatingWindow();

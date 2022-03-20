@@ -2443,7 +2443,7 @@ void TestDocks::tst_stealFrame()
 
     // 3. Test stealing a tab from the same tab-widget we're in. Nothing happens
     {
-        SetExpectedWarning sew("Already contains KDDockWidgets::DockWidget"); // Suppress the qFatal this time
+        SetExpectedWarning sew("Already contains KDDockWidgets::Controllers::DockWidgetBase"); // Suppress the qFatal this time
         dock1->addDockWidgetAsTab(dock3);
         QCOMPARE(dock1->dptr()->frame()->dockWidgetCount(), 2);
     }
@@ -2476,7 +2476,7 @@ void TestDocks::tst_stealFrame()
     QCOMPARE(dropArea2->placeholderCount(), 0);
 
     {
-        SetExpectedWarning sew("Invalid parameters KDDockWidgets::DockWidget"); // Suppress the qFatal this time
+        SetExpectedWarning sew("Invalid parameters KDDockWidgets::Controllers::DockWidgetBase"); // Suppress the qFatal this time
         m2->addDockWidget(dock1, Location_OnLeft, dock1);
         QCOMPARE(dropArea2->count(), 2); // Nothing happened
         QCOMPARE(dropArea2->placeholderCount(), 0);
