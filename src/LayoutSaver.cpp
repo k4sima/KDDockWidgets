@@ -19,19 +19,19 @@
 #include "LayoutSaver.h"
 #include "Config.h"
 #include "MainWindowBase.h"
-#include "DockWidget.h"
 #include "FrameworkWidgetFactory.h"
 
 #include "private/multisplitter/Item_p.h"
 #include "private/LayoutSaver_p.h"
 #include "private/DockRegistry_p.h"
-#include "DockWidget_p.h"
 #include "private/LayoutWidget_p.h"
 #include "private/Logging_p.h"
 #include "private/Position_p.h"
 #include "private/Utils_p.h"
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "controllers/Frame.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/DockWidget.h"
+#include "controllers/DockWidget_p.h"
 
 #include <qmath.h>
 #include <QDebug>

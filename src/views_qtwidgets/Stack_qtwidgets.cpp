@@ -10,10 +10,10 @@
 */
 
 #include "Stack_qtwidgets.h"
-#include "private/multisplitter/Controller.h"
-#include "private/multisplitter/controllers/Stack.h"
-#include "private/multisplitter/controllers/TitleBar.h"
-#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+#include "Controller.h"
+#include "controllers/Stack.h"
+#include "controllers/TitleBar.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 #include "private/DockRegistry_p.h"
 #include "kddockwidgets/FrameworkWidgetFactory.h"
 

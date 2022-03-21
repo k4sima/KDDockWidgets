@@ -10,9 +10,9 @@
 */
 
 #include "FloatingWindow_qtwidgets.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/TitleBar.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/Frame.h"
+#include "controllers/TitleBar.h"
 #include "MainWindowBase.h"
 
 #include "private/DockRegistry_p.h"

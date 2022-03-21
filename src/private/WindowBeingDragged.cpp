@@ -16,15 +16,15 @@
 #include "Logging_p.h"
 #include "Utils_p.h"
 
-#include "multisplitter/controllers/TitleBar.h"
-#include "multisplitter/controllers/Stack.h"
-#include "multisplitter/controllers/Frame.h"
+#include "controllers/TitleBar.h"
+#include "controllers/Stack.h"
+#include "controllers/Frame.h"
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
-#include "private/multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/Stack_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
+#include "views_qtwidgets/TitleBar_qtwidgets.h"
+#include "views_qtwidgets/TabBar_qtwidgets.h"
+#include "views_qtwidgets/Stack_qtwidgets.h"
+#include "views_qtwidgets/FloatingWindow_qtwidgets.h"
 #endif
 
 #include <QPixmap>

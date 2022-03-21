@@ -11,7 +11,7 @@
 
 
 #include "FrameView.h"
-#include "private/multisplitter/controllers/Frame.h"
+#include "controllers/Frame.h"
 
 using namespace KDDockWidgets;
 using namespace KDDockWidgets::Views;

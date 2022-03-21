@@ -13,8 +13,8 @@
 
 #include "../Controller.h"
 #include "../private/Draggable_p.h"
-#include "../private/multisplitter/controllers/Frame.h"
-#include "../private/multisplitter/controllers/TabBar.h"
+#include "controllers/Frame.h"
+#include "controllers/TabBar.h"
 
 #include <QPointer>
 

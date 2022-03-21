@@ -10,12 +10,12 @@
 */
 
 #include "MDIArea.h"
-#include "DockWidget.h"
+#include "controllers/DockWidget.h"
 #include "private/MDILayoutWidget_p.h"
 #include "private/DropAreaWithCentralFrame_p.h"
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
-#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 #include <QVBoxLayout>
 #else
 #include "DockWidgetQuick.h"

@@ -11,8 +11,6 @@
 
 #include "DockRegistry_p.h"
 #include "Config.h"
-#include "DockWidget.h"
-#include "DockWidget_p.h"
 #include "LayoutWidget_p.h"
 #include "Logging_p.h"
 #include "MainWindowMDI.h"
@@ -22,12 +20,14 @@
 #include "WindowBeingDragged_p.h"
 #include "multisplitter/Item_p.h"
 
-#include "private/multisplitter/controllers/FloatingWindow.h"
-#include "private/multisplitter/controllers/SideBar.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/SideBar.h"
+#include "controllers/DockWidget.h"
+#include "controllers/DockWidget_p.h"
 
-#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
+#include "views_qtwidgets/FloatingWindow_qtwidgets.h"
 
 #include <QPointer>
 #include <QDebug>

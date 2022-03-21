@@ -14,8 +14,6 @@
 
 #include "tst_docks.h"
 #include "Config.h"
-#include "DockWidget.h"
-#include "DockWidget_p.h"
 #include "DropAreaWithCentralFrame_p.h"
 #include "LayoutSaver_p.h"
 #include "MDILayoutWidget_p.h"
@@ -24,16 +22,19 @@
 #include "WindowBeingDragged_p.h"
 #include "MDIArea.h"
 #include "multisplitter/Item_p.h"
-#include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
-#include "multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
-#include "multisplitter/views_qtwidgets/Stack_qtwidgets.h"
-#include "multisplitter/views_qtwidgets/SideBar_qtwidgets.h"
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/TitleBar_qtwidgets.h"
+#include "views_qtwidgets/TabBar_qtwidgets.h"
+#include "views_qtwidgets/Stack_qtwidgets.h"
+#include "views_qtwidgets/SideBar_qtwidgets.h"
 #include "private/MultiSplitter_p.h"
-#include "multisplitter/controllers/Separator.h"
-#include "multisplitter/controllers/TabBar.h"
-#include "multisplitter/controllers/Stack.h"
-#include "multisplitter/controllers/SideBar.h"
+
+#include "controllers/DockWidget.h"
+#include "controllers/DockWidget_p.h"
+#include "controllers/Separator.h"
+#include "controllers/TabBar.h"
+#include "controllers/Stack.h"
+#include "controllers/SideBar.h"
 
 #include <QAction>
 #include <qtabbar.h>

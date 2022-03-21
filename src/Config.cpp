@@ -18,13 +18,13 @@
 
 #include "Config.h"
 #include "private/multisplitter/MultiSplitterConfig.h"
-#include "private/multisplitter/View.h"
+#include "View.h"
 #include "private/multisplitter/Item_p.h"
 #include "private/DockRegistry_p.h"
 #include "private/Utils_p.h"
 #include "private/DragController_p.h"
 #include "FrameworkWidgetFactory.h"
-#include "private/multisplitter/controllers/Separator.h"
+#include "controllers/Separator.h"
 
 #include <QDebug>
 #include <QOperatingSystemVersion>

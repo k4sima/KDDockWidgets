@@ -25,8 +25,8 @@
 #include "private/DropArea_p.h"
 #include "private/Logging_p.h"
 
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/SideBar.h"
+#include "controllers/Frame.h"
+#include "controllers/SideBar.h"
 
 #include <QPainter>
 #include <QScreen>

@@ -11,14 +11,14 @@
 
 #include "Frame_qtwidgets.h"
 
-#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+#include "views_qtwidgets/View_qtwidgets.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 
 #include "private/LayoutWidget_p.h"
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/Stack.h"
-#include "private/multisplitter/controllers/TabBar.h"
-#include "private/multisplitter/controllers/TitleBar.h"
+#include "controllers/Frame.h"
+#include "controllers/Stack.h"
+#include "controllers/TabBar.h"
+#include "controllers/TitleBar.h"
 
 #include <QPainter>
 #include <QTabBar>

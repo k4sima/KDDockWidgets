@@ -25,7 +25,7 @@
 #include "DockWidget_p.h"
 
 #include "private/multisplitter/Item_p.h"
-#include "private/multisplitter/View.h"
+#include "View.h"
 
 #include <QCloseEvent>
 #include <QScopedValueRollback>

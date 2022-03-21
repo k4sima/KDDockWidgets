@@ -10,9 +10,11 @@
 */
 
 #include "SideBar_qtwidgets.h"
-#include "DockWidget.h"
+
 #include "kddockwidgets/MainWindowBase.h"
-#include "../controllers/SideBar.h"
+
+#include "controllers/DockWidget.h"
+#include "controllers/SideBar.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>

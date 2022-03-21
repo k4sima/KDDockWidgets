@@ -13,11 +13,11 @@
 #define KD_DOCKWIDGET_BASE_P_H
 
 #include "DockWidget.h"
-#include "../../DockRegistry_p.h"
-#include "../../Position_p.h"
-#include "multisplitter/controllers/FloatingWindow.h"
-#include "multisplitter/controllers/SideBar.h"
-#include "multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
+#include "private/DockRegistry_p.h"
+#include "private/Position_p.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/SideBar.h"
+#include "views_qtwidgets/FloatingWindow_qtwidgets.h"
 
 #include <QCoreApplication>
 #include <QString>

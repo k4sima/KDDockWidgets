@@ -12,9 +12,9 @@
 
 #include "View_qtwidgets.h"
 
-#include "../Logging_p.h"
 #include "Config.h"
-#include "../controllers/Separator.h"
+#include "private/multisplitter/Logging_p.h" // TODOv2: Normalize Logging_p.h
+#include "controllers/Separator.h"
 
 #include <QMouseEvent>
 #include <QPainter>

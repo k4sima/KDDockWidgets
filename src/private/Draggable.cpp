@@ -14,7 +14,7 @@
 #include "WidgetResizeHandler_p.h"
 #include "Utils_p.h"
 
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "controllers/FloatingWindow.h"
 
 using namespace KDDockWidgets;
 

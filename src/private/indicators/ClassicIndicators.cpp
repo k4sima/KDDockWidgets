@@ -20,7 +20,7 @@
 #include "private/DockRegistry_p.h"
 #include "private/Utils_p.h"
 
-#include "private/multisplitter/controllers/Frame.h"
+#include "controllers/Frame.h"
 
 using namespace KDDockWidgets;
 

@@ -11,16 +11,16 @@
 
 #include "Stack.h"
 #include "Config.h"
-#include "private/multisplitter/views_qtwidgets/Stack_qtwidgets.h"
+#include "views_qtwidgets/Stack_qtwidgets.h"
 #include "kddockwidgets/FrameworkWidgetFactory.h"
 #include "private/Logging_p.h"
 #include "private/Utils_p.h"
 #include "private/WindowBeingDragged_p.h"
 #include "DockWidget_p.h"
 
-#include "private/multisplitter/controllers/TabBar.h"
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "controllers/TabBar.h"
+#include "controllers/Frame.h"
+#include "controllers/FloatingWindow.h"
 
 #include <QDebug>
 #include <QTabBar> // TODO Remove

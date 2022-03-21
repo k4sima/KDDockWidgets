@@ -24,7 +24,7 @@
 #include "ObjectViewer_p.h"
 #include "Qt5Qt6Compat_p.h"
 
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "controllers/FloatingWindow.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>

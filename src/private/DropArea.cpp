@@ -12,8 +12,6 @@
 #include "DropArea_p.h"
 #include "Config.h"
 #include "DockRegistry_p.h"
-#include "DockWidget.h"
-#include "DockWidget_p.h"
 #include "Draggable_p.h"
 #include "DropIndicatorOverlayInterface_p.h"
 #include "FrameworkWidgetFactory.h"
@@ -22,13 +20,16 @@
 #include "Utils_p.h"
 #include "multisplitter/Item_p.h"
 #include "WindowBeingDragged_p.h"
-#include "multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 
-#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
+#include "controllers/Frame.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/DockWidget.h"
+#include "controllers/DockWidget_p.h"
+
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/View_qtwidgets.h"
+#include "views_qtwidgets/FloatingWindow_qtwidgets.h"
 
 #include <algorithm>
 

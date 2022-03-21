@@ -11,7 +11,6 @@
 
 #include "DragController_p.h"
 #include "DockRegistry_p.h"
-#include "DockWidget_p.h"
 #include "DropArea_p.h"
 #include "Logging_p.h"
 #include "Qt5Qt6Compat_p.h"
@@ -21,11 +20,12 @@
 #include "MDILayoutWidget_p.h"
 #include "WindowZOrder_x11_p.h"
 
-#include "multisplitter/controllers/TitleBar.h"
-#include "multisplitter/controllers/Frame.h"
-#include "multisplitter/controllers/FloatingWindow.h"
+#include "controllers/TitleBar.h"
+#include "controllers/Frame.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/DockWidget_p.h"
 
-#include "multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
+#include "views_qtwidgets/TitleBar_qtwidgets.h"
 
 #include <QMouseEvent>
 #include <QGuiApplication>

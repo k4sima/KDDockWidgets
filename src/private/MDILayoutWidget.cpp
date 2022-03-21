@@ -11,10 +11,10 @@
 
 #include "MDILayoutWidget_p.h"
 #include "multisplitter/ItemFreeContainer_p.h"
-#include "DockWidget_p.h"
 #include "Config.h"
 #include "FrameworkWidgetFactory.h"
-#include "private/multisplitter/controllers/Frame.h"
+#include "controllers/Frame.h"
+#include "controllers/DockWidget_p.h"
 
 using namespace KDDockWidgets;
 using namespace KDDockWidgets::Controllers;

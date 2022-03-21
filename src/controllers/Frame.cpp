@@ -14,11 +14,11 @@
 #include "kddockwidgets/Config.h"
 #include "kddockwidgets/FrameworkWidgetFactory.h"
 
-#include "private/multisplitter/Controller.h"
-#include "private/multisplitter/View.h"
-#include "private/multisplitter/controllers/TitleBar.h"
-#include "private/multisplitter/controllers/Stack.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "Controller.h"
+#include "View.h"
+#include "controllers/TitleBar.h"
+#include "controllers/Stack.h"
+#include "controllers/FloatingWindow.h"
 #include "private/Logging_p.h"
 #include "private/Utils_p.h"
 #include "private/DockRegistry_p.h"
@@ -31,8 +31,8 @@
 #include "private/DropAreaWithCentralFrame_p.h"
 #include "private/multisplitter/Item_p.h"
 
-#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 
 #include <QCloseEvent>
 #include <QTimer>

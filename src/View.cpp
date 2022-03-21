@@ -10,9 +10,9 @@
 */
 
 #include "View.h"
-#include "Item_p.h"
+#include "private/multisplitter/Item_p.h"
 
-#include <QWidget> // TODO remove
+#include <QWidget> // TODOv2 remove
 
 using namespace KDDockWidgets;
 
@@ -33,7 +33,7 @@ View::~View()
     m_inDtor = true;
 
     if (!freed()) {
-        // TODO
+        // TODOv2
         // Views should be deleted via View::free()!
         // However some of our deletes are coming from widgets parent destroying their children
         // But we want the controllers to drive things instead. For now detect the view destruction

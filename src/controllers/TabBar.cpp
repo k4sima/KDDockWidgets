@@ -11,10 +11,10 @@
 
 #include "TabBar.h"
 #include "private/Draggable_p.h"
-#include "private/multisplitter/Controller.h"
-#include "private/multisplitter/controllers/Stack.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
-#include "private/multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
+#include "Controller.h"
+#include "controllers/Stack.h"
+#include "controllers/FloatingWindow.h"
+#include "views_qtwidgets/TabBar_qtwidgets.h"
 #include "private/DragController_p.h"
 #include "private/Utils_p.h"
 

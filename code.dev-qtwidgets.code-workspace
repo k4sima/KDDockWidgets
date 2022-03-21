@@ -12,6 +12,19 @@
     "C_Cpp.autocompleteAddParentheses": true,
     "clangd.arguments": [
       "-header-insertion=never"
+    ],
+    "todo-tree.tree.scanMode": "workspace only",
+    "todo-tree.tree.disableCompactFolders": false,
+    "todo-tree.tree.showBadges": true,
+    "todo-tree.general.tags": [
+      "BUG",
+      "HACK",
+      "FIXME",
+      "TODO",
+      "XXX",
+      "[ ]",
+      "[x]",
+      "TODOv2"
     ]
   },
   "launch": {

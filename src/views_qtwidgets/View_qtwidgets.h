@@ -11,9 +11,9 @@
 
 #pragma once
 
-#include "../../Utils_p.h"
-#include "../Controller.h"
-#include "../View.h"
+#include "private/Utils_p.h"
+#include "Controller.h"
+#include "View.h"
 
 #include <QDebug>
 #include <QEvent>

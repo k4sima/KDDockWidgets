@@ -16,21 +16,21 @@
 #include "private/indicators/NullIndicators_p.h"
 #include "private/Utils_p.h"
 
-#include "private/multisplitter/controllers/TabBar.h"
-#include "private/multisplitter/controllers/Stack.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "controllers/TabBar.h"
+#include "controllers/Stack.h"
+#include "controllers/FloatingWindow.h"
 
 #ifdef KDDOCKWIDGETS_QTWIDGETS
 #include "private/indicators/SegmentedIndicators_p.h"
 
-#include "private/multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/Separator_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/TabBar_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/SideBar_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/Stack_qtwidgets.h"
+#include "views_qtwidgets/FloatingWindow_qtwidgets.h"
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/View_qtwidgets.h"
+#include "views_qtwidgets/Separator_qtwidgets.h"
+#include "views_qtwidgets/TitleBar_qtwidgets.h"
+#include "views_qtwidgets/TabBar_qtwidgets.h"
+#include "views_qtwidgets/SideBar_qtwidgets.h"
+#include "views_qtwidgets/Stack_qtwidgets.h"
 
 #include <QRubberBand>
 #include <QToolButton>

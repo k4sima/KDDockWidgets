@@ -17,10 +17,10 @@
 #include "DockRegistry_p.h"
 #include "MDILayoutWidget_p.h"
 
-#include "multisplitter/controllers/TitleBar.h"
-#include "multisplitter/controllers/FloatingWindow.h"
+#include "controllers/TitleBar.h"
+#include "controllers/FloatingWindow.h"
 
-#include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/Frame_qtwidgets.h"
 
 #include <QEvent>
 #include <QMouseEvent>

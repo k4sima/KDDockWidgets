@@ -21,8 +21,6 @@
 #include "LayoutSaver_p.h"
 #include "Config.h"
 #include "DockRegistry_p.h"
-#include "DockWidget.h"
-#include "DockWidget_p.h"
 #include "FrameworkWidgetFactory.h"
 #include "LayoutSaver.h"
 #include "Logging_p.h"
@@ -31,10 +29,13 @@
 #include "WindowBeingDragged_p.h"
 #include "multisplitter/Item_p.h"
 
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
-#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+#include "controllers/Frame.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/DockWidget_p.h"
+#include "controllers/DockWidget.h"
+
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 
 #include <QScopedValueRollback>
 

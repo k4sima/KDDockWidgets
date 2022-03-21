@@ -15,18 +15,18 @@
 #include "private/LayoutSaver_p.h"
 #include "private/Logging_p.h"
 #include "private/MDILayoutWidget_p.h"
-#include "private/multisplitter/controllers/TitleBar.h"
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
-#include "private/multisplitter/controllers/SideBar.h"
+#include "controllers/TitleBar.h"
+#include "controllers/Frame.h"
+#include "controllers/FloatingWindow.h"
+#include "controllers/SideBar.h"
 #include "private/Utils_p.h"
 #include "private/WindowBeingDragged_p.h"
 #include "private/Position_p.h"
 
 #include "Config.h"
 #include "FrameworkWidgetFactory.h"
-#include "private/multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 
 #include <QEvent>
 #include <QCloseEvent>

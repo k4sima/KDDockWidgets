@@ -17,7 +17,7 @@
 
 #include "KDDockWidgets.h"
 #include "MainWindowBase.h"
-#include "DockWidget.h"
+#include "controllers/DockWidget.h"
 #include "DockRegistry_p.h"
 
 #include <QSize>

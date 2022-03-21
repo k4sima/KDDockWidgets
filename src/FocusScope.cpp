@@ -17,12 +17,12 @@
  */
 
 #include "FocusScope.h"
-#include "DockWidget.h"
+#include "controllers/DockWidget.h"
 
 #include "private/DockRegistry_p.h"
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/views_qtwidgets/View_qtwidgets.h"
-#include "private/multisplitter/views_qtwidgets/TitleBar_qtwidgets.h"
+#include "controllers/Frame.h"
+#include "views_qtwidgets/View_qtwidgets.h"
+#include "views_qtwidgets/TitleBar_qtwidgets.h"
 
 #include <QObject>
 #include <QGuiApplication>

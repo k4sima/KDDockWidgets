@@ -12,10 +12,9 @@
 #ifndef KD_DOCKREGISTRY_P_H
 #define KD_DOCKREGISTRY_P_H
 
-#include "DockWidget.h"
+#include "controllers/DockWidget.h"
+#include "controllers/Frame.h"
 #include "kddockwidgets/MainWindowBase.h"
-
-#include "multisplitter/controllers/Frame.h"
 
 #include <QVector>
 #include <QObject>

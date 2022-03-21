@@ -11,16 +11,17 @@
 
 #include "LayoutSaver_p.h"
 #include "Config.h"
-#include "DockWidget_p.h"
 #include "FrameworkWidgetFactory.h"
 #include "MainWindowBase.h"
 #include "Position_p.h"
 #include "Utils_p.h"
 
-#include "multisplitter/controllers/Frame.h"
-#include "multisplitter/controllers/FloatingWindow.h"
-#include "multisplitter/views_qtwidgets/Frame_qtwidgets.h"
-#include "multisplitter/views_qtwidgets/FloatingWindow_qtwidgets.h"
+#include "controllers/DockWidget_p.h"
+#include "controllers/Frame.h"
+#include "controllers/FloatingWindow.h"
+
+#include "views_qtwidgets/Frame_qtwidgets.h"
+#include "views_qtwidgets/FloatingWindow_qtwidgets.h"
 #include "multisplitter/Item_p.h"
 
 using namespace KDDockWidgets;

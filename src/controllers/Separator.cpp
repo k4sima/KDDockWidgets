@@ -10,15 +10,15 @@
 */
 
 #include "Separator.h"
-#include "../MultiSplitterConfig.h"
-#include "../Item_p.h"
-#include "../View.h"
-#include "../Logging_p.h"
+#include "private/multisplitter/MultiSplitterConfig.h"
+#include "private/multisplitter/Logging_p.h"
+#include "private/multisplitter/Item_p.h"
+#include "View.h"
+#include "private/Logging_p.h"
 #include "Config.h"
-#include "private/multisplitter/Controller.h"
+#include "Controller.h"
 
-#include <QApplication> // TODO remove, add Platform instead
-#include <qnamespace.h>
+#include <QApplication> // TODOv2 remove, add Platform instead
 
 using namespace KDDockWidgets::Controllers;
 

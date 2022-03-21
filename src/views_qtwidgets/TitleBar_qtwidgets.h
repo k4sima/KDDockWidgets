@@ -12,7 +12,7 @@
 #pragma once
 
 #include "View_qtwidgets.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "controllers/FloatingWindow.h"
 
 #include <QToolButton>
 

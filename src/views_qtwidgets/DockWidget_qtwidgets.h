@@ -19,7 +19,7 @@
 #ifndef KD_DOCKWIDGET_H
 #define KD_DOCKWIDGET_H
 
-#include "DockWidget.h"
+#include "controllers/DockWidget.h"
 #include "View_qtwidgets.h"
 
 QT_BEGIN_NAMESPACE

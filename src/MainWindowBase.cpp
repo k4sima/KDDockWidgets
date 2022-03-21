@@ -28,18 +28,18 @@
 #include "FrameworkWidgetFactory.h"
 #include "private/DropAreaWithCentralFrame_p.h"
 #include "private/LayoutSaver_p.h"
-#include "DockWidget_p.h"
 #include "private/multisplitter/Item_p.h"
 
-#include "private/multisplitter/controllers/Frame.h"
-#include "private/multisplitter/controllers/SideBar.h"
+#include "controllers/DockWidget_p.h"
+#include "controllers/Frame.h"
+#include "controllers/SideBar.h"
 
 // Or we can have a createDockWidget() in the factory
 #ifdef KDDOCKWIDGETS_QTQUICK
 #include "DockWidgetQuick.h"
 #else
 // TODO: Use framework factory instead
-#include "../private/multisplitter/views_qtwidgets/DockWidget_qtwidgets.h"
+#include "views_qtwidgets/DockWidget_qtwidgets.h"
 #endif
 
 using namespace KDDockWidgets;

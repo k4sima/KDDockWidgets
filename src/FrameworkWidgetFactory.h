@@ -14,9 +14,9 @@
 
 #include "docks_export.h"
 #include "KDDockWidgets.h"
-#include "private/multisplitter/View.h" // TODO
-#include "private/multisplitter/controllers/Stack.h"
-#include "private/multisplitter/controllers/TitleBar.h"
+#include "View.h" // TODO
+#include "controllers/Stack.h"
+#include "controllers/TitleBar.h"
 
 // clazy:excludeall=ctor-missing-parent-argument
 

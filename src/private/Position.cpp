@@ -20,7 +20,7 @@
 #include "LayoutSaver_p.h"
 #include "LayoutWidget_p.h"
 #include "multisplitter/Item_p.h"
-#include "multisplitter/controllers/FloatingWindow.h"
+#include "controllers/FloatingWindow.h"
 
 #include <algorithm>
 

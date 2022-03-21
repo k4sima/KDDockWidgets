@@ -9,12 +9,12 @@
   Contact KDAB at <info@kdab.com> for commercial licensing options.
 */
 
-#include "multisplitter/views_qtwidgets/View_qtwidgets.h"
+#include "views_qtwidgets/View_qtwidgets.h"
 #include "private/multisplitter/Item_p.h"
 #include "private/multisplitter/MultiSplitterConfig.h"
-#include "private/multisplitter/View.h"
-#include "private/multisplitter/controllers/Separator.h"
-#include "private/multisplitter/views_qtwidgets/Separator_qtwidgets.h"
+#include "View.h"
+#include "controllers/Separator.h"
+#include "views_qtwidgets/Separator_qtwidgets.h"
 
 #include <QPainter>
 #include <QtTest/QtTest>

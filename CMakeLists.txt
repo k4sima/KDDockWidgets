@@ -129,8 +129,7 @@ if (${PROJECT_NAME}_XLib)
   add_definitions(-DKDDockWidgets_XLIB)
 endif()
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/private) # TODO remove
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src/private/multisplitter/controllers) # TODO remove
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src) # TODOv2 Replace with target_include_directories (PRIVATE)
 
 if(${PROJECT_NAME}_QT6)
   set(Qt_VERSION_MAJOR 6)

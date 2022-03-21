@@ -16,7 +16,7 @@
 #include "DockRegistry_p.h"
 #include "DockWidget.h"
 #include "MainWindow.h"
-#include "private/multisplitter/controllers/FloatingWindow.h"
+#include "controllers/FloatingWindow.h"
 
 #include <QJsonDocument>
 
