@@ -195,9 +195,10 @@ macro(set_compiler_flags targetName)
       target_compile_options(${targetName} PRIVATE -Wall -Wextra)
     endif()
 
-    if(APPLE)
-      target_compile_options(${targetName} PRIVATE -Wweak-vtables)
-    endif()
+    # // TODOv2: KDBindings is failing due to weak-vtables
+    # if(APPLE)
+    #   target_compile_options(${targetName} PRIVATE -Wweak-vtables)
+    # endif()
   endif()
 
   # Enable -Werror
