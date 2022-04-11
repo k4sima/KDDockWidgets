@@ -30,7 +30,6 @@ def newMyWidget(parent=None):  # MyWidget1,2,3からランダムに選ぶ
 
 
 class MyMainWindow(KDDockWidgets.MainWindow):
-    s_count = 0
     s_menuCount = 0
 
     def __init__(self, uniqueName, options=KDDockWidgets.MainWindowOption_None, restoreIsRelative=False, affinityName="", parent=None):
@@ -169,7 +168,7 @@ class MyMainWindow(KDDockWidgets.MainWindow):
         # optional, just to show the feature. Pass -mi to the example to see incompatible dock widgets
         dock.setAffinities(self.affinities())
 
-        if MyMainWindow.s_count == 1:
+        if now_num == 1:
             dock.setIcon(QtGui.QIcon.fromTheme("mail-message"))
 
         # ---------------------------------------------------------------------------- #
@@ -187,5 +186,4 @@ class MyMainWindow(KDDockWidgets.MainWindow):
 
         dock.resize(600, 600)
         self.m_toggleMenu.addAction(dock.toggleAction())
-        MyMainWindow.s_count += 1
         return dock
